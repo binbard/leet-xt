@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Leetcode Extended",
+    "version": "1.0",
+    "description": "Supercharge your LeetCode practice",
+    "icons": {
+        "128": "/assets/logo128.png",
+        "48": "/assets/logo48.png",
+        "32": "/assets/logo32.png",
+        "16": "/assets/logo16.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://leetcode.com/*"
+            ],
+            "js": [
+                "js/lx_friends.js"
+            ],
+            "css": [
+                "css/lx.css"
+            ]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "storage"
+    ]
+}

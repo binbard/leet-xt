@@ -5,10 +5,7 @@ function addFriendsIconOnNavbar() {
     if (document.querySelector('#friends-icon')) return;
 
     let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
-    if (!document.querySelector('#navbar_user_avatar')){
-        console.log("Please Update Leetcode Extended")
-        return;
-    }
+    if (!document.querySelector('#navbar_user_avatar')) return;
 
     var a = document.createElement('a');
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');
@@ -26,8 +23,34 @@ function addFriendsIconOnNavbar() {
     navmenu.insertBefore(a, profile_icon);
 }
 
+function handleFriendsPage() {
+
+    if (location.pathname != "/friends/") return;
+
+    let area = document.querySelector('.mx-auto');
+    if(area){
+        area.innerHTML = "";
+    }
+
+    friendsPage();
+
+}
+
+function friendsPage() {
+    // Remove user friends
+
+}
 
 function lx_friends() {
+
+    // Add friends icon on navbar
+
+    const num = window.location.pathname.split('/').filter(segment => segment !== '').length;
+    if (num >= 2) {
+        addFriendsIconOnNavbar();
+        return;
+    }
+
 
     let navbar = document.querySelector('#leetcode-navbar');
 
@@ -36,16 +59,10 @@ function lx_friends() {
         observer.observe(document.querySelector('#__next'), { childList: true, subtree: true });
     }
 
-    // let jsTimer = setInterval(checkInit, 123);
+    handleFriendsPage();
 
-    // function checkInit() {
-    //     if (document.querySelector("#navbar_user_avatar")) {
-    //         clearInterval(jsTimer);
-
-    //         addFriendsIconOnNavbar();
-    //     }
-    // }
 }
+
 
 window.addEventListener("load", lx_friends);
 

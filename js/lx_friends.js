@@ -4,10 +4,13 @@ const friends_table = '<div><div class="-mx-4 transition-opacity md:mx-0"><div r
 
 
 function addFriendsIconOnNavbar() {
+    // console.log("ADD FRIEND ICON")
+
     if (document.querySelector('#friends-icon')) return;
 
     let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
-    if (!document.querySelector('#navbar_user_avatar')) return;
+    if (!navbar_user_avatar) return;
+    // console.log("ADDED")
 
     var a = document.createElement('a');
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');
@@ -44,23 +47,22 @@ function friendsPage(area) {
 
 function lx_friends() {
 
-    // Add friends icon on navbar
-
-    const num = window.location.pathname.split('/').filter(segment => segment !== '').length;
-    if (num >= 2) {
-        addFriendsIconOnNavbar();
-        return;
-    }
-
     let nextRoot = document.querySelector('#__next');
     let appRoot = document.querySelector('#app');
+    let errorRoot = document.querySelector('#navbar-root');
 
     let observer = new MutationObserver(addFriendsIconOnNavbar);
 
-    if (nextRoot) {
+    if(nextRoot){
+        // console.log("NEXT PAGE");
         observer.observe(document.querySelector('#__next'), { childList: true, subtree: true });
-    } else if(appRoot){
-        observer.observe(document.querySelector('#app'), { childList: true, subtree: true });
+    }
+    else if(appRoot){
+        // console.log("REACT PAGE");
+        addFriendsIconOnNavbar();
+    } else if(errorRoot){
+        // console.log("ERROR PAGE");
+        addFriendsIconOnNavbar();
     }
 
     handleFriendsPage();

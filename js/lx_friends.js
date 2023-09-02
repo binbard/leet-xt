@@ -13,10 +13,10 @@ function addFriendsIconOnNavbar() {
     // console.log("ADDED")
 
     var a = document.createElement('a');
+    a.id = 'friends-icon';
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');
     a.innerHTML = people_icon_svg;
     var svg = a.querySelector('svg');
-    svg.id = 'friends-icon'
     svg.setAttribute('class', 'h-[20px] w-[20px] group-hover:text-text-primary dark:group-hover:text-dark-text-primary text-text-secondary dark:text-dark-text-secondary');
     svg.width = '1em';
     svg.height = '1em';
@@ -32,12 +32,16 @@ function handleFriendsPage() {
 
     if (location.pathname != "/friends/") return;
 
+    document.title = "Friends - LeetCode";
+
     let area = document.querySelector('.mx-auto');
-    if(area){
+    if (area) {
         area.innerHTML = "";
-        document.title = "Friends - LeetCode";
         friendsPage(area);
     }
+
+    let jsTimer = setInterval(function () { document.title = "Friends - LeetCode" }, 20);
+    setTimeout(function () { clearInterval(jsTimer) }, 1000);
 }
 
 function friendsPage(area) {
@@ -53,14 +57,14 @@ function lx_friends() {
 
     let observer = new MutationObserver(addFriendsIconOnNavbar);
 
-    if(nextRoot){
+    if (nextRoot) {
         // console.log("NEXT PAGE");
         observer.observe(document.querySelector('#__next'), { childList: true, subtree: true });
     }
-    else if(appRoot){
+    else if (appRoot) {
         // console.log("REACT PAGE");
         addFriendsIconOnNavbar();
-    } else if(errorRoot){
+    } else if (errorRoot) {
         // console.log("ERROR PAGE");
         addFriendsIconOnNavbar();
     }

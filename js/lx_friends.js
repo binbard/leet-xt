@@ -94,13 +94,13 @@ async function getUserDetails(username) {
             username: username,
             avatar: responseData.data.matchedUser.profile.userAvatar,
             name: responseData.data.matchedUser.profile.realName,
-            rating: responseData.data.userContestRanking.rating,
-            contests: responseData.data.userContestRanking.attendedContestsCount,
+            rating: responseData.data.userContestRanking ? responseData.data.userContestRanking.rating : "-",
+            contests: responseData.data.userContestRanking ? responseData.data.userContestRanking.attendedContestsCount : "-",
             problems_solved: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
             easy: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
             medium: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
             hard: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
-            top: responseData.data.userContestRanking.topPercentage
+            top: responseData.data.userContestRanking ? responseData.data.userContestRanking.topPercentage : "-"
         };
 
         console.log(details);
@@ -124,13 +124,13 @@ async function createFriendRow(username, friends_rowgroup) {
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
-    row.querySelector('.lx-frating').innerHTML = rating;
-    row.querySelector('.lx-fnumcontest').innerHTML = "&nbsp;(" + contests + ")";
+    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : rating.toFixed(2); + "&nbsp;";
+    row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? contests : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved + "&nbsp;(";
     row.querySelector('.lx-feasy').innerHTML = easy;
     row.querySelector('.lx-fmedium').innerHTML = medium;
     row.querySelector('.lx-fhard').innerHTML = hard;
-    row.querySelector('.lx-ftop').innerHTML = top;
+    row.querySelector('.lx-ftop').innerHTML = top == "-" ? top : top + "%";
 
     friends_rowgroup.appendChild(row);
     // return row;

@@ -47,22 +47,83 @@ function handleFriendsPage() {
     setTimeout(function () { clearInterval(jsTimer) }, 1000);
 }
 
-function createFriendRow(username) {
-    let name = username;
-    let avatar = "https://assets.leetcode.com/users/neal_wu/avatar_1574529913.png";
-    let rating = "3686";
-    let contests = "51";
-    let problems_solved = "253";
-    let easy = "60";
-    let medium = "141";
-    let hard = "52";
-    let top = "0.01%";
+async function getUserDetails(username) {
+    try {
+        const url = "https://leetcode.com/graphql";
+        const data = {
+            query: `query userCombinedInfo($username: String!) { 
+                matchedUser(username: $username) { 
+                    profile { 
+                        userAvatar 
+                        realName 
+                    } 
+                } 
+                userContestRanking(username: $username) { 
+                    attendedContestsCount 
+                    rating 
+                    topPercentage 
+                } 
+                matchedUser(username: $username) { 
+                    submitStatsGlobal { 
+                        acSubmissionNum { 
+                            count 
+                        } 
+                    } 
+                } 
+            }`,
+            variables: {
+                username: username
+            }
+        };
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        const details = {
+            username: username,
+            avatar: responseData.data.matchedUser.profile.userAvatar,
+            name: responseData.data.matchedUser.profile.realName,
+            rating: responseData.data.userContestRanking.rating,
+            contests: responseData.data.userContestRanking.attendedContestsCount,
+            problems_solved: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count,
+            easy: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[1].count,
+            medium: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[2].count,
+            hard: responseData.data.matchedUser.submitStatsGlobal.acSubmissionNum[3].count,
+            top: responseData.data.userContestRanking.topPercentage
+        };
+
+        console.log(details);
+        return details;
+    } catch (error) {
+        console.error("Error fetching data:", username, error);
+        return null;
+    }
+}
+
+async function createFriendRow(username, friends_rowgroup) {
+
+    let { name, avatar, rating, contests, problems_solved, easy, medium, hard, top } = await getUserDetails(username);
+
+    if(!name) name = username;
+    else name = username + " (" + name + ")";
 
     let row_div = document.createElement('div');
     row_div.innerHTML = friends_row;
     let row = row_div.querySelector('div');
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
+    row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
     row.querySelector('.lx-frating').innerHTML = rating;
     row.querySelector('.lx-fnumcontest').innerHTML = "&nbsp;(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved + "&nbsp;(";
@@ -71,10 +132,11 @@ function createFriendRow(username) {
     row.querySelector('.lx-fhard').innerHTML = hard;
     row.querySelector('.lx-ftop').innerHTML = top;
 
-    return row;
+    friends_rowgroup.appendChild(row);
+    // return row;
 }
 
-function friendsPage(area) {
+async function friendsPage(area) {
     // Remove user friends
     area.innerHTML = friends_table;
 
@@ -88,8 +150,9 @@ function friendsPage(area) {
         let friends_rowgroup = document.querySelector('#friends-rowgroup');
         for (let i = 0; i < myfriends.length; i++) {
             let username = myfriends[i];
-            let row = createFriendRow(username);
-            friends_rowgroup.appendChild(row);
+            createFriendRow(username, friends_rowgroup);
+            // let row = createFriendRow(username, friends_rowgroup);
+            // friends_rowgroup.appendChild(row);
         }
     });
 }
@@ -199,11 +262,11 @@ function lx_friends() {
         addFriendsIconOnNavbar();
     }
 
-    handleFriendsPage();
     addFriendButton();
 
 }
 
+handleFriendsPage();
 
 window.addEventListener("load", lx_friends);
 

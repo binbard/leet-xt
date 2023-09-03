@@ -15,7 +15,8 @@
                 "https://leetcode.com/*"
             ],
             "js": [
-                "js/lx_friends.js"
+                "js/lx_friends.js",
+                "js/lx_premium.js"
             ],
             "css": [
                 "css/lx.css"

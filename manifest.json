@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Leetcode Extended",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Supercharge your LeetCode practice",
     "icons": {
         "128": "/assets/logo128.png",

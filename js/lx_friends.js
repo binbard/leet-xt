@@ -6,6 +6,11 @@ const friends_table = '<div><div class="-mx-4 transition-opacity md:mx-0"><div r
 
 const friends_row = '<div role="row" style="display:flex;flex:1 0 auto;min-width:0" class="odd:bg-layer-1 even:bg-overlay-1 dark:odd:bg-dark-layer-bg dark:even:bg-dark-fill-4 lx-frow"><div role="cell" style="box-sizing:border-box;flex:22 0 auto;min-width:0;width:22px" class="mx-2 flex items-center py-[11px]"><img src="https://assets.leetcode.com/users/neal_wu/avatar_1574529913.png" class="min-w-[20px] max-w-[20px] rounded-full object-cover lx-favatar" alt="neal_wu"></div><div role="cell" style="box-sizing:border-box;flex:180 0 auto;min-width:0;width:180px" class="mx-2 flex items-center py-[11px]"><div class="max-w-[302px] flex items-center overflow-hidden"><div class="overflow-hidden"><div class="flex items-center"><div class="truncate"><a href="/neal_wu" class="h-5 hover:text-blue-s dark:hover:text-dark-blue-s lx-fname">neal_wu (Neal Wu)</a></div></div></div></div></div><div role="cell" style="box-sizing:border-box;flex:84 0 auto;min-width:0;width:84px" class="mx-2 flex items-center py-[11px]"><span class="lx-frating">3686</span><span>&nbsp;</span><span class="text-gray-5 lx-fnumcontest">(51)</span></div><div role="cell" style="box-sizing:border-box;flex:144 0 auto;min-width:0;width:144px" class="mx-2 flex items-center py-[11px]"><span class="lx-ftotal">253</span><span>&nbsp;(</span><span class="text-olive dark:text-dark-olive lx-feasy">60</span>+<span class="text-yellow dark:text-dark-yellow lx-fmedium">141</span>+<span class="text-pink dark:text-dark-pink lx-fhard">52</span>)</div><div role="cell" style="box-sizing:border-box;flex:54 0 auto;min-width:0;width:54px" class="mx-2 flex items-center py-[11px] lx-ftop"><span>0.01%</span></div></div>';
 
+const down_arrow = '<path d="M7.44926 11.8332C7.46161 11.8229 7.47354 11.8123 7.48504 11.8013L10.9052 8.52958C11.0376 8.4029 11.0305 8.20389 10.8893 8.08509C10.8243 8.03043 10.7385 8.00001 10.6495 8.00001H3.35053C3.15694 8.00001 3 8.1408 3 8.31447C3 8.39354 3.0332 8.46971 3.09299 8.5278L6.45859 11.7977C6.72125 12.0529 7.16479 12.0688 7.44926 11.8332Z"></path>';
+const up_arrow = '<path d="M10.9052 5.47044L7.48504 2.19872C7.47354 2.18772 7.46161 2.1771 7.44926 2.16687C7.16479 1.93123 6.72125 1.94709 6.45859 2.20229L3.09299 5.47222C3.0332 5.53031 3 5.60648 3 5.68555C3 5.85922 3.15694 6.00001 3.35053 6.00001H10.6495C10.7385 6.00001 10.8243 5.96959 10.8893 5.91493C11.0305 5.79613 11.0376 5.59712 10.9052 5.47044Z"></path>';
+const updown_arrow = '<path d="M18.695 9.378L12.83 3.769a1.137 1.137 0 00-.06-.054c-.489-.404-1.249-.377-1.7.06L5.303 9.381a.51.51 0 00-.16.366c0 .297.27.539.602.539h12.512a.64.64 0 00.411-.146.501.501 0 00.028-.762zM12.77 20.285c.021-.017.042-.035.062-.054l5.863-5.609a.5.5 0 00-.028-.762.64.64 0 00-.41-.146H5.743c-.332 0-.601.242-.601.54a.51.51 0 00.16.365l5.769 5.606c.45.437 1.21.464 1.698.06z"></path>';
+
+
 function addFriendsIconOnNavbar() {
     // console.log("ADD FRIEND ICON")
 
@@ -140,6 +145,20 @@ async function friendsPage(area) {
     // Remove user friends
     area.innerHTML = friends_table;
 
+    function updownAllHeaders(area) {
+        let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved'];
+        for (let i = 0; i < fx_headers.length; i++) {
+            let fx_header = area.querySelector('#' + fx_headers[i]);
+            fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
+            fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
+            fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+        }
+    }
+
+    updownAllHeaders(area);
+
     chrome.storage.local.get('myfriends', function (result) {
         myfriends = result.myfriends;
         if (myfriends == undefined) {
@@ -157,15 +176,26 @@ async function friendsPage(area) {
 
             let asc = true;
 
-            if (header.classList.contains("lx-asc")) {
+            let fx_header_svg = header.parentElement.querySelector('svg');
+
+            if(fx_header_svg.classList.contains('lx-up')) {     // currently in ascending order
                 asc = false;
-                header.classList.remove("lx-asc");
-            } else {
-                header.classList.add("lx-asc");
             }
 
-            console.log(asc)
+            updownAllHeaders(area);
 
+            if(asc){                                                                        // currently in descending order
+                fx_header_svg.innerHTML = up_arrow;             // change to ascending order
+                fx_header_svg.classList.remove('lx-down');
+                fx_header_svg.classList.add('lx-up');
+                fx_header_svg.setAttribute('viewBox', '0 0 14 14');
+            } else{
+                fx_header_svg.innerHTML = down_arrow;
+                fx_header_svg.classList.remove('lx-up');
+                fx_header_svg.classList.add('lx-down');
+                fx_header_svg.setAttribute('viewBox', '0 0 14 14');
+            }
+            
             let table, rows, switching, i, x, y, shouldSwitch;
             table = document.querySelector("#friends-rowgroup");
             switching = true;

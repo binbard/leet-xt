@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Leetcode Extended",
     "version": "1.1",
-    "description": "Supercharge your LeetCode practice",
+    "description": "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
     "icons": {
         "128": "/icons/logo128.png",
         "48": "/icons/logo48.png",

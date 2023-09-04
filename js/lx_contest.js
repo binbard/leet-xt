@@ -10,15 +10,18 @@ function toggleFriendMode() {
     let original_table = table_container.querySelector('#fx-ranking-table');
     let friend_table = table_container.querySelector('#fx-friend-table');
 
-    if (original_table == null) {
+    let pagination_nav = document.querySelector('nav[class^="pagination-base"]');
+
+    if (original_table == null) {           // friend_tale will also be null
         table_container.querySelector('table').id = "fx-ranking-table";
         original_table = table_container.querySelector('#fx-ranking-table');
         original_table.style.display = "none";
-    }
-    if (friend_table == null) {
+
         table_container.innerHTML += friend_table_html;
         friend_table = table_container.querySelector('#fx-friend-table');
         friend_table.style.display = "none";
+
+        setContestFriends();
     }
 
     let div = document.querySelector('#lx-people-mode');
@@ -27,13 +30,14 @@ function toggleFriendMode() {
         original_table.style.display = "none";
         friend_table.style.display = "none";
         friend_table.style.display = "table";
+        pagination_nav.style.display = "none";
     } else {
         div.innerHTML = people_light_svg;
-        console.log(original_table.style.display, friend_table.style.display)
         original_table.style.display = "none";
         friend_table.style.display = "none";
-        console.log(original_table.style.display, friend_table.style.display)
         original_table.style.display = "table";
+        pagination_nav.style.display = "none";
+        pagination_nav.style.display = "block";
     }
 }
 
@@ -47,6 +51,89 @@ function addContestFriendIcon(mutation, observer) {
     div.innerHTML = people_light_svg;
     contest_header.appendChild(div);
     div.addEventListener('click', toggleFriendMode);
+}
+
+async function getUserContestDetails(username) {
+    try {
+        const proxy = "https://corsproxy.io/?";
+        const url = "https://lccn.lbao.site/api/v1/contest-records/user";
+        const response = await fetch(proxy + url + "?username=" + username + "&contest_name=" + window.location.pathname.split("/")[2], {
+            method: 'GET'
+        });
+        if (!response.ok) {
+            console.error(`HTTP error! Status: ${response.status}`);
+            return null;
+        }
+        /* SAMPLE RESULT DATA
+                [
+            {
+                "_id": "64f406d063900e4acc4931a2",
+                "contest_name": "weekly-contest-361",
+                "contest_id": 899,
+                "username": "usephysics",
+                "user_slug": "usephysics",
+                "country_code": "IN",
+                "country_name": "India",
+                "rank": 4342,
+                "score": 18,
+                "finish_time": "2023-09-03T03:03:19",
+                "data_region": "US",
+                "insert_time": "2023-09-03T04:08:37.929000",
+                "attendedContestsCount": 48,
+                "old_rating": 1578.3541615854353,
+                "new_rating": 3309.879095204823,
+                "delta_rating": 31.52493361938756,
+                "predict_time": "2023-09-03T04:13:51.395000"
+            }
+        ]*/
+
+        let responseData = await response.json();
+        if (responseData.errors) return null;
+        let user_contest_details = {
+            rank: responseData[0]?responseData[0].rank:"N/A",
+            score: responseData[0]?responseData[0].score:"N/A",
+            old_rating: responseData[0]?responseData[0].old_rating:"N/A",
+            delta_rating: responseData[0]?responseData[0].delta_rating:"N/A",
+            new_rating: responseData[0]?responseData[0].new_rating:"N/A",
+        }
+        return user_contest_details;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+}
+
+function setContestFriends() {
+    let friend_table = document.querySelector('#fx-friend-table');
+    let friend_table_body = friend_table.querySelector('tbody');
+    let url = "https://leetcode.com/"
+    friend_table_body.innerHTML = "";
+    let friend_list = [];
+    chrome.storage.local.get(['myfriends'], async function (result) {
+        let myfriends = result.myfriends;
+        let f=1;
+        for (let friend of myfriends) {
+            // friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${f++} of ${myfriends.length}</td></tr>`;
+            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(f++/myfriends.length*100)}%</td></tr>`;
+            let row = document.createElement('tr');
+            let user_contest_details = await getUserContestDetails(friend);
+            if (user_contest_details == null) continue;
+            user_contest_details.username = friend;
+            friend_list.push(user_contest_details);
+        }
+        friend_list.sort((a, b) => {
+            if(a.rank=="N/A" && b.rank=="N/A") return 0;
+            if(a.rank=="N/A") return 1;
+            if(b.rank=="N/A") return -1;
+            return parseInt(a.rank) - parseInt(b.rank);
+        });
+        friend_table_body.innerHTML = "";
+        for (let friend of friend_list) {
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${friend.rank}</td><td><a href="url${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating=="N/A"?"":parseInt(friend.old_rating)}</td><td>${friend.delta_rating=="N/A"?"":parseInt(friend.delta_rating)}</td><td>${friend.new_rating=="N/A"?"":parseInt(friend.new_rating)}</td>`;
+            friend_table_body.appendChild(row);
+        }
+    });
 }
 
 function lx_contest() {

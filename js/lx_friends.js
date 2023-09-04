@@ -129,7 +129,7 @@ async function createFriendRow(username, friends_rowgroup) {
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
-    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : rating.toFixed(2); + "<span>&nbsp;</span>";
+    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : parseInt(rating); + "<span>&nbsp;</span>";
     row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? "" : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved;
     row.querySelector('.lx-feasy').innerHTML = easy;

@@ -4,10 +4,10 @@
     "version": "1.1",
     "description": "Supercharge your LeetCode practice",
     "icons": {
-        "128": "/assets/logo128.png",
-        "48": "/assets/logo48.png",
-        "32": "/assets/logo32.png",
-        "16": "/assets/logo16.png"
+        "128": "/icons/logo128.png",
+        "48": "/icons/logo48.png",
+        "32": "/icons/logo32.png",
+        "16": "/icons/logo16.png"
     },
     "content_scripts": [
         {
@@ -16,7 +16,8 @@
             ],
             "js": [
                 "js/lx_friends.js",
-                "js/lx_premium.js"
+                "js/lx_premium.js",
+                "js/lx_contest.js"
             ],
             "css": [
                 "css/lx.css"

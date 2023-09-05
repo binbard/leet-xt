@@ -109,7 +109,7 @@ function setContestFriends() {
     let url = "https://leetcode.com/"
     friend_table_body.innerHTML = "";
     let friend_list = [];
-    chrome.storage.local.get(['myfriends'], async function (result) {
+    browser.storage.local.get(['myfriends'], async function (result) {
         let myfriends = result.myfriends;
         let f=1;
         for (let friend of myfriends) {

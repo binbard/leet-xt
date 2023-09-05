@@ -11,6 +11,8 @@ const up_arrow = '<path d="M10.9052 5.47044L7.48504 2.19872C7.47354 2.18772 7.46
 const updown_arrow = '<path d="M18.695 9.378L12.83 3.769a1.137 1.137 0 00-.06-.054c-.489-.404-1.249-.377-1.7.06L5.303 9.381a.51.51 0 00-.16.366c0 .297.27.539.602.539h12.512a.64.64 0 00.411-.146.501.501 0 00.028-.762zM12.77 20.285c.021-.017.042-.035.062-.054l5.863-5.609a.5.5 0 00-.028-.762.64.64 0 00-.41-.146H5.743c-.332 0-.601.242-.601.54a.51.51 0 00.16.365l5.769 5.606c.45.437 1.21.464 1.698.06z"></path>';
 
 
+const browser = chrome || browser;
+
 function addFriendsIconOnNavbar() {
     // console.log("ADD FRIEND ICON")
 
@@ -159,7 +161,7 @@ async function friendsPage(area) {
 
     updownAllHeaders(area);
 
-    chrome.storage.local.get('myfriends', function (result) {
+    browser.storage.local.get('myfriends', function (result) {
         myfriends = result.myfriends;
         if (myfriends == undefined) {
             myfriends = [];
@@ -287,20 +289,20 @@ function addFriendButton() {
 
 function addFriend(username, myfriends) {
     myfriends.push(username);
-    chrome.storage.local.set({ 'myfriends': myfriends }, function () {
+    browser.storage.local.set({ 'myfriends': myfriends }, function () {
         console.log('ADDED FRIEND ' + myfriends);
     });
 }
 
 function removeFriend(username, myfriends) {
     myfriends = myfriends.filter(e => e !== username);
-    chrome.storage.local.set({ 'myfriends': myfriends }, function () {
+    browser.storage.local.set({ 'myfriends': myfriends }, function () {
         console.log('REMOVED FRIEND ' + myfriends);
     });
 }
 
 function clearFriends() {
-    chrome.storage.local.set({ 'myfriends': [] }, function () {
+    browser.storage.local.set({ 'myfriends': [] }, function () {
         console.log('CLEARED FRIENDS');
     });
 }
@@ -316,7 +318,7 @@ function toggleFriend(loading = 0) {
     let username = uname_box.innerHTML;
     console.log(username)
 
-    chrome.storage.local.get('myfriends', function (result) {
+    browser.storage.local.get('myfriends', function (result) {
         myfriends = result.myfriends;
         if (myfriends == undefined) {
             myfriends = [];

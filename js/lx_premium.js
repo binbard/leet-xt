@@ -80,7 +80,7 @@ function editorial_premium() {
 
 let companyProblemRanges = null;
 let companyProblems = {};
-let lcProblemData = {};
+let lcProblems = {};
 let curr_company = null;
 
 function fetchCompanyProbleRanges() {
@@ -103,7 +103,6 @@ function fetchCompanyProbleRanges() {
 async function fetchCompanyProblems(company_name) {
     if (!companyProblemRanges) return;
     let range = companyProblemRanges.get(company_name);
-    if (companyProblems[company_name]) return;
     let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
 
     await fetch(url).then(response => response.json())
@@ -117,20 +116,100 @@ async function fetchCompanyProblems(company_name) {
         );
 }
 
-function setLcProblemData(problem_slug) {
+async function setLcProblemData(problem_slug) {
+    if (!lcProblems[problem_slug]) {
+        let link = `https://leetcode.com/graphql`;
+        let data = {
+            query: `query questionData($titleSlug: String!) {
+                question(titleSlug: $titleSlug) {
+                  status
+                }
+              }
+            `,
+            variables: {
+                "titleSlug": problem_slug
+            }
+        };
 
+        await fetch(link, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json())
+            .then(data => {
+                if (!data.data.question) return;
+                lcProblems[problem_slug] = data.data.question;
+            }).catch(error => {
+                console.error("Error fetching LC Problem Data", error);
+            });
+    }
+}
+
+async function isProblemAccepted(problem_slug) {
+    if (!lcProblems[problem_slug]) await setLcProblemData(problem_slug);
+    if (!lcProblems[problem_slug] == null) return 1;
+    if (lcProblems[problem_slug].status == "notac") return 2;
+    else if (lcProblems[problem_slug].status == "ac") return 3;
 }
 
 
-async function companyProblemData(company_name) {
-    if (!companyProblems[company_name]) await fetchCompanyProblems(company_name);
-    if (!companyProblems[company_name]) return;
-    console.log(companyProblems[company_name]);
+async function setCompanyProblemsData(company_name) {
+    if (companyProblems[company_name]) return;
+    if (!companyProblems[company_name]) {
+        await fetchCompanyProblems(company_name);
+        if (!companyProblems[company_name]) return;
+    }
+    /* SAMPLE DATA
+    [
+        "goldman-sachs",
+        "253",
+        "0.380707",
+        "6 months",
+        "Meeting Rooms II",
+        "0.505",
+        "https://leetcode.com/problems/meeting-rooms-ii/",
+        "Medium",
+        "",
+        "",
+        "11742"
+    ]*/
+
+    let compProblems = {};
+    compProblems = {
+        '6 months': [],
+        '1 year': [],
+        '2 years': [],
+        'All time': [],
+        'lc_fetched': []
+    };
+
+    await companyProblems[company_name].forEach(async (row) => {
+        let problem = {};
+        problem['problem_id'] = row[1];
+        problem['problem_name'] = row[4];
+        problem['problem_slug'] = row[6].split("/")[4];
+        problem['problem_accepted'] = -1;
+        problem['problem_acceptance'] = row[5];
+        problem['problem_difficulty'] = row[7];
+        problem['problem_frequency'] = row[2];
+        compProblems[row[3]].push(problem);
+    });
+    companyProblems[company_name] = compProblems;
 }
 
-function setCompanyProblems(company_name) {
+async function getCompanyProblems(company_name, duration) {
     if (!companyProblemRanges) return;
-    companyProblemData(company_name);
+    await setCompanyProblemsData(company_name);
+    if (!companyProblems[company_name]) return;
+    await companyProblems[company_name][duration].forEach(async (problem) => {
+        if (problem['problem_accepted'] == 0) {
+            problem['problem_accepted'] = await isProblemAccepted(problem['problem_slug']);
+        }
+    });
+    companyProblems[company_name]['lc_fetched'][duration] = true;
+    console.log(companyProblems[company_name]);
 }
 
 function sidebar_companies() {
@@ -140,14 +219,14 @@ function sidebar_companies() {
         let company_name = element.getAttribute('href').split("/")[2];
         element.setAttribute('company-name', company_name);
         element.addEventListener('click', function () {
-            if(curr_company) document.querySelector(`a[company-name="${curr_company}"] span`).style.background = "";
+            if (curr_company) document.querySelector(`a[company-name="${curr_company}"] span`).style.background = "";
             if (curr_company == company_name) {
                 curr_company = null;
                 // TODO Unset company problems
             } else {
                 curr_company = company_name;
                 element.querySelector('span').style.background = selected_color;
-                setCompanyProblems(company_name);
+                getCompanyProblems(company_name, 'All time');
             }
         });
         element.removeAttribute('href');

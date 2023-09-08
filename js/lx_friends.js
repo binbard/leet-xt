@@ -344,6 +344,8 @@ function toggleFriend(loading = 0) {
 
 function lx_friends() {
 
+    console.log("lx_friends");
+
     let nextRoot = document.querySelector('#__next');
     let appRoot = document.querySelector('#app');
     let errorRoot = document.querySelector('#navbar-root');

@@ -1,10 +1,12 @@
-const frequency_col_html = '<div class="flex items-center justify-between hover:text-text-primary dark:hover:text-dark-text-primary cursor-pointer"><span class="flex items-center focus:outline-none" id="fx-freq-button">Frequency<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="ml-1 h-[14px] w-[14px]"><path fill-rule="evenodd" d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z" clip-rule="evenodd"></path></svg></span><ul id="fx-freq-menu" class="hidden flex flex-col absolute top-[296px] z-dropdown rounded-lg p-2 overflow-auto focus:outline-none text-sm shadow-level2 dark:shadow-dark-level2 bg-overlay-3 dark:bg-dark-overlay-3 transform opacity-100 scale-100" aria-labelledby="headlessui-menu-button-:R1mald5t6:" id="headlessui-menu-items-:rbm:" role="menu" tabindex="0" data-headlessui-state="open"><li name="6 Months" class="fx-freq-li" role="menuitem" tabindex="0" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">6 Months</span></li><li name="1 Year" class="fx-freq-li" role="menuitem" tabindex="1" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">1 Year</span></li><li name="2 Years" class="fx-freq-li" role="menuitem" tabindex="2" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">2 Years</span></li><li name="All time" class="fx-freq-li" role="menuitem" tabindex="3" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">All time</span></li></ul></div>';
+const frequency_col_html = '<div class="flex items-center justify-between hover:text-text-primary dark:hover:text-dark-text-primary cursor-pointer"><span class="flex items-center focus:outline-none" id="fx-freq-button">Frequency<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="ml-1 h-[14px] w-[14px]"><path fill-rule="evenodd" d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z" clip-rule="evenodd"></path></svg></span><ul id="fx-freq-menu" class="hidden flex flex-col absolute top-[296px] z-dropdown rounded-lg p-2 overflow-auto focus:outline-none text-sm shadow-level2 dark:shadow-dark-level2 bg-overlay-3 dark:bg-dark-overlay-3 transform opacity-100 scale-100" aria-labelledby="headlessui-menu-button-:R1mald5t6:" id="headlessui-menu-items-:rbm:" role="menu" tabindex="0" data-headlessui-state="open"><li id="fx-sort-li" class="sort_by_id" role="menuitem" tabindex="0" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">🡙 SORT 🡙</span></li><li name="6 months" class="fx-freq-li" role="menuitem" tabindex="1" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">6 Months</span></li><li name="1 year" class="fx-freq-li" role="menuitem" tabindex="2" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">1 Year</span></li><li name="2 years" class="fx-freq-li" role="menuitem" tabindex="3" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">2 Years</span></li><li name="All time" class="fx-freq-li" role="menuitem" tabindex="4" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">All time</span></li></ul></div>';
 
 const prob_row_html = '<div role="row" style="display:flex;flex:1 0 auto;min-width:0" class="odd:bg-layer-1 even:bg-overlay-1 dark:odd:bg-dark-layer-bg dark:even:bg-dark-fill-4" problem-id="4" is-premium="false"><div role="cell" style="box-sizing:border-box;flex:52 0 auto;min-width:0;width:52px" class="mx-2 flex items-center py-[11px]"><span class="fx-prob-solved-status"><svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-1hwpjif"><path d="M21.6004 12C21.6004 17.302 17.3023 21.6 12.0004 21.6C6.69846 21.6 2.40039 17.302 2.40039 12C2.40039 6.69809 6.69846 2.40002 12.0004 2.40002C13.5066 2.40002 14.9318 2.74689 16.2004 3.3651M19.8004 6.00002L11.4004 14.4L9.00039 12" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></div><div role="cell" style="box-sizing:border-box;flex:260 0 auto;min-width:0;width:260px" class="mx-2 flex items-center py-[11px]"><div class="max-w-[302px] flex items-center overflow-hidden"><div class="overflow-hidden"><div class="flex items-center"><div class="truncate"><a href="/problems/median-of-two-sorted-arrays" class="h-5 hover:text-blue-s dark:hover:text-dark-blue-s fx-prob-ques">4. Median of Two Sorted Arrays</a></div></div></div></div></div><div role="cell" style="box-sizing:border-box;flex:54 0 auto;min-width:0;width:54px" class="mx-2 flex items-center py-[11px]"><a aria-label="solution" href="/problems/median-of-two-sorted-arrays/solution" class="truncate fx-prob-solution"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="text-blue dark:text-dark-blue h-5 w-5"><path d="M15.207 11.293a1 1 0 010 1.414l-3.5 3.5a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414L11 14.086l2.793-2.793a1 1 0 011.414 0z"></path><path d="M4 5a3 3 0 013-3h7.039a3 3 0 012.342 1.126l2.962 3.701A3 3 0 0120 8.702V19a3 3 0 01-3 3H7a3 3 0 01-3-3V5zm3-1a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V9h-3a2 2 0 01-2-2V4H7zm8 .6V7h1.92L15 4.6z"></path></svg></a></div><div role="cell" style="box-sizing:border-box;flex:100 0 auto;min-width:0;width:100px" class="mx-2 flex items-center py-[11px]"><span class="fx-prob-acceptance">37.3%</span></div><div role="cell" style="box-sizing:border-box;flex:84 0 auto;min-width:0;width:84px" class="mx-2 flex items-center py-[11px]"><span class="text-pink dark:text-dark-pink fx-prob-difficulty">Hard</span></div><div role="cell" style="box-sizing:border-box;flex:84 0 auto;min-width:0;width:84px" class="mx-2 flex items-center py-[11px]"><div class="flex h-full w-full flex-row items-center"><span class="h-2 flex-1 rounded-l-lg bg-fill-3 dark:bg-dark-fill-3" title="94%" style="border-bottom-right-radius:.5rem;overflow:hidden;border-top-right-radius:.5rem"><div class="inner-progressbar fx-prob-frequency" style="background-color:#62c555;width:94.4146%;height:.5rem;border-radius:.5rem"></div></span></div></div></div>';
 
 const svg_notac_html = '<svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-atp543"><path d="M18.0004 12C18.0004 14.9745 15.836 17.4434 12.9962 17.9178C12.4515 18.0088 12.0004 17.5523 12.0004 17V7.00002C12.0004 6.44774 12.4515 5.99129 12.9962 6.08228C15.836 6.55663 18.0004 9.02557 18.0004 12Z" stroke="currentColor" stroke-width="2.3"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M21.6004 12C21.6004 17.302 17.3023 21.6 12.0004 21.6C6.69846 21.6 2.40039 17.302 2.40039 12C2.40039 6.69809 6.69846 2.40002 12.0004 2.40002C17.3023 2.40002 21.6004 6.69809 21.6004 12Z" stroke="currentColor" stroke-width="2.3"></path></svg>';
 
 const svg_video_sol_html = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="text-purple dark:text-dark-purple h-5 w-5"><path d="M10 15.464v-3.927a.8.8 0 011.259-.656l2.805 1.964a.8.8 0 010 1.31l-2.805 1.964A.8.8 0 0110 15.464z"></path><path d="M7 4a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V9h-3a2 2 0 01-2-2V4H7zm8 .6V7h1.92L15 4.6zM4 5a3 3 0 013-3h7.039a3 3 0 012.342 1.126l2.962 3.701A3 3 0 0120 8.702V19a3 3 0 01-3 3H7a3 3 0 01-3-3V5z"></path></svg>';
+
+const paegnav_btn_html = '<button class="flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2">6</button>';
 
 
 /*******   EDITORIAL PREMIUM    *******/
@@ -72,14 +74,18 @@ async function setSolution() {
         });
 }
 
+function setFeatures(){
+    setSolution();
+}
+
 function editorial_premium() {
     if (!window.location.pathname.startsWith("/problems/")) return;
 
-    let observer = new MutationObserver(setSolution);
+    let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
 
-    setSolution();
 }
+
 
 /**********   PROBLEMSET COMPANIES PREMIUM   **********/
 
@@ -88,6 +94,7 @@ let companyProblems = {};
 let lcProblems = {};
 let curr_company = null;
 let curr_freq = 'All time';
+let curr_page = 1;
 let original_table_body = null;
 
 function fetchCompanyProbleRanges() {
@@ -219,7 +226,39 @@ async function setCompanyProblemsData(company_name) {
     companyProblems[company_name] = compProblems;
 }
 
-async function getCompanyProblems(company_name, duration, page = 1, sort_by = 'problem_id') {
+function getSortFunction(sort_by) {
+    if (sort_by == 'problem_id') return (a, b) => {
+        a = parseInt(a[sort_by]);
+        b = parseInt(b[sort_by]);
+        if (a < b) return -1;
+        else if (a > b) return 1;
+        else return 0;
+    };
+    else if (sort_by == 'problem_acceptance') return (a, b) => {
+        a = parseFloat(a[sort_by].split("%")[0]);
+        b = parseFloat(b[sort_by].split("%")[0]);
+        if (a < b) return -1;
+        else if (a > b) return 1;
+        else return 0;
+    };
+    else if (sort_by == 'problem_difficulty') return (a, b) => {
+        let diff = ['Easy', 'Medium', 'Hard'];
+        a = diff.indexOf(a[sort_by]);
+        b = diff.indexOf(b[sort_by]);
+        if (a < b) return -1;
+        else if (a > b) return 1;
+        else return 0;
+    };
+    else if (sort_by == 'problem_frequency') return (a, b) => {
+        a = parseFloat(a[sort_by]);
+        b = parseFloat(b[sort_by]);
+        if (a < b) return -1;
+        else if (a > b) return 1;
+        else return 0;
+    };
+}
+
+async function getCompanyProblems(company_name, duration, sort_by = 'problem_id') {
     if (!companyProblemRanges) {
         console.log("Error fetching company problem ranges");
         return null;
@@ -230,16 +269,13 @@ async function getCompanyProblems(company_name, duration, page = 1, sort_by = 'p
         return null;
     }
 
+    let page = curr_page;
     let per_page = 50;
     let start = (page - 1) * per_page;
     let end = Math.min(page * per_page, companyProblems[company_name][duration].length);
 
     let problems = companyProblems[company_name][duration];
-    if (sort_by != 'problem_id') problems.sort((a, b) => {
-        if (a[sort_by] < b[sort_by]) return -1;
-        else if (a[sort_by] > b[sort_by]) return 1;
-        else return 0;
-    });
+    problems.sort(getSortFunction(sort_by));
     problems = problems.slice(start, end);
 
     const fetchPromises = problems.map(async (problem) => {
@@ -259,7 +295,7 @@ async function getCompanyProblems(company_name, duration, page = 1, sort_by = 'p
     return problems;
 }
 
-async function createProblemsTable(company_name, duration, sort_by = 'problem_id') {
+async function createProblemsTable(company_name, duration, sort_by = 'problem_id', order = 0) {
     if (!company_name) {
         console.log("No company selected");
         return;
@@ -273,11 +309,19 @@ async function createProblemsTable(company_name, duration, sort_by = 'problem_id
         return;
     }
     table_body.innerHTML = "";
-    if (sort_by != 'problem_id') problems.sort((a, b) => {
+    if (order != 0) problems.sort((a, b) => {           // 0 = no sort, 1 = ascending, -1 = descending
         if (a[sort_by] < b[sort_by]) return -1;
         else if (a[sort_by] > b[sort_by]) return 1;
         else return 0;
     });
+    if (order == -1) problems.reverse();
+
+    if (problems.length == 0) {
+        let navpage = document.querySelector('nav[role="navigation"]');
+        navpage.innerHTML = "";
+    }
+    history.replaceState(null, null, `?company=${curr_company}&page=${curr_page}`);
+
     problems.forEach((problem) => {
         prob_row = document.createElement('div');
         prob_row.innerHTML = prob_row_html;
@@ -299,7 +343,71 @@ async function createProblemsTable(company_name, duration, sort_by = 'problem_id
         }   // solved icon is default
         table_body.appendChild(prob_row);
     });
+
+    managePagination();
 }
+
+function managePagination() {
+    let pagination_parent = document.querySelector('nav[role="navigation"]').parentElement;
+    let nav = document.createElement('nav');
+    nav.setAttribute('role', 'navigation');
+    nav.setAttribute('class', 'mb-6 md:mb-0 flex flex-nowrap items-center space-x-2');
+    nav.style.maxWidth = `${pagination_parent.offsetWidth * 0.1}px`;
+    let selected_btn_class = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none pointer-events-none bg-paper dark:bg-dark-gray-5 text-label-1 dark:text-dark-label-1 shadow-level1 dark:shadow-dark-level1';
+    let btn_class = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2';
+
+    function changePage(e) {
+        document.querySelector(`#lx-pagenav-btn-${curr_page}`).setAttribute('class', btn_class);
+        if (e.target.innerHTML == '&lt;') curr_page = Math.max(curr_page - 1, 1);
+        else if (e.target.innerHTML == '&gt;') curr_page = Math.min(curr_page + 1, Math.ceil(companyProblems[curr_company][curr_freq].length / 50));
+        else curr_page = parseInt(e.target.innerHTML);
+        createProblemsTable(curr_company, curr_freq, sort_by = 'problem_id', order = 0);
+        document.querySelector(`#lx-pagenav-btn-${curr_page}`).setAttribute('class', selected_btn_class);
+
+        window.scrollTo({
+            top: 680,
+            behavior: "smooth"
+        });
+    }
+
+    if (companyProblems[curr_company][curr_freq].length == 0) return;
+    let till = Math.ceil(companyProblems[curr_company][curr_freq].length / 50);
+
+    for (let i = 0; i <= till + 1; i++) {
+        let btn = document.createElement('button');
+        btn.addEventListener('click', changePage);
+        btn.id = 'lx-pagenav-btn-' + i;
+        btn.setAttribute('class', btn_class);
+        btn.innerHTML = i;
+        nav.appendChild(btn);
+    }
+    pagination_parent.innerHTML = "";
+    pagination_parent.appendChild(nav);
+    document.querySelector(`#lx-pagenav-btn-${curr_page}`).setAttribute('class', selected_btn_class);
+    document.querySelector('#lx-pagenav-btn-0').innerHTML = '<';
+    document.querySelector(`#lx-pagenav-btn-${till + 1}`).innerHTML = '>';
+}
+
+function addSortingListeners() {
+    let sort_li = document.querySelector("#fx-sort-li");
+    let title_li = document.querySelector('div.mx-2[role="columnheader"]:nth-of-type(2)').firstChild;
+    let acceptance_li = document.querySelector('div.mx-2[role="columnheader"]:nth-of-type(4)').firstChild;
+    let difficulty_li = document.querySelector('div.mx-2[role="columnheader"]:nth-of-type(5)').firstChild;
+
+    sort_li.addEventListener("click", async function () {
+        await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_frequency', order = -1);
+    });
+    title_li.addEventListener("click", async function () {
+        await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_name', order = 0);
+    });
+    acceptance_li.addEventListener("click", async function () {
+        await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_acceptance', order = -1);
+    });
+    difficulty_li.addEventListener("click", async function () {
+        await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_difficulty', order = 0);
+    });
+}
+
 
 function sidebar_companies() {
     let selected_color = "#fcbf62";
@@ -315,10 +423,12 @@ function sidebar_companies() {
             if (curr_company == company_name) {
                 curr_company = null;
                 table_body.innerHTML = original_table_body;
+                document.querySelector('nav[role="navigation"]').innerHTML = "";
             } else {
                 curr_company = company_name;
                 element.querySelector('span').style.background = selected_color;
                 // getCompanyProblems(company_name, 'All time');
+                curr_page = 1;
                 createProblemsTable(company_name, 'All time');
             }
         });
@@ -346,7 +456,7 @@ function problemset_companies_premium() {
                 if (curr_freq) document.querySelector(`li.fx-freq-li[name="${curr_freq}"]`).style.background = "";
                 curr_freq = fxFreqLiElement.getAttribute('name');
                 fxFreqLiElement.style.background = selected_color;
-                await createProblemsTable(curr_company, curr_freq);
+                await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_id', order = 0);
             }
             document.removeEventListener("click", clickHandler);
         }
@@ -358,6 +468,8 @@ function problemset_companies_premium() {
     });
 
     sidebar_companies();
+
+    addSortingListeners();
 
 }
 

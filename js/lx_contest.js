@@ -90,11 +90,11 @@ async function getUserContestDetails(username) {
         let responseData = await response.json();
         if (responseData.errors) return null;
         let user_contest_details = {
-            rank: responseData[0]?responseData[0].rank:"N/A",
-            score: responseData[0]?responseData[0].score:"N/A",
-            old_rating: responseData[0]?responseData[0].old_rating:"N/A",
-            delta_rating: responseData[0]?responseData[0].delta_rating:"N/A",
-            new_rating: responseData[0]?responseData[0].new_rating:"N/A",
+            rank: responseData[0] ? responseData[0].rank : "N/A",
+            score: responseData[0] ? responseData[0].score : "N/A",
+            old_rating: responseData[0] ? responseData[0].old_rating : "N/A",
+            delta_rating: responseData[0] ? responseData[0].delta_rating : "N/A",
+            new_rating: responseData[0] ? responseData[0].new_rating : "N/A",
         }
         return user_contest_details;
     } catch (error) {
@@ -111,10 +111,10 @@ function setContestFriends() {
     let friend_list = [];
     browser.storage.local.get(['myfriends'], async function (result) {
         let myfriends = result.myfriends;
-        let f=1;
+        let f = 1;
         for (let friend of myfriends) {
             // friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${f++} of ${myfriends.length}</td></tr>`;
-            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(f++/myfriends.length*100)}%</td></tr>`;
+            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(f++ / myfriends.length * 100)}%</td></tr>`;
             let row = document.createElement('tr');
             let user_contest_details = await getUserContestDetails(friend);
             if (user_contest_details == null) continue;
@@ -122,15 +122,15 @@ function setContestFriends() {
             friend_list.push(user_contest_details);
         }
         friend_list.sort((a, b) => {
-            if(a.rank=="N/A" && b.rank=="N/A") return 0;
-            if(a.rank=="N/A") return 1;
-            if(b.rank=="N/A") return -1;
+            if (a.rank == "N/A" && b.rank == "N/A") return 0;
+            if (a.rank == "N/A") return 1;
+            if (b.rank == "N/A") return -1;
             return parseInt(a.rank) - parseInt(b.rank);
         });
         friend_table_body.innerHTML = "";
         for (let friend of friend_list) {
             let row = document.createElement('tr');
-            row.innerHTML = `<td>${friend.rank}</td><td><a href="url${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating=="N/A"?"":parseInt(friend.old_rating)}</td><td>${friend.delta_rating=="N/A"?"":parseInt(friend.delta_rating)}</td><td>${friend.new_rating=="N/A"?"":parseInt(friend.new_rating)}</td>`;
+            row.innerHTML = `<td>${friend.rank}</td><td><a href="url${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating == "N/A" ? "" : parseInt(friend.old_rating)}</td><td>${friend.delta_rating == "N/A" ? "" : parseInt(friend.delta_rating)}</td><td>${friend.new_rating == "N/A" ? "" : parseInt(friend.new_rating)}</td>`;
             friend_table_body.appendChild(row);
         }
     });
@@ -138,7 +138,8 @@ function setContestFriends() {
 
 function lx_contest() {
     console.log("lx_contest");
-    if (!window.location.pathname.startsWith("/contest/weekly-contest-") && !window.location.pathname.startsWith("/contest/biweekly-contest-")) return;
+    let path = window.location.pathname;
+    if (!(path.startsWith('/contest/weekly-contest-') || path.startsWith('/contest/biweekly-contest-')) || !path.endsWith('/ranking/')) return;
 
     let observer = new MutationObserver(addContestFriendIcon);
     observer.observe(document.querySelector("#contest-app"), { childList: true, subtree: true });

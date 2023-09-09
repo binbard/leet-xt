@@ -338,6 +338,10 @@ function toggleFriend(loading = 0) {
             star_path.style.fill = not_friend_color;
             removeFriend(username, myfriends);
         } else {                                    // User is not Friend, Add it
+            if (myfriends.length >= 50) {
+                alert("You can only add upto 50 friends, ensuring an inclusive and sustainable experience for everyone!");
+                return;
+            }
             star_path.style.fill = friend_color;
             addFriend(username, myfriends);
         }

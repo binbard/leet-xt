@@ -439,6 +439,8 @@ async function createProblemsTable(company_name, duration, sort_by = 'problem_id
     let table_body = document.querySelector('[role="table"].border-spacing-0 [role="rowgroup"]');
     duration = duration.toLowerCase();
     if (duration == 'all time') duration = 'All time';
+    history.replaceState(null, null, `?company=${curr_company}&page=${curr_page}`);
+
     let problems = await getCompanyProblems(company_name, duration);
     if (!problems) {
         console.log("Error fetching company problems");
@@ -456,7 +458,6 @@ async function createProblemsTable(company_name, duration, sort_by = 'problem_id
         let navpage = document.querySelector('nav[role="navigation"]');
         navpage.innerHTML = "";
     }
-    history.replaceState(null, null, `?company=${curr_company}&page=${curr_page}`);
 
     problems.forEach((problem) => {
         prob_row = document.createElement('div');

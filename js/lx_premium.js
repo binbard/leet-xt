@@ -74,17 +74,32 @@ async function setSolution() {
         });
 }
 
-function setFeatures(){
+function setFeatures() {
     setSolution();
+    showCompanyTags();
 }
 
-function editorial_premium() {
+function problem_premium() {
     if (!window.location.pathname.startsWith("/problems/")) return;
 
     let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
 
 }
+
+/***********  PROBLEM COMPANY TAGS PREMIUM ************/
+
+function showCompanyTags() {
+    let company_tags_modal_title = document.querySelector('div.my-8 div.flex.py-4');
+    if (!company_tags_modal_title) return;
+    if (company_tags_modal_title.name == "done") return;
+    company_tags_modal_title.name = "done";
+    let company_tags_modal_body = company_tags_modal_title.parentElement.querySelector('div.pb-6');
+    company_tags_modal_body.innerHTML = "";
+    company_tags_modal_body.style.minHeight = "30vh";
+    company_tags_modal_body.innerHTML = '<div class="flex flex-wrap items-center justify-center">AMAZON</div>';
+}
+
 
 
 /**********   PROBLEMSET COMPANIES PREMIUM   **********/
@@ -456,6 +471,7 @@ function problemset_companies_premium() {
                 if (curr_freq) document.querySelector(`li.fx-freq-li[name="${curr_freq}"]`).style.background = "";
                 curr_freq = fxFreqLiElement.getAttribute('name');
                 fxFreqLiElement.style.background = selected_color;
+                curr_page = 1;
                 await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_id', order = 0);
             }
             document.removeEventListener("click", clickHandler);
@@ -475,7 +491,7 @@ function problemset_companies_premium() {
 
 function lx_premium() {
     console.log("lx_premium");
-    editorial_premium();
+    problem_premium();
     problemset_companies_premium();
 }
 

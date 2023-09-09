@@ -1,13 +1,13 @@
 {
     "manifest_version": 3,
     "name": "Leetcode Extended",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
     "icons": {
-        "128": "/icons/logo128.png",
-        "48": "/icons/logo48.png",
-        "32": "/icons/logo32.png",
-        "16": "/icons/logo16.png"
+        "128": "/icons/logo_128.png",
+        "48": "/icons/logo_48.png",
+        "32": "/icons/logo_32.png",
+        "16": "/icons/logo_16.png"
     },
     "content_scripts": [
         {
@@ -15,9 +15,9 @@
                 "https://leetcode.com/*"
             ],
             "js": [
-                "js/lx_friends.js",
+                "js/lx_contest.js",
                 "js/lx_premium.js",
-                "js/lx_contest.js"
+                "js/lx_friends.js"
             ],
             "css": [
                 "css/lx.css"

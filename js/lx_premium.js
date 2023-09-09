@@ -255,7 +255,7 @@ async function fetchCompanyProblems(company_name) {
     if (!companyProblemRanges) return;
     let range = companyProblemRanges.get(company_name);
     if (!range) {
-        console.log("Company not selected");
+        // console.log("Company not selected");
         return;
     }
     let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
@@ -427,7 +427,7 @@ async function getCompanyProblems(company_name, duration, sort_by = 'problem_id'
         }
     });
     await Promise.all(fetchPromises);
-    console.log("FETCHED COMPANY PROBLEMS")
+    // console.log("FETCHED COMPANY PROBLEMS")
     return problems;
 }
 
@@ -617,7 +617,7 @@ function problemset_companies_premium() {
 }
 
 function lx_premium() {
-    console.log("lx_premium");
+    // console.log("lx_premium");
     problem_premium();
     problemset_companies_premium();
 }

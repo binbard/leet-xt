@@ -4,6 +4,8 @@ const people_light_svg = '<svg id="lx-people-light" width="0.8em" height="1em" v
 const friend_table_html = '<table id="fx-friend-table" class="table table-hover table-striped"><thead><tr><th>Rank</th><th>Name</th><th>Score</th><th>Old Rating</th><th>Δ</th><th>New Rating</th></tr></thead><tbody><tr><td>1</td><td>Neal Wu</td><td>18</td><td>3559</td><td>32</td><td>3575</td></tr><tr><td>2</td><td>JOHN KRAM</td><td>18</td><td>3459</td><td>12</td><td>3475</td></tr></tbody></table>';
 
 
+const browser = chrome || browser;
+
 function toggleFriendMode() {
     let table_container = document.querySelector('.table-responsive');
 
@@ -137,7 +139,7 @@ function setContestFriends() {
 }
 
 function lx_contest() {
-    console.log("lx_contest");
+    // console.log("lx_contest");
     let path = window.location.pathname;
     if (!(path.startsWith('/contest/weekly-contest-') || path.startsWith('/contest/biweekly-contest-')) || !path.endsWith('/ranking/')) return;
 

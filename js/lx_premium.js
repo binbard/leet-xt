@@ -488,8 +488,8 @@ function managePagination() {
     let pagination_parent = document.querySelector('nav[role="navigation"]').parentElement;
     let nav = document.createElement('nav');
     nav.setAttribute('role', 'navigation');
-    nav.setAttribute('class', 'mb-6 md:mb-0 flex flex-nowrap items-center space-x-2');
-    nav.style.maxWidth = `${pagination_parent.offsetWidth * 0.1}px`;
+    nav.setAttribute('class', 'mb-6 md:mb-0 flex flex-wrap items-center space-x-2');
+    nav.style.maxWidth = "100%";
     let selected_btn_class = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none pointer-events-none bg-paper dark:bg-dark-gray-5 text-label-1 dark:text-dark-label-1 shadow-level1 dark:shadow-dark-level1';
     let btn_class = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2';
 

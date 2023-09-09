@@ -77,6 +77,7 @@ async function setSolution() {
 }
 
 let company_tags_data = null;
+let problem_info_data = null;
 
 function setFeatures() {
     setSolution();
@@ -87,6 +88,7 @@ function problem_premium() {
     if (!window.location.pathname.startsWith("/problems/")) return;
 
     getCompanyTags();
+    getProblemInfo();
 
     let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
@@ -94,6 +96,38 @@ function problem_premium() {
 }
 
 /***********  PROBLEM COMPANY TAGS PREMIUM ************/
+
+async function getProblemInfo() {
+    let qslug = window.location.pathname.split("/")[2];
+    if (problem_info_data) return problem_info_data;
+    let url = 'https://zerotrac.github.io/leetcode_problem_rating/data.json';
+    let data = await fetch(url).then(response => response.json());
+    /* Sample data:
+    [
+        {
+            "Rating": 3018.4940165727,
+            "ID": 1719,
+            "Title": "Number Of Ways To Reconstruct A Tree",
+            "TitleZH": "重构一棵树的方案数",
+            "TitleSlug": "number-of-ways-to-reconstruct-a-tree",
+            "ContestSlug": "biweekly-contest-43",
+            "ProblemIndex": "Q4",
+            "ContestID_en": "Biweekly Contest 43",
+            "ContestID_zh": "第 43 场双周赛"
+        }
+    ] */
+    if (!data) return null;
+    let problem_info = data.find((problem) => {
+        return problem.TitleSlug == qslug;
+    });
+    if (!problem_info) {
+        // console.log("Problem info not found");
+        return problem_info_data = {};
+    } else {
+        problem_info_data = problem_info;
+    }
+    return problem_info_data;
+}
 
 async function getCompanyTagsMap() {
     let url = 'https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs';
@@ -139,19 +173,36 @@ async function showCompanyTags() {
     if (!company_tags_modal_title) return;
     if (company_tags_modal_title.name == "done") return;
     company_tags_modal_title.name = "done";
-    console.log('SHOWING COMPANY TAGS')
     let company_tags_modal_body = company_tags_modal_title.parentElement.querySelector('div.pb-6');
     company_tags_modal_body.innerHTML = "";
     company_tags_modal_body.style.minHeight = "30vh";
     let company_tags = await getCompanyTags();
     if (!company_tags) return;
-    console.log(company_tags);
+    // console.log(company_tags);
+    let problem_info = await getProblemInfo();
+    if (problem_info && problem_info.Rating) {
+        let problem_rating = parseInt(problem_info.Rating);
+        let problem_contest = problem_info.ContestID_en;
+        let problem_contest_slug = problem_info.ContestSlug;
+        company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">Difficulty Rating: ${problem_rating}</span><a href="/contest/${problem_contest_slug}" class="text-blue dark:text-dark-blue">${problem_contest}</a></div><br>`;
+    } else {
+        company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">Unrated</span></div><br>`;
+    }
+
     let keys = Object.keys(company_tags);
+    if (keys.length == 0) {
+        company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">No company tags found for this problem</span></div><br>`;
+        return;
+    }
     keys.forEach((key) => {
         let mkey = key.split(" ").map((word) => {
             return word[0].toUpperCase() + word.slice(1);
         }).join(" ");
-        company_tags_modal_body.innerHTML += `&nbsp;&nbsp;<span>${mkey}</span><br>`;
+        company_tags_modal_body.innerHTML += `<span class="px-2">${mkey}</span><br>`;
+        if (company_tags[key].length == 0) {
+            company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">N/A</span></div><br>`;
+            return;
+        }
         company_tags[key].forEach((tag) => {
             let company = tag.split(" ");
             if (company.length == 1) return;

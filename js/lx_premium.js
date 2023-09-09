@@ -6,12 +6,14 @@ const svg_notac_html = '<svg viewBox="0 0 24 24" focusable="false" class="chakra
 
 const svg_video_sol_html = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="text-purple dark:text-dark-purple h-5 w-5"><path d="M10 15.464v-3.927a.8.8 0 011.259-.656l2.805 1.964a.8.8 0 010 1.31l-2.805 1.964A.8.8 0 0110 15.464z"></path><path d="M7 4a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V9h-3a2 2 0 01-2-2V4H7zm8 .6V7h1.92L15 4.6zM4 5a3 3 0 013-3h7.039a3 3 0 012.342 1.126l2.962 3.701A3 3 0 0120 8.702V19a3 3 0 01-3 3H7a3 3 0 01-3-3V5z"></path></svg>';
 
-const paegnav_btn_html = '<button class="flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2">6</button>';
+const company_tag_html = '<span data-tag="tagslug" class="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full text-label-3 dark:text-dark-label-3 bg-fill-3 dark:bg-dark-fill-3"><span class="max-w-[200px] overflow-hidden overflow-ellipsis font-medium text-label-2 dark:text-dark-label-2 lx-tagname">Google</span><span class="ml-1 rounded-full px-1.5 text-xs font-normal bg-brand-orange dark:bg-dark-brand-orange text-label-r dark:text-dark-label-r lx-tag-num">1208</span></span>';
 
 
 /*******   EDITORIAL PREMIUM    *******/
 
+let qno = null;
 async function getQno(qslug) {
+    if (qno) return qno;
     try {
         const url = "https://leetcode.com/graphql";
         const data = {
@@ -74,6 +76,8 @@ async function setSolution() {
         });
 }
 
+let company_tags_data = null;
+
 function setFeatures() {
     setSolution();
     showCompanyTags();
@@ -82,6 +86,8 @@ function setFeatures() {
 function problem_premium() {
     if (!window.location.pathname.startsWith("/problems/")) return;
 
+    getCompanyTags();
+
     let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
 
@@ -89,15 +95,79 @@ function problem_premium() {
 
 /***********  PROBLEM COMPANY TAGS PREMIUM ************/
 
-function showCompanyTags() {
+async function getCompanyTagsMap() {
+    let url = 'https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs';
+    let data = await fetch(url).then(response => response.json());
+    if (!data.values || !data.values[0]) return null;
+    data.values.shift();
+    let company_tags_map = {};
+    let promises = data.values.map(async (row) => {
+        company_tags_map[row[0]] = [row[1], row[2]];
+    });
+    await Promise.all(promises);
+    return company_tags_map;
+}
+
+async function getCompanyTagsMapRange(qslug) {
+    let company_tags_map = await getCompanyTagsMap();
+    if (!company_tags_map) {
+        console.log("Error fetching company tags map")
+        return null;
+    }
+    return company_tags_map[qslug];
+}
+
+async function getCompanyTags() {
+    if (company_tags_data) return company_tags_data;
+    let qslug = window.location.pathname.split("/")[2];
+    let range = await getCompanyTagsMapRange(qslug);
+    if (!range) return null;
+    // console.log(range)
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
+    let data = await fetch(url).then(response => response.json());
+    if (!data.values || !data.values[0]) return null;
+    let company_tags = { '0 - 6 months': [], '6 months - 1 year': [], '1 year - 2 years': [] };
+    data.values.forEach((row) => {
+        company_tags[row[1]].push(row[2].replace('\n', ' '));
+    });
+    company_tags_data = company_tags;
+    return company_tags;
+}
+
+async function showCompanyTags() {
     let company_tags_modal_title = document.querySelector('div.my-8 div.flex.py-4');
     if (!company_tags_modal_title) return;
     if (company_tags_modal_title.name == "done") return;
     company_tags_modal_title.name = "done";
+    console.log('SHOWING COMPANY TAGS')
     let company_tags_modal_body = company_tags_modal_title.parentElement.querySelector('div.pb-6');
     company_tags_modal_body.innerHTML = "";
     company_tags_modal_body.style.minHeight = "30vh";
-    company_tags_modal_body.innerHTML = '<div class="flex flex-wrap items-center justify-center">AMAZON</div>';
+    let company_tags = await getCompanyTags();
+    if (!company_tags) return;
+    console.log(company_tags);
+    let keys = Object.keys(company_tags);
+    keys.forEach((key) => {
+        let mkey = key.split(" ").map((word) => {
+            return word[0].toUpperCase() + word.slice(1);
+        }).join(" ");
+        company_tags_modal_body.innerHTML += `&nbsp;&nbsp;<span>${mkey}</span><br>`;
+        company_tags[key].forEach((tag) => {
+            let company = tag.split(" ");
+            if (company.length == 1) return;
+            let numtimes = company.pop();
+            company = company.join(" ");
+            company_tag = document.createElement('div');
+            company_tag.innerHTML = company_tag_html;
+            company_tag = company_tag.firstChild;
+            company_tag.querySelector('.lx-tag-num').style.background = "#ffa116";
+            company_tag.querySelector('.lx-tagname').innerHTML = company;
+            company_tag.querySelector('.lx-tag-num').innerHTML = numtimes;
+            // company_tags_modal_body.innerHTML += `<b>${company}</b>&nbsp;<span>${numtimes}</span>;&nbsp;&nbsp;`;
+            company_tags_modal_body.appendChild(company_tag);
+        });
+        company_tags_modal_body.innerHTML += '<br><br>';
+    });
 }
 
 

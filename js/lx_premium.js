@@ -385,6 +385,10 @@ function managePagination() {
         });
     }
 
+    if (!companyProblems[curr_company]) {
+        console.log("Error fetching problems")
+        return;
+    }
     if (companyProblems[curr_company][curr_freq].length == 0) return;
     let till = Math.ceil(companyProblems[curr_company][curr_freq].length / 50);
 
@@ -439,6 +443,8 @@ function sidebar_companies() {
                 curr_company = null;
                 table_body.innerHTML = original_table_body;
                 document.querySelector('nav[role="navigation"]').innerHTML = "";
+                history.replaceState(null, null, window.location.pathname);
+
             } else {
                 curr_company = company_name;
                 element.querySelector('span').style.background = selected_color;
@@ -471,7 +477,6 @@ function problemset_companies_premium() {
                 if (curr_freq) document.querySelector(`li.fx-freq-li[name="${curr_freq}"]`).style.background = "";
                 curr_freq = fxFreqLiElement.getAttribute('name');
                 fxFreqLiElement.style.background = selected_color;
-                curr_page = 1;
                 await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_id', order = 0);
             }
             document.removeEventListener("click", clickHandler);

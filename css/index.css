@@ -24,12 +24,42 @@ header {
 }
 
 .sidebar {
-    width: 250px;
     background-color: #444;
     color: #fff;
-    padding: 20px;
+    padding: 0px;
     overflow-y: auto;
+    width: 0;
+    overflow: hidden;
+    transition: 0.3s;
 }
+
+.sidebar-toggle-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    z-index: 1;
+    margin: 10px;
+    position: relative;
+    left: -20px;
+    top: -20px;
+}
+
+.sidebar.open {
+    width: 250px;
+}
+
+/**** pc devices ****/
+@media only screen and (min-width: 768px) {
+    .sidebar {
+        width: 250px;
+    }
+    .sidebar-toggle-button {
+        display: none;
+    }
+}
+
 
 .feature-list {
     list-style: none;
@@ -95,4 +125,17 @@ header {
 
 .hidden {
     display: none;
+}
+
+
+.download_chrome-webstore{
+    position: absolute;
+    bottom: 100px;
+    right: 200px;
+    width: 250px;
+    opacity: 0.6;
+}
+
+.download_chrome-webstore:hover{
+    opacity: 1;
 }

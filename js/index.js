@@ -7,6 +7,7 @@ function showFeature(tabname) {
     const selectedFeature = document.getElementById(tabname);
     if (selectedFeature) {
         selectedFeature.classList.remove('hidden');
+        document.querySelector('.sidebar').classList.toggle('open');
     }
 }
 
@@ -22,6 +23,13 @@ function initHandler() {
     if (window.location.href.startsWith('http')) {
         document.querySelector('.title-main').innerHTML = document.title;
     }
+
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
 }
 
 

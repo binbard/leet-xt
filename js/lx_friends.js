@@ -357,12 +357,17 @@ function lx_friends() {
         // console.log("NEXT PAGE");
         observer.observe(document.querySelector('#__next'), { childList: true, subtree: true });
     }
-    else if (appRoot) {
+    else if (appRoot || errorRoot) {
         // console.log("REACT PAGE");
-        addFriendsIconOnNavbar();
-    } else if (errorRoot) {
-        // console.log("ERROR PAGE");
-        addFriendsIconOnNavbar();
+        let jsTimer = setInterval(checkNavUpdate, 69);
+        function checkNavUpdate() {
+            let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
+            if (navbar_user_avatar) {
+                clearInterval(jsTimer);
+                addFriendsIconOnNavbar();
+            }
+        }
+        setTimeout(function () { clearInterval(jsTimer) }, 2000);
     }
 
     addFriendButton();

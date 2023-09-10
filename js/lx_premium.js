@@ -622,4 +622,5 @@ function lx_premium() {
     problemset_companies_premium();
 }
 
-lx_premium();
+
+// lx_premium();

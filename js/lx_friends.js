@@ -95,6 +95,8 @@ async function getUserDetails(username) {
 
         const responseData = await response.json();
 
+        if(responseData.errors && !responseData.data.matchedUser) return -1;
+
         const details = {
             username: username,
             avatar: responseData.data.matchedUser.profile.userAvatar,
@@ -111,14 +113,18 @@ async function getUserDetails(username) {
         // console.log(details);
         return details;
     } catch (error) {
-        console.error("Error fetching data:", username, error);
+        console.log("Error fetching data:", username, error);
         return null;
     }
 }
 
 async function createFriendRow(username, friends_rowgroup) {
 
-    let { name, avatar, rating, contests, problems_solved, easy, medium, hard, top } = await getUserDetails(username);
+    let user_data = await getUserDetails(username);
+    if (user_data == -1) {
+        removeFriend(username);
+    }
+    let { name, avatar, rating, contests, problems_solved, easy, medium, hard, top } = user_data;
 
     if (!name) name = username;
     else name = username + " (" + name + ")";
@@ -184,7 +190,7 @@ async function friendsPage(area) {
 
             updownAllHeaders(area);
 
-            if (asc) {                                                                        // currently in descending order
+            if (asc) {                                          // currently in descending order
                 fx_header_svg.innerHTML = up_arrow;             // change to ascending order
                 fx_header_svg.classList.remove('lx-down');
                 fx_header_svg.classList.add('lx-up');
@@ -287,20 +293,23 @@ function addFriendButton() {
 function addFriend(username, myfriends) {
     myfriends.push(username);
     browser.storage.local.set({ 'myfriends': myfriends }, function () {
-        console.log('ADDED FRIEND ' + myfriends);
+        // console.log('ADDED FRIEND ' + myfriends);
     });
 }
 
-function removeFriend(username, myfriends) {
-    myfriends = myfriends.filter(e => e !== username);
-    browser.storage.local.set({ 'myfriends': myfriends }, function () {
-        console.log('REMOVED FRIEND ' + myfriends);
+function removeFriend(username) {
+    browser.storage.local.get('myfriends', function (result) {
+        myfriends = result.myfriends;
+        myfriends = myfriends.filter(e => e !== username);
+        browser.storage.local.set({ 'myfriends': myfriends }, function () {
+            console.log('REMOVED FRIEND ' + myfriends);
+        });
     });
 }
 
 function clearFriends() {
     browser.storage.local.set({ 'myfriends': [] }, function () {
-        console.log('CLEARED FRIENDS');
+        // console.log('CLEARED FRIENDS');
     });
 }
 
@@ -347,6 +356,8 @@ function lx_friends() {
 
     // console.log("lx_friends");
 
+    handleFriendsPage();
+
     let nextRoot = document.querySelector('#__next');
     let appRoot = document.querySelector('#app');
     let errorRoot = document.querySelector('#navbar-root');
@@ -374,7 +385,5 @@ function lx_friends() {
 
 }
 
-handleFriendsPage();
 
-lx_friends();
-
+// lx_friends();

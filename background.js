@@ -19,7 +19,7 @@ browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         browser.storage.local.set({ 'activated': false }, function () {
             sendResponse({ success: true, message: 'Extension deactivated.' });
         });
-    } 
+    }
     else if (message.action === "clearFriends") {
         browser.storage.local.get('myfriends', function (data) {
             let friends_count = data.myfriends.length;
@@ -46,7 +46,7 @@ browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     } else if (message.action === "importFriends") {
         try {
             let friends = atob(message.friends).split(";");
-            let regex = /^[a-zA-Z0-9;]+$/;
+            let regex = /^[a-zA-Z0-9;_\-]+$/;
             if (!regex.test(friends.join(""))) {
                 sendResponse({ success: false, message: friends.join(" ") + "Invalid users." });
                 return;

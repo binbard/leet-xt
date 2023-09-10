@@ -4,8 +4,6 @@ const people_light_svg = '<svg id="lx-people-light" width="0.8em" height="1em" v
 const friend_table_html = '<table id="fx-friend-table" class="table table-hover table-striped"><thead><tr><th>Rank</th><th>Name</th><th>Score</th><th>Old Rating</th><th>Δ</th><th>New Rating</th></tr></thead><tbody><tr><td>1</td><td>Neal Wu</td><td>18</td><td>3559</td><td>32</td><td>3575</td></tr><tr><td>2</td><td>JOHN KRAM</td><td>18</td><td>3459</td><td>12</td><td>3475</td></tr></tbody></table>';
 
 
-const browser = chrome || browser;
-
 function toggleFriendMode() {
     let table_container = document.querySelector('.table-responsive');
     
@@ -109,7 +107,6 @@ async function getUserContestDetails(username) {
 function setContestFriends() {
     let friend_table = document.querySelector('#fx-friend-table');
     let friend_table_body = friend_table.querySelector('tbody');
-    let url = "https://leetcode.com/"
     friend_table_body.innerHTML = "";
     let friend_list = [];
     browser.storage.local.get(['myfriends'], async function (result) {
@@ -148,7 +145,7 @@ function setContestFriends() {
         }
         for (let friend of friend_list) {
             let row = document.createElement('tr');
-            row.innerHTML = `<td>${friend.rank}</td><td><a href="url${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating == "N/A" ? "" : parseInt(friend.old_rating)}</td><td>${friend.delta_rating == "N/A" ? "" : parseInt(friend.delta_rating)}</td><td>${friend.new_rating == "N/A" ? "" : parseInt(friend.new_rating)}</td>`;
+            row.innerHTML = `<td>${friend.rank}</td><td><a href="/${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating == "N/A" ? "" : parseInt(friend.old_rating)}</td><td>${friend.delta_rating == "N/A" ? "" : parseInt(friend.delta_rating)}</td><td>${friend.new_rating == "N/A" ? "" : parseInt(friend.new_rating)}</td>`;
             friend_table_body.appendChild(row);
         }
     });
@@ -163,4 +160,5 @@ function lx_contest() {
     observer.observe(document.querySelector("#contest-app"), { childList: true, subtree: true });
 }
 
-lx_contest();
+
+// lx_contest();

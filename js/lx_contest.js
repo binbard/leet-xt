@@ -8,7 +8,8 @@ const browser = chrome || browser;
 
 function toggleFriendMode() {
     let table_container = document.querySelector('.table-responsive');
-
+    
+    if(!table_container) return;        // prob on future on contest page
     let original_table = table_container.querySelector('#fx-ranking-table');
     let friend_table = table_container.querySelector('#fx-friend-table');
 
@@ -113,17 +114,21 @@ function setContestFriends() {
     let friend_list = [];
     browser.storage.local.get(['myfriends'], async function (result) {
         let myfriends = result.myfriends;
-        let f = 1;
-        if(!myfriends){
-            console.log("No friends found");
-            return;
-        }
+        let loaded = 1;
+        let contest_not_found = false;
+
+        if (!myfriends) myfriends = [];
+
         for (let friend of myfriends) {
             // friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${f++} of ${myfriends.length}</td></tr>`;
-            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(f++ / myfriends.length * 100)}%</td></tr>`;
+            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(loaded++ / myfriends.length * 100)}%</td></tr>`;
             let row = document.createElement('tr');
             let user_contest_details = await getUserContestDetails(friend);
             if (user_contest_details == null) continue;
+            if (user_contest_details.details && user_contest_details.details.startsWith('contest not found')) {
+                contest_not_found = true;
+                break;
+            }
             user_contest_details.username = friend;
             friend_list.push(user_contest_details);
         }
@@ -134,6 +139,13 @@ function setContestFriends() {
             return parseInt(a.rank) - parseInt(b.rank);
         });
         friend_table_body.innerHTML = "";
+        if (friend_list.length == 0) {
+            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No friend added</td></tr>`;
+            return;
+        } else if (contest_not_found) {
+            friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No data available</td></tr>`;
+            return;
+        }
         for (let friend of friend_list) {
             let row = document.createElement('tr');
             row.innerHTML = `<td>${friend.rank}</td><td><a href="url${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating == "N/A" ? "" : parseInt(friend.old_rating)}</td><td>${friend.delta_rating == "N/A" ? "" : parseInt(friend.delta_rating)}</td><td>${friend.new_rating == "N/A" ? "" : parseInt(friend.new_rating)}</td>`;

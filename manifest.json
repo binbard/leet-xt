@@ -9,6 +9,7 @@
         "32": "/icons/logo_32.png",
         "16": "/icons/logo_16.png"
     },
+    "options_page": "all_features.html",
     "background": {
         "service_worker": "background.js"
     },

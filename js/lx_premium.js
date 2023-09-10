@@ -59,6 +59,7 @@ async function setSolution() {
     // let editorial_area = document.querySelector('.backdrop-blur-sm.bg-blocker');
     if (editorial_area == null) return;
     editorial_area.innerHTML = "";
+    editorial_area.id = "lx-editorial";
 
     let qno = await getQno(window.location.pathname.split("/")[2]);
     qno = parseInt(qno) + 1;
@@ -70,8 +71,10 @@ async function setSolution() {
         .then(data => {
             if (!data.values || !data.values[0]) return;
             editorial_area.innerHTML = data.values[0][0];
+            editorial_area.style.padding = "1rem";
+            editorial_area.style.width = "90vw";
         }).catch(error => {
-            console.error("Error fetching data:", error);
+            console.log("Error fetching data:", error);
             editorial_area.innerHTML = "Something went wrong!";
         });
 }

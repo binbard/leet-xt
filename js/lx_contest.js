@@ -114,6 +114,10 @@ function setContestFriends() {
     browser.storage.local.get(['myfriends'], async function (result) {
         let myfriends = result.myfriends;
         let f = 1;
+        if(!myfriends){
+            console.log("No friends found");
+            return;
+        }
         for (let friend of myfriends) {
             // friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${f++} of ${myfriends.length}</td></tr>`;
             friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(f++ / myfriends.length * 100)}%</td></tr>`;

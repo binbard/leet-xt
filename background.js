@@ -1,7 +1,26 @@
 let browser = chrome || browser;
 
+browser.runtime.onInstalled.addListener(function () {
+    browser.storage.local.set({ 'activated': true }, function () {
+        console.log('Extension activated.');
+    });
+});
+
 browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.action === "clearFriends") {
+    if (message.action === "isActivated") {
+        browser.storage.local.get('activated', function (data) {
+            sendResponse({ activated: data.activated });
+        });
+    } else if (message.action === "activateExtension") {
+        browser.storage.local.set({ 'activated': true }, function () {
+            sendResponse({ success: true, message: 'Extension activated.' });
+        });
+    } else if (message.action === "deactivateExtension") {
+        browser.storage.local.set({ 'activated': false }, function () {
+            sendResponse({ success: true, message: 'Extension deactivated.' });
+        });
+    } 
+    else if (message.action === "clearFriends") {
         browser.storage.local.get('myfriends', function (data) {
             let friends_count = data.myfriends.length;
             if (friends_count > 0) {
@@ -29,7 +48,7 @@ browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             let friends = atob(message.friends).split(";");
             let regex = /^[a-zA-Z0-9;]+$/;
             if (!regex.test(friends.join(""))) {
-                sendResponse({ success: false, message: friends.join(" ")+ "Invalid users." });
+                sendResponse({ success: false, message: friends.join(" ") + "Invalid users." });
                 return;
             }
             browser.storage.local.set({ 'myfriends': friends }, function () {

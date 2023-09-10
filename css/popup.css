@@ -34,11 +34,18 @@ h3 {
     transition: background-color 0.2s ease-in;
 }
 
-#activateExt{
+#activateExt {
     width: 60px;
     height: 60px;
     margin: 10px auto;
     cursor: pointer;
+}
+
+#activateExt path {
+    stroke: "#a4a4a4";
+}
+#activateExt path.active {
+    stroke: "#007bff";
 }
 
 

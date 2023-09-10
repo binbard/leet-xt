@@ -40,6 +40,60 @@ function addClickHandlers() {
         });
     });
 
+    let activateExtBtn = document.getElementById("activateExt");
+    activateExtBtn.addEventListener("click", function (e) {
+        activateExtBtn.querySelector('path').setAttribute('stroke', '#a4a4a4');
+        // chrome.runtime.sendMessage({ action: "activateExtension" }, function (response) {
+        //     // alert(response.message);
+        //     openModal(response.message);
+        // });
+    });
+
+    let exportFriendsBtn = document.getElementById("exportFriends");
+    exportFriendsBtn.addEventListener("click", function (e) {
+        chrome.runtime.sendMessage({ action: "exportFriends" }, function (response) {
+            if (!response.success) {
+                openModal(response.message);
+                return;
+            }
+
+            my_friends = btoa(response.message);
+            let blob = new Blob([my_friends], { type: "text/plain;charset=utf-8" });
+            let date = new Date();
+            let filename = "lc-friends-" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + ".txt";
+
+            chrome.downloads.download({
+                url: URL.createObjectURL(blob),
+                filename: filename
+            }, function (downloadId) {
+                if (!downloadId) {
+                    openModal("Download failed.");
+                }
+            });
+
+        });
+    });
+
+
+    let importFriendsBtn = document.getElementById("importFriends");
+    let usersFileInput = document.getElementById("usersFileInput");
+
+    importFriendsBtn.addEventListener("click", function (e) { usersFileInput.click() });
+
+    usersFileInput.addEventListener("change", function (e) {
+        if(usersFileInput.files.length == 0) return;
+        let file = usersFileInput.files[0];
+        let reader = new FileReader(file);
+        reader.onload = function (e) {
+            let friends = e.target.result;
+            chrome.runtime.sendMessage({ action: "importFriends", friends: friends }, function (response) {
+                openModal(response.message);
+            });
+        };
+        reader.readAsText(file);
+    });
+
 }
+
 
 addClickHandlers();

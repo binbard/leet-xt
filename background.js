@@ -6,6 +6,26 @@ browser.runtime.onInstalled.addListener(function () {
     });
 });
 
+async function isUserExist(username) {
+    const url = "https://leetcode.com/graphql";
+    const query = `{
+        "query": "query userPublicProfile($username: String!) { matchedUser(username: $username) { username } } ",
+        "variables": {
+            "username": "${username}"
+        },
+        "operationName": "userPublicProfile"
+    } `;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: query,
+    });
+    const data = await response.json();
+    return data.data.matchedUser !== null;
+}
+
 browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === "isActivated") {
         browser.storage.local.get('activated', function (data) {
@@ -51,8 +71,35 @@ browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 sendResponse({ success: false, message: friends.join(" ") + "Invalid users." });
                 return;
             }
-            browser.storage.local.set({ 'myfriends': friends }, function () {
-                sendResponse({ success: true, message: friends.length + ' Friend(s) imported successfully.' });
+            friends = [...new Set(friends)];
+            if (friends.length > 50) {
+                sendResponse({ success: false, message: "You can only add upto 50 friends, ensuring an inclusive and sustainable experience for everyone!" });
+                return;
+            }
+            let invalid_users = [];
+            let valid_users = [];
+            let promises = friends.map(async username => {
+                const user_exists = await isUserExist(username);
+                if (user_exists) {
+                    valid_users.push(username);
+                } else {
+                    invalid_users.push(username);
+                }
+            });
+
+            Promise.all(promises).then(() => {
+                friends = valid_users;
+                if (friends.length == 0 && invalid_users.length > 0) {
+                    sendResponse({ success: false, message: "No valid users to import." });
+                    return;
+                }
+                browser.storage.local.set({ 'myfriends': friends }, function () {
+                    if (invalid_users.length > 0) {
+                        sendResponse({ success: true, message: friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" ") });
+                    } else {
+                        sendResponse({ success: true, message: friends.length + ' Friend(s) imported successfully.' });
+                    }
+                });
             });
         } catch (e) {
             sendResponse({ success: false, message: "Invalid file." });

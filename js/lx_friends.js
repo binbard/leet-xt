@@ -173,6 +173,10 @@ async function friendsPage(area) {
         console.log(myfriends)
 
         let friends_rowgroup = document.querySelector('#friends-rowgroup');
+        if(myfriends.length == 0) {
+            friends_rowgroup.innerHTML = '<div class="text-center text-gray-5 dark:text-dark-gray-5">No Friends Added</div>';
+            return;
+        }
         for (let i = 0; i < myfriends.length; i++) {
             let username = myfriends[i];
             createFriendRow(username, friends_rowgroup);
@@ -269,6 +273,8 @@ function addFriendButton() {
         let name_box = document.querySelector(".text-label-1.break-all.text-base.font-semibold");
         if (name_box) {
             clearInterval(jsTimer);
+            if(name_box.classList.contains("done")) return;
+            name_box.classList.add("done");
 
             // name_box.innerHTML = name_box.innerHTML + "&nbsp;" + "☆⭐";
             let name_box_gp = name_box.parentElement.parentElement;
@@ -330,7 +336,7 @@ function toggleFriend(loading = 0) {
             myfriends = [];
         }
         if (loading == 1) {
-            console.log(myfriends)
+            // console.log(myfriends)
             if (myfriends.includes(username)) {         // User is Friend
                 star_path.style.fill = friend_color;
             } else {                                    // User is not Friend

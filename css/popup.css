@@ -4,7 +4,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    min-width: 300px;
+    min-width: 310px;
+    max-width: 310px;
 }
 
 h3 {

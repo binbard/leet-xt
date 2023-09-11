@@ -607,6 +607,7 @@ function problemset_companies_premium() {
                 if (curr_freq) document.querySelector(`li.fx-freq-li[name="${curr_freq}"]`).style.background = "";
                 curr_freq = fxFreqLiElement.getAttribute('name');
                 fxFreqLiElement.style.background = selected_color;
+                curr_page = 1;
                 await createProblemsTable(curr_company, curr_freq, sort_by = 'problem_id', order = 0);
             }
             document.removeEventListener("click", clickHandler);

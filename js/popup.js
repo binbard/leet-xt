@@ -104,7 +104,7 @@ function addClickHandlers() {
 
     let exploreFeaturesBtn = document.getElementById("exploreFeatures");
     exploreFeaturesBtn.addEventListener("click", function (e) {
-        browser.runtime.openOptionsPage();
+        browser.tabs.create({ active: true, url: browser.runtime.getURL("index.html") });
     });
 
 }

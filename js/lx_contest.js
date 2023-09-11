@@ -6,8 +6,8 @@ const friend_table_html = '<table id="fx-friend-table" class="table table-hover 
 
 function toggleFriendMode() {
     let table_container = document.querySelector('.table-responsive');
-    
-    if(!table_container) return;        // prob on future on contest page
+
+    if (!table_container) return;        // prob on future on contest page
     let original_table = table_container.querySelector('#fx-ranking-table');
     let friend_table = table_container.querySelector('#fx-friend-table');
 
@@ -42,10 +42,11 @@ function toggleFriendMode() {
     }
 }
 
-function addContestFriendIcon(mutation, observer) {
-    observer.disconnect();
-    let contest_header = document.querySelector('.ranking-title-wrapper');
-    if (contest_header == null) return;
+function addContestFriendIcon() {
+    let contest_header = document.querySelector('.ranking-title-wrapper');      // on ranking page
+    if (!contest_header) return;
+    if (document.querySelector('#lx-people-mode')) return;
+
     let div = document.createElement('div');
     div.id = "lx-people-mode";
     div.style = "cursor: pointer; margin-left: 10px; padding-top: 2px;";
@@ -154,7 +155,7 @@ function setContestFriends() {
 function lx_contest() {
     // console.log("lx_contest");
     let path = window.location.pathname;
-    if (!(path.startsWith('/contest/weekly-contest-') || path.startsWith('/contest/biweekly-contest-')) || !path.endsWith('/ranking/')) return;
+    if (!(path.startsWith('/contest/'))) return;
 
     let observer = new MutationObserver(addContestFriendIcon);
     observer.observe(document.querySelector("#contest-app"), { childList: true, subtree: true });

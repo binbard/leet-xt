@@ -236,7 +236,7 @@ let curr_freq = 'All time';
 let curr_page = 1;
 let original_table_body = null;
 
-function fetchCompanyProbleRanges() {
+function fetchCompanyProblemRanges() {
     let link = "https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs";
 
     fetch(link)
@@ -277,7 +277,7 @@ async function fetchCompanyProblems(company_name) {
 async function setLcProblemData(problem_slug) {
     if (!lcProblems[problem_slug]) {
         let link = `https://leetcode.com/graphql`;
-        // stats is of form:
+        // sample stats
         // "stats": "{\"totalAccepted\": \"10.7M\", \"totalSubmission\": \"21.2M\", \"totalAcceptedRaw\": 10724726, \"totalSubmissionRaw\": 21200234, \"acRate\": \"50.6%\"}",
         let data = {
             query: `query questionData($titleSlug: String!) {
@@ -583,9 +583,14 @@ function sidebar_companies() {
 }
 
 function problemset_companies_premium() {
-    if (!window.location.pathname.startsWith("/problemset/all")) return;
+    // if (!window.location.pathname.startsWith("/problemset/all")) return;
 
-    fetchCompanyProbleRanges();
+    let sidebar_comp = document.querySelector('.swiper-slide a.mb-4.mr-3');
+    if (!sidebar_comp) return;
+    if(document.querySelector("div.fx-sidebar-comp-done")) return;
+    sidebar_comp.parentElement.classList.add("fx-sidebar-comp-done");
+
+    fetchCompanyProblemRanges();
 
     let frequency_col = document.querySelector('[role="columnheader"]:nth-of-type(6)');
     frequency_col.innerHTML = frequency_col_html
@@ -622,7 +627,9 @@ function problemset_companies_premium() {
 function lx_premium() {
     // console.log("lx_premium");
     problem_premium();
-    problemset_companies_premium();
+
+    let observer = new MutationObserver(problemset_companies_premium);
+    if (document.querySelector("#__next")) observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
 }
 
 

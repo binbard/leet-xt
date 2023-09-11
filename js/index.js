@@ -21,7 +21,10 @@ function addClickHandlers() {
 
 function initHandler() {
     if (window.location.href.startsWith('http')) {
-        document.querySelector('.title-main').innerHTML = document.title;
+        document.querySelector('.title').innerHTML = document.title;
+        document.querySelectorAll('.web').forEach((el) => {
+            el.classList.remove('hidden');
+        });
     }
 
     const sidebar = document.querySelector('.sidebar');

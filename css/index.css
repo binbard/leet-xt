@@ -17,6 +17,39 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.logo{
+    float: left;
+}
+
+.title{
+    display: inline;
+    color: #ff8c00;
+}
+
+.github-a svg{
+    display: inline;
+    position: relative;
+    top: 0.2em;
+    left: 1em;
+    border-radius: 50%;
+}
+
+.github-a svg:hover{
+    color: #ff8c00;
+}
+
+.desc{
+    position: relative;
+    left: 0.5em;
+    color: #cbcbcb;
+}
+
+/* e0e0de */
+
+.github-svg rect{
+    fill: #fea014;
+}
+
 .container {
     flex: 1;
     display: flex;
@@ -130,12 +163,24 @@ header {
 
 .download_chrome-webstore{
     position: absolute;
-    bottom: 100px;
-    right: 200px;
+    bottom: 10vh;
+    right: 5vw;
     width: 250px;
     opacity: 0.6;
 }
 
 .download_chrome-webstore:hover{
     opacity: 1;
+}
+
+/**** mobile devices ****/
+@media only screen and (max-width: 768px) {
+    .download_chrome-webstore{
+        bottom: 5vh;
+        right: 5vw;
+        width: 150px;
+    }
+    .content{
+        padding-bottom: 20vw;
+    }
 }

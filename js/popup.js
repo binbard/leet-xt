@@ -110,6 +110,10 @@ function addClickHandlers() {
 }
 
 function initHandlers() {
+    let manifestData = browser.runtime.getManifest();
+    document.getElementById("fx-title").textContent = manifestData.name + " v" + manifestData.version;
+    document.getElementById("fx-desc").textContent = manifestData.description;
+
     browser.runtime.sendMessage({ action: "isActivated" }, function (response) {
         if (!response.activated) {
             let activateExtBtn = document.getElementById("activateExt");

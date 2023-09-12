@@ -1,5 +1,5 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "Leet Xt",
     "version": "0.2.7",
     "description": "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
@@ -14,7 +14,7 @@
             "background.js"
         ]
     },
-    "action": {
+    "browser_action": {
         "default_popup": "popup.html"
     },
     "content_scripts": [
@@ -32,9 +32,6 @@
                 "css/lx.css"
             ]
         }
-    ],
-    "host_permissions": [
-        "https://leetcode.com/*"
     ],
     "permissions": [
         "downloads",

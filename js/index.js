@@ -21,7 +21,7 @@ function addClickHandlers() {
 
 function initHandler() {
     if (window.location.href.startsWith('http')) {
-        document.querySelector('.title').innerHTML = document.title;
+        document.querySelector('h1.title').innerHTML = document.title;
         document.querySelectorAll('.web').forEach((el) => {
             el.classList.remove('hidden');
         });

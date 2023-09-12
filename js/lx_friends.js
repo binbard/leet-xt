@@ -14,17 +14,14 @@ const updown_arrow = '<path d="M18.695 9.378L12.83 3.769a1.137 1.137 0 00-.06-.0
 function addFriendsIconOnNavbar() {
     // console.log("ADD FRIEND ICON")
 
-    if (document.querySelector('#friends-icon')) return;
-
     let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
-    if (!navbar_user_avatar) return;
-    // console.log("ADDED")
+    if (!navbar_user_avatar || navbar_user_avatar.classList.contains('done')) return;
+    navbar_user_avatar.classList.add('done');
 
-    var a = document.createElement('a');
-    a.id = 'friends-icon';
+    let a = document.createElement('a');
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');
     a.innerHTML = people_icon_svg;
-    var svg = a.querySelector('svg');
+    let svg = a.querySelector('svg');
     svg.setAttribute('class', 'h-[20px] w-[20px] group-hover:text-text-primary dark:group-hover:text-dark-text-primary text-text-secondary dark:text-dark-text-secondary');
     svg.width = '1em';
     svg.height = '1em';
@@ -95,7 +92,7 @@ async function getUserDetails(username) {
 
         const responseData = await response.json();
 
-        if(responseData.errors && !responseData.data.matchedUser) return -1;
+        if (responseData.errors && !responseData.data.matchedUser) return -1;
 
         const details = {
             username: username,
@@ -173,7 +170,7 @@ async function friendsPage(area) {
         console.log(myfriends)
 
         let friends_rowgroup = document.querySelector('#friends-rowgroup');
-        if(myfriends.length == 0) {
+        if (myfriends.length == 0) {
             friends_rowgroup.innerHTML = '<div class="text-center text-gray-5 dark:text-dark-gray-5">No Friends Added</div>';
             return;
         }
@@ -273,7 +270,7 @@ function addFriendButton() {
         let name_box = document.querySelector(".text-label-1.break-all.text-base.font-semibold");
         if (name_box) {
             clearInterval(jsTimer);
-            if(name_box.classList.contains("done")) return;
+            if (name_box.classList.contains("done")) return;
             name_box.classList.add("done");
 
             // name_box.innerHTML = name_box.innerHTML + "&nbsp;" + "☆⭐";

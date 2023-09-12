@@ -1,15 +1,28 @@
-var browser = chrome || browser;
+function handleNextPage() {
+    addFriendsIconOnNavbar();
+    const nextPage = nextPageType();
+    if (nextPage === 'friends') handleFriendsPage();
+    else if (nextPage === 'profile') addFriendButton();
+    else if (nextPage === 'problem') problem_premium();
+    else if (nextPage === 'problemset') problemset_companies_premium();
+}
 
 
-function lx() {
-    
-    browser.storage.local.get('activated', function (data) {
-        if (data.activated) {
-            lx_contest();
-            lx_friends();
-            lx_premium();
-        }
-    });
+async function lx() {
+
+    if (!await isActivated()) return;
+
+    let x = document.querySelector('#leetcode-navbar');
+    x = x || document.querySelector('#navbar-root');
+    if (x) mutObserve(x, addFriendsIconOnNavbar)
+
+    if (document.querySelector('#__next')) {
+        handleNextPage();
+        mutObserve(document.querySelector('title'), handleNextPage);
+    }
+    else if (x = document.querySelector('#contest-app')) mutObserve(x, addContestFriendIcon);
+    if (x = document.querySelector('#app')) mutObserve(x, addFriendsIconOnNavbar)
+
 }
 
 

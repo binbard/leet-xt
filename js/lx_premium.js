@@ -1,53 +1,24 @@
-const frequency_col_html = '<div class="flex items-center justify-between hover:text-text-primary dark:hover:text-dark-text-primary cursor-pointer"><span class="flex items-center focus:outline-none" id="fx-freq-button">Frequency<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="ml-1 h-[14px] w-[14px]"><path fill-rule="evenodd" d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z" clip-rule="evenodd"></path></svg></span><ul id="fx-freq-menu" class="hidden flex flex-col absolute top-[296px] z-dropdown rounded-lg p-2 overflow-auto focus:outline-none text-sm shadow-level2 dark:shadow-dark-level2 bg-overlay-3 dark:bg-dark-overlay-3 transform opacity-100 scale-100" aria-labelledby="headlessui-menu-button-:R1mald5t6:" id="headlessui-menu-items-:rbm:" role="menu" tabindex="0" data-headlessui-state="open"><li id="fx-sort-li" class="sort_by_id" role="menuitem" tabindex="0" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">🡙 SORT 🡙</span></li><li name="6 months" class="fx-freq-li" role="menuitem" tabindex="1" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">6 Months</span></li><li name="1 year" class="fx-freq-li" role="menuitem" tabindex="2" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">1 Year</span></li><li name="2 years" class="fx-freq-li" role="menuitem" tabindex="3" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">2 Years</span></li><li name="All time" class="fx-freq-li" role="menuitem" tabindex="4" data-headlessui-state="" style="border-radius:5px"><div class="cursor-pointer select-none relative h-8 py-1.5 px-2 whitespace-nowrap hover:bg-fill-4 dark:hover:bg-dark-fill-4 rounded text-label-2 dark:text-dark-label-2 hover:text-label-2 dark:hover:text-dark-label-2 flex items-center"><span class="">All time</span></li></ul></div>';
-
-const prob_row_html = '<div role="row" style="display:flex;flex:1 0 auto;min-width:0" class="odd:bg-layer-1 even:bg-overlay-1 dark:odd:bg-dark-layer-bg dark:even:bg-dark-fill-4" problem-id="4" is-premium="false"><div role="cell" style="box-sizing:border-box;flex:52 0 auto;min-width:0;width:52px" class="mx-2 flex items-center py-[11px]"><span class="fx-prob-solved-status"><svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-1hwpjif"><path d="M21.6004 12C21.6004 17.302 17.3023 21.6 12.0004 21.6C6.69846 21.6 2.40039 17.302 2.40039 12C2.40039 6.69809 6.69846 2.40002 12.0004 2.40002C13.5066 2.40002 14.9318 2.74689 16.2004 3.3651M19.8004 6.00002L11.4004 14.4L9.00039 12" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></div><div role="cell" style="box-sizing:border-box;flex:260 0 auto;min-width:0;width:260px" class="mx-2 flex items-center py-[11px]"><div class="max-w-[302px] flex items-center overflow-hidden"><div class="overflow-hidden"><div class="flex items-center"><div class="truncate"><a href="/problems/median-of-two-sorted-arrays" class="h-5 hover:text-blue-s dark:hover:text-dark-blue-s fx-prob-ques">4. Median of Two Sorted Arrays</a></div></div></div></div></div><div role="cell" style="box-sizing:border-box;flex:54 0 auto;min-width:0;width:54px" class="mx-2 flex items-center py-[11px]"><a aria-label="solution" href="/problems/median-of-two-sorted-arrays/solution" class="truncate fx-prob-solution"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="text-blue dark:text-dark-blue h-5 w-5"><path d="M15.207 11.293a1 1 0 010 1.414l-3.5 3.5a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414L11 14.086l2.793-2.793a1 1 0 011.414 0z"></path><path d="M4 5a3 3 0 013-3h7.039a3 3 0 012.342 1.126l2.962 3.701A3 3 0 0120 8.702V19a3 3 0 01-3 3H7a3 3 0 01-3-3V5zm3-1a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V9h-3a2 2 0 01-2-2V4H7zm8 .6V7h1.92L15 4.6z"></path></svg></a></div><div role="cell" style="box-sizing:border-box;flex:100 0 auto;min-width:0;width:100px" class="mx-2 flex items-center py-[11px]"><span class="fx-prob-acceptance">37.3%</span></div><div role="cell" style="box-sizing:border-box;flex:84 0 auto;min-width:0;width:84px" class="mx-2 flex items-center py-[11px]"><span class="text-pink dark:text-dark-pink fx-prob-difficulty">Hard</span></div><div role="cell" style="box-sizing:border-box;flex:84 0 auto;min-width:0;width:84px" class="mx-2 flex items-center py-[11px]"><div class="flex h-full w-full flex-row items-center"><span class="h-2 flex-1 rounded-l-lg bg-fill-3 dark:bg-dark-fill-3" title="94%" style="border-bottom-right-radius:.5rem;overflow:hidden;border-top-right-radius:.5rem"><div class="inner-progressbar fx-prob-frequency" style="background-color:#62c555;width:94.4146%;height:.5rem;border-radius:.5rem"></div></span></div></div></div>';
-
-const svg_notac_html = '<svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-atp543"><path d="M18.0004 12C18.0004 14.9745 15.836 17.4434 12.9962 17.9178C12.4515 18.0088 12.0004 17.5523 12.0004 17V7.00002C12.0004 6.44774 12.4515 5.99129 12.9962 6.08228C15.836 6.55663 18.0004 9.02557 18.0004 12Z" stroke="currentColor" stroke-width="2.3"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M21.6004 12C21.6004 17.302 17.3023 21.6 12.0004 21.6C6.69846 21.6 2.40039 17.302 2.40039 12C2.40039 6.69809 6.69846 2.40002 12.0004 2.40002C17.3023 2.40002 21.6004 6.69809 21.6004 12Z" stroke="currentColor" stroke-width="2.3"></path></svg>';
-
-const svg_video_sol_html = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="text-purple dark:text-dark-purple h-5 w-5"><path d="M10 15.464v-3.927a.8.8 0 011.259-.656l2.805 1.964a.8.8 0 010 1.31l-2.805 1.964A.8.8 0 0110 15.464z"></path><path d="M7 4a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V9h-3a2 2 0 01-2-2V4H7zm8 .6V7h1.92L15 4.6zM4 5a3 3 0 013-3h7.039a3 3 0 012.342 1.126l2.962 3.701A3 3 0 0120 8.702V19a3 3 0 01-3 3H7a3 3 0 01-3-3V5z"></path></svg>';
-
-const company_tag_html = '<span data-tag="tagslug" class="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full text-label-3 dark:text-dark-label-3 bg-fill-3 dark:bg-dark-fill-3"><span class="max-w-[200px] overflow-hidden overflow-ellipsis font-medium text-label-2 dark:text-dark-label-2 lx-tagname">Google</span><span class="ml-1 rounded-full px-1.5 text-xs font-normal bg-brand-orange dark:bg-dark-brand-orange text-label-r dark:text-dark-label-r lx-tag-num">1208</span></span>';
-
-
 /*******   EDITORIAL PREMIUM    *******/
 
 let qno = null;
 async function getQno(qslug) {
-    if (qno) return qno;
-    try {
-        const url = "https://leetcode.com/graphql";
-        const data = {
-            query: `query questionTitle($titleSlug: String!) {
+    const data = {
+        query: `query questionTitle($titleSlug: String!) {
                 question(titleSlug: $titleSlug) {
                   questionId
                 }
               }
             `,
-            variables: {
-                "titleSlug": qslug
-            }
-        };
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        variables: {
+            "titleSlug": qslug
         }
+    };
 
-        let responseData = await response.json();
-        if (responseData.errors) return 2;
-        let qno = responseData.data.question.questionId;
-        return qno;
-    } catch (error) {
-        console.error("Error fetching data:", qslug, error);
-        return null;
-    }
+    const res = await makeRequest('https://leetcode.com/graphql', data);
+
+    if (res.errors) return 2;
+    let qno = res.data.question.questionId;
+    return qno;
 }
 
 async function setSolution() {
@@ -104,7 +75,8 @@ async function getProblemInfo() {
     let qslug = window.location.pathname.split("/")[2];
     if (problem_info_data) return problem_info_data;
     let url = 'https://zerotrac.github.io/leetcode_problem_rating/data.json';
-    let data = await fetch(url).then(response => response.json());
+    // let data = await fetch(url).then(response => response.json());
+    let data = await makeRequest(url);
     /* Sample data:
     [
         {
@@ -134,7 +106,7 @@ async function getProblemInfo() {
 
 async function getCompanyTagsMap() {
     let url = 'https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs';
-    let data = await fetch(url).then(response => response.json());
+    let data = await makeRequest(url);
     if (!data.values || !data.values[0]) return null;
     data.values.shift();
     let company_tags_map = {};
@@ -161,7 +133,7 @@ async function getCompanyTags() {
     if (!range) return null;
     // console.log(range)
     let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
-    let data = await fetch(url).then(response => response.json());
+    let data = await makeRequest(url);
     if (!data.values || !data.values[0]) return null;
     let company_tags = { '0 - 6 months': [], '6 months - 1 year': [], '1 year - 2 years': [] };
     data.values.forEach((row) => {
@@ -174,7 +146,7 @@ async function getCompanyTags() {
 async function showCompanyTags() {
     let company_tags_modal_title = document.querySelector('div.my-8 div.flex.py-4');
     if (!company_tags_modal_title) return;
-    if (company_tags_modal_title.name == "done") return;
+    if (company_tags_modal_title.name == "done" || !company_tags_modal_title.textContent.includes('Company Tags')) return;
     company_tags_modal_title.name = "done";
     let company_tags_modal_body = company_tags_modal_title.parentElement.querySelector('div.pb-6');
     company_tags_modal_body.innerHTML = "";
@@ -236,21 +208,16 @@ let curr_freq = 'All time';
 let curr_page = 1;
 let original_table_body = null;
 
-function fetchCompanyProblemRanges() {
+async function fetchCompanyProblemRanges() {
     let link = "https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs";
-
-    fetch(link)
-        .then(response => response.json())
-        .then(data => {
-            if (!data.values || !data.values[0]) return;
-            data.values.shift();
-            companyProblemRanges = new Map();
-            data.values.forEach((row) => {
-                companyProblemRanges.set(row[0], [row[1], row[2]]);
-            });
-        }).catch(error => {
-            console.error("Error fetching Company Problem Range", error);
-        });
+    
+    const data = await makeRequest(link);
+    if (!data.values || !data.values[0]) return;
+    data.values.shift();
+    companyProblemRanges = new Map();
+    data.values.forEach((row) => {
+        companyProblemRanges.set(row[0], [row[1], row[2]]);
+    });
 }
 
 async function fetchCompanyProblems(company_name) {
@@ -582,15 +549,15 @@ function sidebar_companies() {
     });
 }
 
-function problemset_companies_premium() {
+async function problemset_companies_premium() {
     // if (!window.location.pathname.startsWith("/problemset/all")) return;
 
     let sidebar_comp = document.querySelector('.swiper-slide a.mb-4.mr-3');
     if (!sidebar_comp) return;
-    if(document.querySelector("div.fx-sidebar-comp-done")) return;
+    if (document.querySelector("div.fx-sidebar-comp-done")) return;
     sidebar_comp.parentElement.classList.add("fx-sidebar-comp-done");
 
-    fetchCompanyProblemRanges();
+    await fetchCompanyProblemRanges();
 
     let frequency_col = document.querySelector('[role="columnheader"]:nth-of-type(6)');
     frequency_col.innerHTML = frequency_col_html
@@ -624,14 +591,3 @@ function problemset_companies_premium() {
     addSortingListeners();
 
 }
-
-function lx_premium() {
-    // console.log("lx_premium");
-    problem_premium();
-
-    let observer = new MutationObserver(problemset_companies_premium);
-    if (document.querySelector("#__next")) observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
-}
-
-
-// lx_premium();

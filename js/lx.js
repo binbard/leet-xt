@@ -1,7 +1,7 @@
-function handleNextPage() {
-    addFriendsIconOnNavbar();
+async function handleNextPage() {
+    await addFriendsIconOnNavbar();
     const nextPage = nextPageType();
-    if (nextPage === 'friends') handleFriendsPage();
+    if (nextPage === 'friends') await handleFriendsPage();
     else if (nextPage === 'profile') addFriendButton();
     else if (nextPage === 'problem') problem_premium();
     else if (nextPage === 'problemset') problemset_companies_premium();
@@ -17,7 +17,7 @@ async function lx() {
     if (x) mutObserve(x, addFriendsIconOnNavbar)
 
     if (document.querySelector('#__next')) {
-        handleNextPage();
+        await handleNextPage();
         mutObserve(document.querySelector('title'), handleNextPage);
     }
     else if (x = document.querySelector('#contest-app')) mutObserve(x, addContestFriendIcon);

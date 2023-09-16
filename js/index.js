@@ -27,6 +27,12 @@ function initHandler() {
         });
     }
 
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        document.querySelector('.firefox').classList.remove('hidden');
+    } else if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1){
+        document.querySelector('.chrome').classList.remove('hidden');
+    }
+
     const sidebar = document.querySelector('.sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
 

@@ -15,6 +15,9 @@
         ]
     },
     "browser_action": {
+        "default_icon": {
+            "32": "/icons/logo_32.png"
+        },
         "default_popup": "popup.html"
     },
     "content_scripts": [
@@ -23,6 +26,8 @@
                 "https://leetcode.com/*"
             ],
             "js": [
+                "js/lx_html.js",
+                "js/lx_utils.js",
                 "js/lx_contest.js",
                 "js/lx_premium.js",
                 "js/lx_friends.js",

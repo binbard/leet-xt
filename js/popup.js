@@ -46,12 +46,12 @@ function addClickHandlers() {
     let activateExtBtn = document.getElementById("activateExt");
     activateExtBtn.addEventListener("click", function (e) {
         if (activated) browser.runtime.sendMessage({ action: "deactivateExtension" }, function (response) {
-            console.log(response);
+            // console.log(response);
             activateExtBtn.querySelector('path').setAttribute('stroke', '#a4a4a4');
             activated = false;
         });
         else browser.runtime.sendMessage({ action: "activateExtension" }, function (response) {
-            console.log(response);
+            // console.log(response);
             activateExtBtn.querySelector('path').setAttribute('stroke', '#007bff');
             activated = true;
         });

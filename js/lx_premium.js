@@ -36,18 +36,14 @@ async function setSolution() {
     qno = parseInt(qno) + 1;
 
     let link = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/Problem!L${qno}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`
-
-    fetch(link)
-        .then(response => response.json())
-        .then(data => {
-            if (!data.values || !data.values[0]) return;
-            editorial_area.innerHTML = data.values[0][0];
-            editorial_area.style.padding = "1rem";
-            editorial_area.style.width = "90vw";
-        }).catch(error => {
-            console.log("Error fetching data:", error);
-            editorial_area.innerHTML = "Something went wrong!";
-        });
+    
+    let data = await makeRequest(link);
+    if (!data.values || !data.values[0]) return;
+    let solution = data.values[0][0];
+    if (!solution) return;
+    editorial_area.innerHTML = solution;
+    editorial_area.style.padding = "1rem";
+    editorial_area.style.width = "90vw";
 }
 
 let company_tags_data = null;
@@ -366,12 +362,12 @@ function getSortFunction(sort_by) {
 
 async function getCompanyProblems(company_name, duration, sort_by = 'problem_id') {
     if (!companyProblemRanges) {
-        console.log("Error fetching company problem ranges");
+        // console.log("Error fetching company problem ranges");
         return null;
     }
     await setCompanyProblemsData(company_name);
     if (!companyProblems[company_name]) {
-        console.log("Error fetching company problems X");
+        // console.log("Error fetching company problems X");
         return null;
     }
 
@@ -388,7 +384,7 @@ async function getCompanyProblems(company_name, duration, sort_by = 'problem_id'
         if (problem['problem_accepted'] == "x") {
             let lc_res = await getLcProblemData(problem['problem_slug']);
             if (!lc_res) {
-                console.log("Error fetching LC Problem Data");
+                // console.log("Error fetching LC Problem Data");
                 return null;
             }
             problem['problem_accepted'] = lc_res.status;
@@ -403,7 +399,7 @@ async function getCompanyProblems(company_name, duration, sort_by = 'problem_id'
 
 async function createProblemsTable(company_name, duration, sort_by = 'problem_id', order = 0) {
     if (!company_name) {
-        console.log("No company selected");
+        // console.log("No company selected");
         return;
     }
     let table_body = document.querySelector('[role="table"].border-spacing-0 [role="rowgroup"]');
@@ -413,7 +409,7 @@ async function createProblemsTable(company_name, duration, sort_by = 'problem_id
 
     let problems = await getCompanyProblems(company_name, duration);
     if (!problems) {
-        console.log("Error fetching company problems");
+        // console.log("Error fetching company problems");
         return;
     }
     table_body.innerHTML = "";
@@ -478,7 +474,7 @@ function managePagination() {
     }
 
     if (!companyProblems[curr_company]) {
-        console.log("Error fetching problems")
+        // console.log("Error fetching problems")
         return;
     }
     if (companyProblems[curr_company][curr_freq].length == 0) return;

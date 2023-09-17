@@ -37,7 +37,7 @@ async function makeRequest(url, data) {
         if (!response.ok) alert(update_message);
         return await response.json();
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return null;
     }
 }

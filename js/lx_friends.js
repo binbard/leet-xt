@@ -243,7 +243,7 @@ function toggleFriend(loading = 0) {
 
     let uname_box = document.querySelector("#uname-box");
     let username = uname_box.innerHTML;
-    console.log(username)
+    // console.log(username)
 
     browser.storage.local.get('myfriends', function (result) {
         myfriends = result.myfriends;

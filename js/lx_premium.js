@@ -36,7 +36,7 @@ async function setSolution() {
     qno = parseInt(qno) + 1;
 
     let link = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/Problem!L${qno}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`
-    
+
     let data = await makeRequest(link);
     if (!data.values || !data.values[0]) return;
     let solution = data.values[0][0];
@@ -71,7 +71,7 @@ async function getProblemInfo() {
     let qslug = window.location.pathname.split("/")[2];
     if (problem_info_data) return problem_info_data;
     let url = 'https://zerotrac.github.io/leetcode_problem_rating/data.json';
-    // let data = await fetch(url).then(response => response.json());
+
     let data = await makeRequest(url);
     /* Sample data:
     [
@@ -206,7 +206,7 @@ let original_table_body = null;
 
 async function fetchCompanyProblemRanges() {
     let link = "https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem_Map!A:C?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs";
-    
+
     const data = await makeRequest(link);
     if (!data.values || !data.values[0]) return;
     data.values.shift();
@@ -226,15 +226,11 @@ async function fetchCompanyProblems(company_name) {
     }
     let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/CompaniesProblem!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
 
-    await fetch(url).then(response => response.json())
-        .then(data => {
-            if (!data.values || !data.values[0]) return;
-            data.values.shift();
-            companyProblems[company_name] = data.values;
-        }).catch(error => {
-            console.error("Error fetching Company Problems", error);
-        }
-        );
+    const data = await makeRequest(url);
+    if (!data.values || !data.values[0]) return;
+    data.values.shift();
+    companyProblems[company_name] = data.values;
+
 }
 
 async function setLcProblemData(problem_slug) {
@@ -258,24 +254,14 @@ async function setLcProblemData(problem_slug) {
             }
         };
 
-        await fetch(link, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(response => response.json())
-            .then(data => {
-                if (!data.data) return;
-                let status = data.data.question.status;
-                let hasVideoSolution = data.data.question.solution;
-                let acRate = JSON.parse(data.data.question.stats).acRate;
-                if (hasVideoSolution) hasVideoSolution = hasVideoSolution.hasVideoSolution;
-                else hasVideoSolution = false;
-                lcProblems[problem_slug] = { status, hasVideoSolution, acRate };
-            }).catch(error => {
-                console.error("Error fetching LC Problem Data", error);
-            });
+        const res = await makeRequest(link, data);
+        if (res.errors) return;
+        let status = res.data.question.status;
+        let hasVideoSolution = res.data.question.solution;
+        let acRate = JSON.parse(res.data.question.stats).acRate;
+        if (hasVideoSolution) hasVideoSolution = hasVideoSolution.hasVideoSolution;
+        else hasVideoSolution = false;
+        lcProblems[problem_slug] = { status, hasVideoSolution, acRate };
     }
 }
 

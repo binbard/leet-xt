@@ -21,7 +21,7 @@ async function getQno(qslug) {
     return qno;
 }
 
-async function setSolution() {
+async function setEditorialSolution() {
     let editorial_lock_svg = document.querySelector('svg.h-16.text-brand-orange');
     if (!editorial_lock_svg) return;
 
@@ -49,16 +49,16 @@ async function setSolution() {
 let company_tags_data = null;
 let problem_info_data = null;
 
-function setFeatures() {
-    setSolution();
-    showCompanyTags();
+async function setFeatures() {
+    await setEditorialSolution();
+    await showCompanyTags();
 }
 
-function problem_premium() {
+async function problem_premium() {
     if (!window.location.pathname.startsWith("/problems/")) return;
 
-    getCompanyTags();
-    getProblemInfo();
+    await getCompanyTags();
+    await getProblemInfo();
 
     let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
@@ -70,7 +70,7 @@ function problem_premium() {
 async function getProblemInfo() {
     let qslug = window.location.pathname.split("/")[2];
     if (problem_info_data) return problem_info_data;
-    let url = 'https://zerotrac.github.io/leetcode_problem_rating/data.json';
+    let url = 'https://corsproxy.io/?https://zerotrac.github.io/leetcode_problem_rating/data.json';
 
     let data = await makeRequest(url);
     /* Sample data:
@@ -91,13 +91,7 @@ async function getProblemInfo() {
     let problem_info = data.find((problem) => {
         return problem.TitleSlug == qslug;
     });
-    if (!problem_info) {
-        // console.log("Problem info not found");
-        return problem_info_data = {};
-    } else {
-        problem_info_data = problem_info;
-    }
-    return problem_info_data;
+    return problem_info;
 }
 
 async function getCompanyTagsMap() {
@@ -126,7 +120,10 @@ async function getCompanyTags() {
     if (company_tags_data) return company_tags_data;
     let qslug = window.location.pathname.split("/")[2];
     let range = await getCompanyTagsMapRange(qslug);
-    if (!range) return null;
+    if (!range){
+        company_tags_data = {};
+        return company_tags_data
+    }
     // console.log(range)
     let url = `https://sheets.googleapis.com/v4/spreadsheets/1ilv8yYAIcggzTkehjuB_dsRI4LUxjkTPZz4hsBKJvwo/values/ProblemCompaniesTags!${range[0]}:${range[1]}?key=AIzaSyDDAE3rf1fjLGKM0FUHQeTcsmS6fCQjtDs`;
     let data = await makeRequest(url);
@@ -147,9 +144,6 @@ async function showCompanyTags() {
     let company_tags_modal_body = company_tags_modal_title.parentElement.querySelector('div.pb-6');
     company_tags_modal_body.innerHTML = "";
     company_tags_modal_body.style.minHeight = "30vh";
-    let company_tags = await getCompanyTags();
-    if (!company_tags) return;
-    // console.log(company_tags);
     let problem_info = await getProblemInfo();
     if (problem_info && problem_info.Rating) {
         let problem_rating = parseInt(problem_info.Rating);
@@ -160,9 +154,11 @@ async function showCompanyTags() {
         company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">Unrated</span></div><br>`;
     }
 
+    let company_tags = await getCompanyTags();
+    // console.log(company_tags);
     let keys = Object.keys(company_tags);
     if (keys.length == 0) {
-        company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">No company tags found for this problem</span></div><br>`;
+        company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">No company tags</span></div><br>`;
         return;
     }
     keys.forEach((key) => {

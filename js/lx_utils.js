@@ -22,7 +22,7 @@ function mutObserve(node, callback) {
     observer.observe(node, { childList: true, subtree: true })
 }
 
-async function makeRequest(url, data) {
+async function makeRequest(url, data, tag) {
     const method = data ? 'POST' : 'GET';
     data = data || {};
     try {
@@ -34,10 +34,15 @@ async function makeRequest(url, data) {
         }
         if (method === 'POST') config.body = JSON.stringify(data);
         const response = await fetch(url, config);
-        if (!response.ok) alert(update_message);
+        if (!response.ok){
+            tag = tag || response.statusText;
+            console.log("FAIL: " + tag);
+            return null;
+        }
         return await response.json();
     } catch (error) {
-        // console.log(error);
+        tag = tag || error;
+        console.log("ERROR: " + tag);
         return null;
     }
 }

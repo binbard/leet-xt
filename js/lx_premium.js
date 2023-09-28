@@ -146,7 +146,7 @@ async function showCompanyTags() {
     company_tags_modal_body.style.minHeight = "30vh";
     let problem_info = await getProblemInfo();
     if (problem_info && problem_info.Rating) {
-        let problem_rating = parseInt(problem_info.Rating);
+        let problem_rating = Math.round(problem_info.Rating);
         let problem_contest = problem_info.ContestID_en;
         let problem_contest_slug = problem_info.ContestSlug;
         company_tags_modal_body.innerHTML += `<div class="flex items-center justify-between px-2"><span class="text-label-2 dark:text-dark-label-2">Difficulty Rating: ${problem_rating}</span><a href="/contest/${problem_contest_slug}" class="text-blue dark:text-dark-blue">${problem_contest}</a></div><br>`;

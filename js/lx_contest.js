@@ -55,7 +55,11 @@ async function getUserContestDetails(username) {
     const proxy = "https://corsproxy.io/?";
     const url = proxy + "https://lccn.lbao.site/api/v1/contest-records/user";
     const contest_name = window.location.pathname.split("/")[2];
-    const res = await makeRequest(url + "?username=" + username + "&contest_name=" + contest_name);
+    const makeRequestPromise = makeRequest(url + "?username=" + username + "&contest_name=" + contest_name);
+    const timeoutPromise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(69), 25000, 'Request timed out');
+    });
+    const res = await Promise.race([makeRequestPromise, timeoutPromise]);
     /* SAMPLE RESULT DATA
             [
         {
@@ -80,15 +84,26 @@ async function getUserContestDetails(username) {
     ]*/
 
     if (!res) return null;
-    if(res == []) return 1;
+    if (res == []) return 1;
     if (res.detail && res.detail.startsWith('contest not found')) return -1;
+
+    if (res == 69) {
+        let user_contest_details = {
+            rank: "-",
+            score: "-",
+            old_rating: "-",
+            delta_rating: "-",
+            new_rating: "-",
+        }
+        return user_contest_details;
+    }
 
     let user_contest_details = {
         rank: res[0] ? res[0].rank : "N/A",
         score: res[0] ? res[0].score : "N/A",
-        old_rating: res[0] ? res[0].old_rating : "N/A",
-        delta_rating: res[0] ? res[0].delta_rating : "N/A",
-        new_rating: res[0] ? res[0].new_rating : "N/A",
+        old_rating: res[0] ? Math.round(res[0].old_rating) : "",
+        delta_rating: res[0] ? Math.round(res[0].delta_rating) : "",
+        new_rating: res[0] ? Math.round(res[0].new_rating) : "",
     }
     return user_contest_details;
 }
@@ -96,7 +111,7 @@ async function getUserContestDetails(username) {
 async function setContestFriends() {
     let friend_table = document.querySelector('#fx-friend-table');
     let friend_table_body = friend_table.querySelector('tbody');
-    friend_table_body.innerHTML = "";
+    friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading...</td></tr>`;
     let friend_list = [];
 
     const result = await browser.storage.local.get(['myfriends']);
@@ -108,8 +123,8 @@ async function setContestFriends() {
     if (!myfriends) myfriends = [];
 
     let promises = myfriends.map(async (friend) => {
-        friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(loaded / myfriends.length * 100)}%</td></tr>`;
-        let row = document.createElement('tr');
+        if (contest_not_found) return;
+        // friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading ${Math.round(loaded / myfriends.length * 100)}%</td></tr>`;
         let user_contest_details = await getUserContestDetails(friend);
         if (!user_contest_details) {
             error = true;
@@ -123,29 +138,31 @@ async function setContestFriends() {
         user_contest_details.username = friend;
         friend_list.push(user_contest_details);
         loaded++;
+        friend_list.sort((a, b) => {
+            if (a.rank == "N/A" && b.rank == "N/A") return 0;
+            if (a.rank == "-") return 1;
+            if (a.rank == "N/A") return 1;
+            if (b.rank == "N/A") return -1;
+            return a.rank - b.rank;
+        });
+        friend_table_body.innerHTML = "";
+        for (let friend of friend_list) {
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${friend.rank}</td><td><a href="/${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating}</td><td>${friend.delta_rating}</td><td>${friend.new_rating}</td>`;
+            friend_table_body.appendChild(row);
+        }
     });
     await Promise.all(promises);
 
-    friend_list.sort((a, b) => {
-        if (a.rank == "N/A" && b.rank == "N/A") return 0;
-        if (a.rank == "N/A") return 1;
-        if (b.rank == "N/A") return -1;
-        return parseInt(a.rank) - parseInt(b.rank);
-    });
-    friend_table_body.innerHTML = "";
     if (error) {
+        friend_table_body.innerHTML = "";
         friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>`;
-        alert(update_message);
-    } else
-    if (contest_not_found) {
+    } else if (contest_not_found) {
+        friend_table_body.innerHTML = "";
         friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No data available</td></tr>`;
     } else if (friend_list.length == 0) {
+        friend_table_body.innerHTML = "";
         friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No friend added</td></tr>`;
-    }
-    for (let friend of friend_list) {
-        let row = document.createElement('tr');
-        row.innerHTML = `<td>${friend.rank}</td><td><a href="/${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating == "N/A" ? "" : parseInt(friend.old_rating)}</td><td>${friend.delta_rating == "N/A" ? "" : parseInt(friend.delta_rating)}</td><td>${friend.new_rating == "N/A" ? "" : parseInt(friend.new_rating)}</td>`;
-        friend_table_body.appendChild(row);
     }
 
 }

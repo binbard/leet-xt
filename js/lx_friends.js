@@ -3,7 +3,7 @@ async function addFriendsIconOnNavbar() {
     let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
     if (!navbar_user_avatar || navbar_user_avatar.classList.contains('done')) return;
     navbar_user_avatar.classList.add('done');
-
+    
     let a = document.createElement('a');
     a.href = 'https://leetcode.com/friends/';
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');
@@ -91,7 +91,7 @@ async function addFriendRow(username, rowgroup) {
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
-    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : parseInt(rating); + "<span>&nbsp;</span>";
+    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating); + "<span>&nbsp;</span>";
     row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? "" : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved;
     row.querySelector('.lx-feasy').innerHTML = easy;

@@ -89,7 +89,7 @@ async function problem_premium() {
 async function getProblemInfo() {
     let qslug = window.location.pathname.split("/")[2];
     if (problem_info_data) return problem_info_data;
-    let url = 'https://corsproxy.io/?https://zerotrac.github.io/leetcode_problem_rating/data.json';
+    let url = 'https://corsproxy.org/?https://zerotrac.github.io/leetcode_problem_rating/data.json';
 
     let data = await makeRequest(url);
     /* Sample data:

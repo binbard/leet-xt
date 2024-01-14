@@ -3,7 +3,7 @@ async function addFriendsIconOnNavbar() {
     let navbar_user_avatar = document.querySelector('#navbar_user_avatar');
     if (!navbar_user_avatar || navbar_user_avatar.classList.contains('done')) return;
     navbar_user_avatar.classList.add('done');
-    
+
     let a = document.createElement('a');
     a.href = 'https://leetcode.com/friends/';
     a.setAttribute('class', 'group relative flex h-8 p-1 items-center justify-center rounded hover:bg-fill-3 dark:hover:bg-dark-fill-3');

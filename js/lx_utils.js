@@ -9,15 +9,16 @@ async function isActivated() {
 }
 
 function nextPageType() {
+    const url = window.location.href;
+
     if (document.title.startsWith('friends')) return 'friends';
     if (document.title.endsWith('LeetCode Profile')) return 'profile';
-    if (document.title.endsWith('Learning Platform')) return 'problem';
-    if (document.title.startsWith('Problems')) return 'problemset';
+    if(url.includes('/problems/')) return 'problem';
+    if(url.includes('/problemset/')) return 'problemset';
     return 'other';
 }
 
 function mutObserve(node, callback) {
-    if (!node) alert(update_message);
     const observer = new MutationObserver(callback);
     observer.observe(node, { childList: true, subtree: true })
 }

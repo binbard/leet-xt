@@ -7,6 +7,7 @@ async function handleNextPage() {
     else if (nextPage === 'problemset') problemset_companies_premium();
 }
 
+var ui_type = 'old';
 
 async function lx() {
 
@@ -17,6 +18,7 @@ async function lx() {
     if (x) mutObserve(x, addFriendsIconOnNavbar)
 
     if (document.querySelector('#__next')) {
+        ui_type = 'new';
         await handleNextPage();
         mutObserve(document.querySelector('title'), handleNextPage);
     }

@@ -13,8 +13,9 @@ async function addFriendsIconOnNavbar() {
     svg.setAttribute('class', 'h-[20px] w-[20px] group-hover:text-text-primary dark:group-hover:text-dark-text-primary text-text-secondary dark:text-dark-text-secondary');
     svg.setAttribute('fill', 'currentColor');
 
-    let profile_icon = navbar_user_avatar.parentElement.parentElement;
-    profile_icon.parentElement.insertBefore(a, profile_icon);
+    let nua_root = navbar_user_avatar.parentElement.parentElement;
+    if(ui_type == 'new') nua_root = nua_root.parentElement;
+    nua_root.parentElement.insertBefore(a, nua_root);
 }
 
 async function handleFriendsPage() {

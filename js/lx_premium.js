@@ -50,8 +50,25 @@ let company_tags_data = null;
 let problem_info_data = null;
 
 async function setFeatures() {
-    await setEditorialSolution();
+    addFriendsIconOnNavbar();
+    addCompaniesBtnListener();
     await showCompanyTags();
+    await setEditorialSolution();
+}
+
+function addCompaniesBtnListener() {
+    let btnCompanies = document.querySelector('div.flex.gap-1 .relative.inline-flex');
+    if (!btnCompanies || btnCompanies.classList.contains('done')) return;
+    btnCompanies.classList.add('done');
+    btnCompanies = btnCompanies.parentElement.lastChild;
+    btnCompanies.addEventListener('click', async function () {
+        let observer = new MutationObserver(showCompanyTags);
+        observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
+        setTimeout(() => observer.disconnect(), 200);
+
+        const interval = setInterval(showCompanyTags, 20);
+        setTimeout(() => clearInterval(interval), 100);
+    });
 }
 
 async function problem_premium() {
@@ -59,6 +76,8 @@ async function problem_premium() {
 
     await getCompanyTags();
     await getProblemInfo();
+
+    setTimeout(setFeatures, 500);
 
     let observer = new MutationObserver(setFeatures);
     observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
@@ -120,7 +139,7 @@ async function getCompanyTags() {
     if (company_tags_data) return company_tags_data;
     let qslug = window.location.pathname.split("/")[2];
     let range = await getCompanyTagsMapRange(qslug);
-    if (!range){
+    if (!range) {
         company_tags_data = {};
         return company_tags_data
     }

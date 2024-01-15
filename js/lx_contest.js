@@ -52,7 +52,7 @@ async function addContestFriendIcon() {
 }
 
 async function getUserContestDetails(username) {
-    const proxy = "https://corsproxy.org/?";
+    const proxy = "https://wandb-berm-1c80.public-antagonist-58.workers.dev/?";
     const url = proxy + "https://lccn.lbao.site/api/v1/contest-records/user";
     const contest_name = window.location.pathname.split("/")[2];
     const makeRequestPromise = makeRequest(url + "?username=" + username + "&contest_name=" + contest_name);

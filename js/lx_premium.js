@@ -52,22 +52,21 @@ let problem_info_data = null;
 async function setFeatures() {
     addFriendsIconOnNavbar();
     addCompaniesBtnListener();
-    await showCompanyTags();
+    await showCompanyTags();        // Only for non dynamic layout
     await setEditorialSolution();
 }
 
 function addCompaniesBtnListener() {
-    let btnCompanies = document.querySelector('div.flex.gap-1 .relative.inline-flex');
+    btnCompanies = document.querySelector('div.flex.gap-1 .relative.inline-flex');
     if (!btnCompanies || btnCompanies.classList.contains('done')) return;
     btnCompanies.classList.add('done');
-    btnCompanies = btnCompanies.parentElement.lastChild;
-    btnCompanies.addEventListener('click', async function () {
-        let observer = new MutationObserver(showCompanyTags);
-        observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
-        setTimeout(() => observer.disconnect(), 200);
+    btnCompanies = btnCompanies.parentElement;
+    if(btnCompanies.childElementCount == 4) btnCompanies = btnCompanies.lastChild.previousSibling;
+    else btnCompanies = btnCompanies.lastChild;
 
-        const interval = setInterval(showCompanyTags, 20);
-        setTimeout(() => clearInterval(interval), 100);
+    btnCompanies.addEventListener('click', async function () {
+        const interval = setInterval(showCompanyTags, 50);      // Only for dynamic layout
+        setTimeout(() => clearInterval(interval), 200);
     });
 }
 
@@ -77,10 +76,11 @@ async function problem_premium() {
     await getCompanyTags();
     await getProblemInfo();
 
-    setTimeout(setFeatures, 500);
+    let timer = setInterval(setFeatures, 100);
+    setTimeout(() => clearInterval(timer), 5000);
 
-    let observer = new MutationObserver(setFeatures);
-    observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
+    // let observer = new MutationObserver(setFeatures);
+    // observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });
 
 }
 
@@ -89,7 +89,9 @@ async function problem_premium() {
 async function getProblemInfo() {
     let qslug = window.location.pathname.split("/")[2];
     if (problem_info_data) return problem_info_data;
-    let url = 'https://corsproxy.org/?https://zerotrac.github.io/leetcode_problem_rating/data.json';
+    let proxy = "https://wandb-berm-1c80.public-antagonist-58.workers.dev/?";
+    let url = 'https://zerotrac.github.io/leetcode_problem_rating/data.json';
+    url = proxy + url;
 
     let data = await makeRequest(url);
     /* Sample data:

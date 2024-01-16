@@ -4,19 +4,19 @@
     "version": "0.3.6",
     "description": "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
     "icons": {
-        "128": "/icons/logo_128.png",
-        "48": "/icons/logo_48.png",
-        "32": "/icons/logo_32.png",
-        "16": "/icons/logo_16.png"
+        "128": "assets/icons/logo_128.png",
+        "48": "assets/icons/logo_48.png",
+        "32": "assets/icons/logo_32.png",
+        "16": "assets/icons/logo_16.png"
     },
     "background": {
         "scripts": [
-            "background.js"
+            "js/background.js"
         ]
     },
     "browser_action": {
         "default_icon": {
-            "32": "/icons/logo_32.png"
+            "32": "assets/icons/logo_32.png"
         },
         "default_popup": "popup.html"
     },

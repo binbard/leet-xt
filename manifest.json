@@ -13,7 +13,7 @@
         "service_worker": "js/background.js"
     },
     "action": {
-        "default_popup": "html/popup.html"
+        "default_popup": "p/popup.html"
     },
     "content_scripts": [
         {

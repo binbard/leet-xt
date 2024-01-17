@@ -4,7 +4,7 @@ import tempfile
 import sys
 import json
 
-items_to_zip = ['assets', 'css', 'html', 'js', 'index.html']
+items_to_zip = ['assets', 'css', 'p', 'js', 'index.html']
 
 manifest_firefox = 'manifest-firefox.json'
 manifest_chrome = 'manifest-chrome.json'

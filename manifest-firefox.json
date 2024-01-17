@@ -18,7 +18,7 @@
         "default_icon": {
             "32": "assets/icons/logo_32.png"
         },
-        "default_popup": "popup.html"
+        "default_popup": "p/popup.html"
     },
     "content_scripts": [
         {

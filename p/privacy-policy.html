@@ -156,20 +156,22 @@
 
     <h2 id="contact">Contact Us</h2>
 
-    <p>If you have any questions or concerns regarding this privacy policy, please contact us at: &nbsp; <span id="email"></span>.</p>
+    <p>If you have any questions or concerns regarding this privacy policy, please contact us at: &nbsp; <a id="email"></a></p>
 
     <footer>
         2024 Leet Xt. All rights reserved.
     </footer>
 
     <script>
-    function generateEmail() {
-        var username = "leet-xt";
-        var domain = "binbard.org";
-        var emailAddress = username + "@" + domain;
-        document.getElementById("email").innerHTML = emailAddress;
-    }
-    generateEmail();
+        function generateEmail() {
+            let username = "leet-xt";
+            let domain = "binbard.org";
+            let emailAddress = username + "@" + domain;
+            let a = document.getElementById("email");
+            a.innerHTML = emailAddress;
+            a.href = "mailto:" + emailAddress;
+        }
+        generateEmail();
     </script>
 
 

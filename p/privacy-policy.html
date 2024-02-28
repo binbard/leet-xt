@@ -163,14 +163,11 @@
     </footer>
 
     <script>
-    function generateEmailLink() {
+    function generateEmail() {
         var username = "leet-xt";
         var domain = "binbard.org";
-        var email = username + "@" + domain;
-        var mailtoLink = document.createElement('a');
-        mailtoLink.href = "mailto:" + email;
-        mailtoLink.textContent = email;
-        document.getElementById("email").appendChild(mailtoLink);
+        var emailAddress = username + "@" + domain;
+        document.getElementById("email").innerHTML = emailAddress;
     }
     generateEmail();
     </script>

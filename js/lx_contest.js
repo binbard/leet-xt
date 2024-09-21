@@ -1,14 +1,14 @@
 async function toggleFriendMode() {
-    let table_container = document.querySelector('.table-responsive');
+    let table_container = document.querySelector('#__next div.w-full div div.mx-auto.w-full.grow div div.relative.flex.w-full.justify-center div');
 
     if (!table_container) return;        // prob on future on contest page
     let original_table = table_container.querySelector('#fx-ranking-table');
     let friend_table = table_container.querySelector('#fx-friend-table');
 
-    let pagination_nav = document.querySelector('nav[class^="pagination-base"]');
+    let pagination_nav = document.querySelector('nav[role="navigation"');
 
     if (original_table == null) {           // friend_table will also be null
-        table_container.querySelector('table').id = "fx-ranking-table";
+        table_container.querySelector('.flex.flex-col.items-center').id = "fx-ranking-table";
         original_table = table_container.querySelector('#fx-ranking-table');
         original_table.style.display = "none";
 
@@ -34,20 +34,20 @@ async function toggleFriendMode() {
         friend_table.style.display = "none";
         original_table.style.display = "table";
         pagination_nav.style.display = "none";
-        pagination_nav.style.display = "block";
+        pagination_nav.style.display = "flex";
     }
 }
 
 async function addContestFriendIcon() {
-    let contest_header = document.querySelector('.ranking-title-wrapper');      // on ranking page
+    let contest_header = document.querySelector("#__next div.w-full div div.mx-auto.w-full.grow div a");      // on ranking page
     if (!contest_header) return;
     if (document.querySelector('#lx-people-mode')) return;
 
     let div = document.createElement('div');
     div.id = "lx-people-mode";
-    div.style = "cursor: pointer; margin-left: 10px; padding-top: 2px;";
+    div.style = "cursor: pointer; margin-left: 10px; padding-top: 2px;display:inline;";
     div.innerHTML = people_light_svg;
-    contest_header.appendChild(div);
+    contest_header.parentElement.appendChild(div);
     div.addEventListener('click', toggleFriendMode);
 }
 

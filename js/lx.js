@@ -5,6 +5,7 @@ async function handleNextPage() {
     else if (nextPage === 'profile') addFriendButton();
     else if (nextPage === 'problem') problem_premium();
     else if (nextPage === 'problemset') problemset_companies_premium();
+    else if (nextPage === 'contest_ranking') addContestFriendIcon();
 }
 
 var ui_type = 'old';
@@ -22,7 +23,7 @@ async function lx() {
         await handleNextPage();
         mutObserve(document.querySelector('title'), handleNextPage);
     }
-    else if (x = document.querySelector('#contest-app')) mutObserve(x, addContestFriendIcon);
+    // else if (x = document.querySelector('#contest-app')) mutObserve(x, addContestFriendIcon);
     if (x = document.querySelector('#app')) mutObserve(x, addFriendsIconOnNavbar)
 
 }

@@ -1,5 +1,5 @@
 async function toggleFriendMode() {
-    let table_container = document.querySelector('#__next div.w-full div div.mx-auto.w-full.grow div div.relative.flex.w-full.justify-center div');
+    let table_container = document.querySelector('.relative.flex.w-full.justify-center');
 
     if (!table_container) return;        // prob on future on contest page
     let original_table = table_container.querySelector('#fx-ranking-table');
@@ -8,7 +8,7 @@ async function toggleFriendMode() {
     let pagination_nav = document.querySelector('nav[role="navigation"');
 
     if (original_table == null) {           // friend_table will also be null
-        table_container.querySelector('.flex.flex-col.items-center').id = "fx-ranking-table";
+        table_container.querySelector('.relative.flex.w-full.flex-col').id = "fx-ranking-table";
         original_table = table_container.querySelector('#fx-ranking-table');
         original_table.style.display = "none";
 
@@ -38,8 +38,16 @@ async function toggleFriendMode() {
     }
 }
 
-async function addContestFriendIcon() {
-    let contest_header = document.querySelector("#__next div.w-full div div.mx-auto.w-full.grow div a");      // on ranking page
+var vContestTitleMutObserver = null;
+
+function addContestFriendIcon() {
+    let contest_header = document.querySelector('.mx-auto.w-full');
+    vContestTitleMutObserver = mutObserve(contest_header, addContestFriendIconAction);
+}
+
+async function addContestFriendIconAction() {
+    if (vContestTitleMutObserver) vContestTitleMutObserver.disconnect();
+    let contest_header = document.querySelectorAll('[href^="/contest"]')[1];      // on ranking page
     if (!contest_header) return;
     if (document.querySelector('#lx-people-mode')) return;
 
@@ -110,8 +118,8 @@ async function getUserContestDetails(username) {
 
 async function setContestFriends() {
     let friend_table = document.querySelector('#fx-friend-table');
-    let friend_table_body = friend_table.querySelector('tbody');
-    friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Loading...</td></tr>`;
+    let friend_table_body = friend_table.querySelector('#fx-friend-table-body');
+    friend_table_body.innerHTML = friend_table_body.children[0].outerHTML;
     let friend_list = [];
 
     const result = await browser.storage.local.get(['myfriends']);
@@ -145,10 +153,9 @@ async function setContestFriends() {
             if (b.rank == "N/A") return -1;
             return a.rank - b.rank;
         });
-        friend_table_body.innerHTML = "";
+        friend_table_body.innerHTML = friend_table_body.children[0].outerHTML;
         for (let friend of friend_list) {
-            let row = document.createElement('tr');
-            row.innerHTML = `<td>${friend.rank}</td><td><a href="/${friend.username}">${friend.username}</a></td><td>${friend.score}</td><td>${friend.old_rating}</td><td>${friend.delta_rating}</td><td>${friend.new_rating}</td>`;
+            let row = getRankingTableRow(friend.rank, friend.username, friend.score, friend.old_rating, friend.delta_rating, friend.new_rating);
             friend_table_body.appendChild(row);
         }
     });
@@ -156,13 +163,27 @@ async function setContestFriends() {
 
     if (error) {
         friend_table_body.innerHTML = "";
-        friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>`;
+        friend_table_body.innerHTML = getRankingTableRow('Error loading data');
     } else if (contest_not_found) {
         friend_table_body.innerHTML = "";
-        friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No data available</td></tr>`;
+        friend_table_body.innerHTML = getRankingTableRow('No data available');
     } else if (friend_list.length == 0) {
         friend_table_body.innerHTML = "";
-        friend_table_body.innerHTML = `<tr><td colspan="6" style="text-align: center;">No friend added</td></tr>`;
+        friend_table_body.innerHTML = getRankingTableRow('No friends added');
     }
 
+}
+
+function getRankingTableRow(rank = '', name = '', score = '', old_rating = '', delta_rating = '', new_rating = '') {
+    let row = document.querySelector('.fx-friend-table-row');
+    if (!row) return null;
+    row = row.cloneNode(true);
+    
+    row.querySelector('.row__rank').innerText = rank;
+    row.querySelector('.row__name').innerText = name;
+    row.querySelector('.row__score').innerText = score;
+    row.querySelector('.row__old-rating').innerText = old_rating;
+    row.querySelector('.row__delta-rating').innerText = delta_rating;
+    row.querySelector('.row__new-rating').innerText = new_rating;
+    return row;
 }

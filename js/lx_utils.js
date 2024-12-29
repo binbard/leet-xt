@@ -16,13 +16,14 @@ function nextPageType() {
     if(url.includes('/problems/')) return 'problem';
     if(url.includes('/problemset/')) return 'problemset';
     const contest_ranking_page_regex = /^https:\/\/leetcode\.com\/contest\/(weekly|biweekly)-contest-\d+\/ranking\/?$/;
-    if (contest_ranking_page_regex.test(url)) return 'contest';
+    if (contest_ranking_page_regex.test(url)) return 'contest_ranking';
     return 'other';
 }
 
 function mutObserve(node, callback) {
     const observer = new MutationObserver(callback);
     observer.observe(node, { childList: true, subtree: true })
+    return observer;
 }
 
 async function makeRequest(url, data, tag) {

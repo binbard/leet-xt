@@ -1,6 +1,7 @@
 async function handleNextPage() {
     await addFriendsIconOnNavbar();
     const nextPage = nextPageType();
+    // console.log(nextPage);
     if (nextPage === 'friends') await handleFriendsPage();
     else if (nextPage === 'profile') addFriendButton();
     else if (nextPage === 'problem') problem_premium();
@@ -8,7 +9,7 @@ async function handleNextPage() {
     else if (nextPage === 'contest_ranking') addContestFriendIcon();
 }
 
-var ui_type = 'old';
+var gr_ui_type = 'old';
 
 async function lx() {
 
@@ -16,10 +17,10 @@ async function lx() {
 
     let x = document.querySelector('#leetcode-navbar');
     x = x || document.querySelector('#navbar-root');
-    if (x) mutObserve(x, addFriendsIconOnNavbar)
+    if (x) mutObserve(x, addFriendsIconOnNavbar);
 
     if (document.querySelector('#__next')) {
-        ui_type = 'new';
+        gr_ui_type = 'new';
         await handleNextPage();
         mutObserve(document.querySelector('title'), handleNextPage);
     }

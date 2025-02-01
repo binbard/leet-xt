@@ -27,7 +27,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
             shutil.copytree(source_path, dest_path)
             
     if os.path.isfile(manifest_chrome) or os.path.isfile(manifest):
-        manifest_source = maniefest_chrome if os.path.isfile(manifest_chrome) else manifest
+        manifest_source = manifest_chrome if os.path.isfile(manifest_chrome) else manifest
         shutil.copy(manifest_source, os.path.join(temp_dir, manifest))
         version = json.load(open(manifest))['version']
         output_zip_filename = f'{output_zip_dir}/{os.path.basename(os.getcwd())}-chrome-{version}'

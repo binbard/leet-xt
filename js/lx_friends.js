@@ -72,6 +72,7 @@ async function getUserDetails(username) {
     return details;
 }
 
+
 async function addFriendRow(username, rowgroup) {
 
     let details = await getUserDetails(username);
@@ -81,6 +82,7 @@ async function addFriendRow(username, rowgroup) {
         alert("User " + username + " does not exist. Removed from friends list.");
         return;
     }
+
     let { name, avatar, rating, contests, problems_solved, easy, medium, hard, top } = details;
 
     if (!name) name = username;
@@ -92,7 +94,18 @@ async function addFriendRow(username, rowgroup) {
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
-    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating); + "<span>&nbsp;</span>";
+    let hoverCard = document.createElement('iframe');
+    hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl');
+    hoverCard.src = `https://leetcard.jacoblin.cool/${username}?theme=light&border=0&radius=10`;
+    row.querySelector('.lx-fname').appendChild(hoverCard);
+    row.querySelector('.lx-fname').addEventListener('mouseenter', function () {
+        hoverCard.classList.remove('hidden');
+    });
+
+    row.querySelector('.lx-fname').addEventListener('mouseleave', function () {
+        hoverCard.classList.add('hidden');
+    });
+    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating) + "<span>&nbsp;</span>";
     row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? "" : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved;
     row.querySelector('.lx-feasy').innerHTML = easy;
@@ -102,6 +115,46 @@ async function addFriendRow(username, rowgroup) {
 
     rowgroup.appendChild(row);
 }
+
+async function makeFriendsPage() {
+    let area = document.querySelector('.mx-auto');
+    if (!area) return
+
+    area.innerHTML = friends_table;
+
+    let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved'];
+    for (let i = 0; i < fx_headers.length; i++) {
+        let fx_header = area.querySelector('#' + fx_headers[i]);
+        fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
+        fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
+        fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
+        fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
+        fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+    }
+
+    let data = await browser.storage.local.get('myfriends');
+    myfriends = data.myfriends || [];
+
+    let huser = document.querySelector('#fx-huser');
+    let hrating = document.querySelector('#fx-hrating');
+    let hprobsolved = document.querySelector('#fx-hprobsolved');
+
+    huser.textContent = huser.textContent + ` (${myfriends.length}/50)`;
+
+    let rowgroup = document.querySelector('#friends-rowgroup');
+
+    if (myfriends.length == 0) {
+        rowgroup.innerHTML = '<div class="text-center text-gray-5 dark:text-dark-gray-5">No Friends Added</div>';
+        return;
+    }
+
+    let promises = myfriends.map(async (username) => {
+        await addFriendRow(username, rowgroup);
+    });
+    await Promise.all(promises);
+}
+
+
 
 async function makeFriendsPage() {
     let area = document.querySelector('.mx-auto');

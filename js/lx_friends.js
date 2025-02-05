@@ -95,7 +95,7 @@ async function addFriendRow(username, rowgroup) {
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
     let hoverCard = document.createElement('iframe');
-    hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl');
+    hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl w-[500px] h-[200px]');
     hoverCard.src = `https://leetcard.jacoblin.cool/${username}?theme=light&border=0&radius=10`;
     row.querySelector('.lx-fname').appendChild(hoverCard);
     row.querySelector('.lx-fname').addEventListener('mouseenter', function () {

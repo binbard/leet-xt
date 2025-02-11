@@ -90,14 +90,14 @@ async function addFriendRow(username, rowgroup) {
 
     let div = document.createElement('div');
     div.innerHTML = friends_row;
-    let row = div.querySelector('div');    
+    let row = div.querySelector('div');
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
 
     let hoverCard = document.createElement('iframe');
     hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl w-[300px] h-[120px]');
-    
+
     row.querySelector('.lx-fname').appendChild(hoverCard);
     row.querySelector('.lx-fname').addEventListener('mouseenter', function () {
         hoverCard.classList.remove('hidden');
@@ -121,7 +121,7 @@ async function addFriendRow(username, rowgroup) {
         hoverCard.style.opacity = "1";
     });
 
-    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating) + "<span>&nbsp;</span>";
+    row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating);
     row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? "" : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved;
     row.querySelector('.lx-feasy').innerHTML = easy;

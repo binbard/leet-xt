@@ -77,7 +77,7 @@ async function problem_premium() {
     await getProblemInfo();
 
     let timer = setInterval(setFeatures, 100);
-    setTimeout(() => clearInterval(timer), 5000);
+    setTimeout(() => clearInterval(timer), 10000);
 
     // let observer = new MutationObserver(setFeatures);
     // observer.observe(document.querySelector("#__next"), { childList: true, subtree: true });

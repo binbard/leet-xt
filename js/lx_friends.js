@@ -90,21 +90,37 @@ async function addFriendRow(username, rowgroup) {
 
     let div = document.createElement('div');
     div.innerHTML = friends_row;
-    let row = div.querySelector('div');
+    let row = div.querySelector('div');    
     row.querySelector('.lx-favatar').src = avatar;
     row.querySelector('.lx-fname').innerHTML = name;
     row.querySelector('.lx-fname').href = "https://leetcode.com/" + username;
+
     let hoverCard = document.createElement('iframe');
-    hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl');
-    hoverCard.src = `https://leetcard.jacoblin.cool/${username}?theme=light&border=0&radius=10&sheets=http://bit.ly/4hOBP2L`;
+    hoverCard.setAttribute('class', 'absolute hidden p-0 m-0 rounded-xl w-[300px] h-[120px]');
+    
     row.querySelector('.lx-fname').appendChild(hoverCard);
     row.querySelector('.lx-fname').addEventListener('mouseenter', function () {
         hoverCard.classList.remove('hidden');
+        hoverCard.style.opacity = "0";
+        let theme;
+        if (isDarkTheme()) {
+            theme = 'nord';
+            hoverCard.style.border = "none";
+        } else {
+            theme = 'light';
+            hoverCard.style.border = "1px solid #E5E7EB";
+        }
+        hoverCard.src = `https://leetcard.jacoblin.cool/${username}?theme=${theme}&border=0&radius=10&sheets=https://bit.ly/M3NpQr7`;
     });
 
     row.querySelector('.lx-fname').addEventListener('mouseleave', function () {
         hoverCard.classList.add('hidden');
     });
+
+    hoverCard.addEventListener('load', function () {
+        hoverCard.style.opacity = "1";
+    });
+
     row.querySelector('.lx-frating').innerHTML = rating == "-" ? rating : Math.round(rating) + "<span>&nbsp;</span>";
     row.querySelector('.lx-fnumcontest').innerHTML = contests == "-" ? "" : "(" + contests + ")";
     row.querySelector('.lx-ftotal').innerHTML = problems_solved;
@@ -132,7 +148,7 @@ async function makeFriendsPage() {
         fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
     }
 
-    let data = await browser.storage.local.get('myfriends');
+    let data = await browser.storage.local.get(['myfriends']);
     myfriends = data.myfriends || [];
 
     let huser = document.querySelector('#fx-huser');
@@ -172,7 +188,7 @@ async function makeFriendsPage() {
         fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
     }
 
-    let data = await browser.storage.local.get('myfriends');
+    let data = await browser.storage.local.get(['myfriends']);
     myfriends = data.myfriends || [];
 
     let huser = document.querySelector('#fx-huser');

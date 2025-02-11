@@ -76,3 +76,9 @@ function clearFriends() {
         // console.log('CLEARED FRIENDS');
     });
 }
+
+/****** APP *******/
+
+function isDarkTheme() {
+    return document.documentElement.style.colorScheme !== 'light';
+}

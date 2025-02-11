@@ -9,8 +9,6 @@ async function handleNextPage() {
     else if (nextPage === 'contest_ranking') addContestFriendIcon();
 }
 
-var gr_ui_type = 'old';
-
 async function lx() {
 
     if (!await isActivated()) return;
@@ -20,13 +18,13 @@ async function lx() {
     if (x) mutObserve(x, addFriendsIconOnNavbar);
 
     if (document.querySelector('#__next')) {
-        gr_ui_type = 'new';
+        // new ui
         await handleNextPage();
+        await addFriendsIconOnNavbar();
         mutObserve(document.querySelector('title'), handleNextPage);
+        if (!x) mutObserve(document.querySelector('#__next'), addFriendsIconOnNavbar);
     }
-    // else if (x = document.querySelector('#contest-app')) mutObserve(x, addContestFriendIcon);
-    if (x = document.querySelector('#app')) mutObserve(x, addFriendsIconOnNavbar)
-
+    if (x = document.querySelector('#app')) mutObserve(x, addFriendsIconOnNavbar);
 }
 
 

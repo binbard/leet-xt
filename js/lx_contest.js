@@ -122,6 +122,7 @@ async function setContestFriends() {
     friend_table_body.innerHTML = friend_table_body.children[0].outerHTML;
     let friend_list = [];
 
+    const contest_name = window.location.pathname.split("/")[2];
     const result = await browser.storage.local.get(['myfriends']);
     let myfriends = result.myfriends;
     let loaded = 1;
@@ -155,7 +156,7 @@ async function setContestFriends() {
         });
         friend_table_body.innerHTML = friend_table_body.children[0].outerHTML;
         for (let friend of friend_list) {
-            let row = getRankingTableRow(friend.rank, friend.username, friend.score, friend.old_rating, friend.delta_rating, friend.new_rating);
+            let row = getRankingTableRow(friend.rank, friend.username, friend.score, friend.old_rating, friend.delta_rating, friend.new_rating, contest_name);
             friend_table_body.appendChild(row);
         }
     });
@@ -174,12 +175,12 @@ async function setContestFriends() {
 
 }
 
-function getRankingTableRow(rank = '', name = '', score = '', old_rating = '', delta_rating = '', new_rating = '') {
+function getRankingTableRow(rank = '', name = '', score = '', old_rating = '', delta_rating = '', new_rating = '', contest_name = '') {
     let row = document.querySelector('.fx-friend-table-row');
     if (!row) return null;
     row = row.cloneNode(true);
-    
-    row.querySelector('.row__rank').innerText = rank;
+
+    row.querySelector('.row__rank').innerHTML = `<a href=https://leetcode.com/contest/${contest_name}/ranking/${Math.floor(rank / 25) + 1}/>${rank}</a>`;
     row.querySelector('.row__name').innerText = name;
     row.querySelector('.row__score').innerText = score;
     row.querySelector('.row__old-rating').innerText = old_rating;

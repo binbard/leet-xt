@@ -179,14 +179,19 @@ async function makeFriendsPage() {
     area.innerHTML = friends_table;
 
     let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved'];
-    for (let i = 0; i < fx_headers.length; i++) {
-        let fx_header = area.querySelector('#' + fx_headers[i]);
-        fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
-        fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
-        fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
-        fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
-        fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+    
+    const resetSortingIcons = () => {
+        for (let i = 0; i < fx_headers.length; i++) {
+            let fx_header = area.querySelector('#' + fx_headers[i]);
+            fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
+            fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
+            fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+        }
     }
+
+    resetSortingIcons();
 
     let data = await browser.storage.local.get(['myfriends']);
     myfriends = data.myfriends || [];
@@ -211,6 +216,8 @@ async function makeFriendsPage() {
     await Promise.all(promises);
 
     function sortTable(header, selector) {
+        resetSortingIcons();
+
         let asc = true;
         let fx_header_svg = header.parentElement.querySelector('svg');
     

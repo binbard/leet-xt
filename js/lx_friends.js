@@ -194,6 +194,7 @@ async function makeFriendsPage() {
     let huser = document.querySelector('#fx-huser');
     let hrating = document.querySelector('#fx-hrating');
     let hprobsolved = document.querySelector('#fx-hprobsolved');
+    let htop = document.querySelector('#fx-htop');
 
     huser.textContent = huser.textContent + ` (${myfriends.length}/50)`;
 
@@ -212,37 +213,71 @@ async function makeFriendsPage() {
     function sortTable(header, selector) {
         let asc = true;
         let fx_header_svg = header.parentElement.querySelector('svg');
-
-        if (fx_header_svg.classList.contains('lx-up')) asc = false;
-
-        if (asc) {                                          // currently in descending order
-            fx_header_svg.innerHTML = up_arrow;             // change to ascending order
+    
+        // Check if it's already in ascending order
+        if (fx_header_svg.classList.contains('lx-up')) {
+            asc = false;
+        }
+    
+        // Toggle sorting order (ascending or descending)
+        if (asc) {  // Currently in descending order
+            fx_header_svg.innerHTML = up_arrow;  // Change to ascending order
             fx_header_svg.classList.remove('lx-down');
             fx_header_svg.classList.add('lx-up');
             fx_header_svg.setAttribute('viewBox', '0 0 14 14');
         } else {
-            fx_header_svg.innerHTML = down_arrow;
+            fx_header_svg.innerHTML = down_arrow;  // Change to descending order
             fx_header_svg.classList.remove('lx-up');
             fx_header_svg.classList.add('lx-down');
             fx_header_svg.setAttribute('viewBox', '0 0 14 14');
         }
-
+    
         let table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector("#friends-rowgroup");
         switching = true;
+    
+        // Continue sorting while necessary
         while (switching) {
             switching = false;
             rows = table.querySelectorAll(".lx-frow");
-            for (i = 0; i < (rows.length - 1); i++) {
+    
+            // Loop through all rows to determine whether to switch them
+            for (i = 0; i < rows.length - 1; i++) {
                 shouldSwitch = false;
                 x = rows[i].querySelector(selector);
                 y = rows[i + 1].querySelector(selector);
-                let xval = x.innerHTML.toLowerCase();
-                let yval = y.innerHTML.toLowerCase();
-                if (xval == "-") xval = "0";
-                if (yval == "-") yval = "0";
-                if (!isNaN(xval)) xval = parseFloat(xval);
-                if (!isNaN(yval)) yval = parseFloat(yval);
+    
+                let xval = x.innerHTML.trim();
+                let yval = y.innerHTML.trim();
+    
+                // Handle sorting for name (alphabetical sorting)
+                if (selector === '.lx-fname') {
+                    // Compare names in a case-insensitive manner
+                    xval = xval.toLowerCase();
+                    yval = yval.toLowerCase();
+                }
+    
+                // Handle special cases for values like "-" or percentages
+                if (xval === "-") xval = "0";  // Treat "-" as "0"
+                if (yval === "-") yval = "0";
+    
+                // Check if the values are numeric or percentages (e.g., 0.01%)
+                if (xval.includes('%')) {
+                    xval = parseFloat(xval.replace('%', '')) / 100;
+                }
+                if (yval.includes('%')) {
+                    yval = parseFloat(yval.replace('%', '')) / 100;
+                }
+    
+                // Try to parse as numbers if possible
+                if (!isNaN(xval)) {
+                    xval = parseFloat(xval);
+                }
+                if (!isNaN(yval)) {
+                    yval = parseFloat(yval);
+                }
+    
+                // Determine if the rows should switch based on the sorting order
                 if (asc) {
                     if (xval > yval) {
                         shouldSwitch = true;
@@ -255,12 +290,14 @@ async function makeFriendsPage() {
                     }
                 }
             }
+    
+            // If rows should switch, perform the switch and continue checking
             if (shouldSwitch) {
                 rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                 switching = true;
             }
         }
-    }
+    }      
 
     huser.parentElement.addEventListener("click", function () {
         sortTable(this, '.lx-fname');
@@ -272,6 +309,10 @@ async function makeFriendsPage() {
 
     hprobsolved.parentElement.addEventListener("click", function () {
         sortTable(this, '.lx-ftotal');
+    });
+
+    htop.parentElement.addEventListener("click", function () {
+        sortTable(this, '.lx-ftop');
     });
 }
 

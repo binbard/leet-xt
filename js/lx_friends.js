@@ -177,7 +177,20 @@ async function makeFriendsPage() {
 
     area.innerHTML = friends_table;
 
-    let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved'];
+    let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved', 'fx-htop'];
+
+    const resetSortingIcons = () => {
+        for (let i = 0; i < fx_headers.length; i++) {
+            let fx_header = area.querySelector('#' + fx_headers[i]);
+            fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
+            fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
+            fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
+            fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+        }
+    }
+
+    resetSortingIcons();
 
     for (let i = 0; i < fx_headers.length; i++) {
         let fx_header = area.querySelector('#' + fx_headers[i]);
@@ -221,11 +234,15 @@ async function makeFriendsPage() {
     
         // Toggle sorting order (ascending or descending)
         if (asc) {  // Currently in descending order
+            resetSortingIcons();
             fx_header_svg.innerHTML = up_arrow;  // Change to ascending order
+            fx_header_svg.classList.remove('lx-updown');
             fx_header_svg.classList.remove('lx-down');
             fx_header_svg.classList.add('lx-up');
         } else {
+            resetSortingIcons();
             fx_header_svg.innerHTML = down_arrow;  // Change to descending order
+            fx_header_svg.classList.remove('lx-updown');
             fx_header_svg.classList.remove('lx-up');
             fx_header_svg.classList.add('lx-down');
         }

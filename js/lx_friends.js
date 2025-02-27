@@ -171,7 +171,6 @@ async function makeFriendsPage() {
 }
 
 
-
 async function makeFriendsPage() {
     let area = document.querySelector('.mx-auto');
     if (!area) return
@@ -179,19 +178,15 @@ async function makeFriendsPage() {
     area.innerHTML = friends_table;
 
     let fx_headers = ['fx-huser', 'fx-hrating', 'fx-hprobsolved'];
-    
-    const resetSortingIcons = () => {
-        for (let i = 0; i < fx_headers.length; i++) {
-            let fx_header = area.querySelector('#' + fx_headers[i]);
-            fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
-            fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
-            fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
-            fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
-            fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
-        }
-    }
 
-    resetSortingIcons();
+    for (let i = 0; i < fx_headers.length; i++) {
+        let fx_header = area.querySelector('#' + fx_headers[i]);
+        fx_header.parentElement.querySelector('svg').innerHTML = updown_arrow;
+        fx_header.parentElement.querySelector('svg').classList.add('lx-updown');
+        fx_header.parentElement.querySelector('svg').classList.remove('lx-down');
+        fx_header.parentElement.querySelector('svg').classList.remove('lx-up');
+        fx_header.parentElement.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+    }
 
     let data = await browser.storage.local.get(['myfriends']);
     myfriends = data.myfriends || [];
@@ -216,8 +211,6 @@ async function makeFriendsPage() {
     await Promise.all(promises);
 
     function sortTable(header, selector) {
-        resetSortingIcons();
-
         let asc = true;
         let fx_header_svg = header.parentElement.querySelector('svg');
     
@@ -231,13 +224,12 @@ async function makeFriendsPage() {
             fx_header_svg.innerHTML = up_arrow;  // Change to ascending order
             fx_header_svg.classList.remove('lx-down');
             fx_header_svg.classList.add('lx-up');
-            fx_header_svg.setAttribute('viewBox', '0 0 14 14');
         } else {
             fx_header_svg.innerHTML = down_arrow;  // Change to descending order
             fx_header_svg.classList.remove('lx-up');
             fx_header_svg.classList.add('lx-down');
-            fx_header_svg.setAttribute('viewBox', '0 0 14 14');
         }
+        fx_header_svg.setAttribute('viewBox', '0 0 14 14');
     
         let table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector("#friends-rowgroup");

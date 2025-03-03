@@ -15,7 +15,7 @@ function nextPageType() {
     if (document.title.endsWith('LeetCode Profile')) return 'profile';
     if(url.includes('/problems/')) return 'problem';
     if(url.includes('/problemset/')) return 'problemset';
-    const contest_ranking_page_regex = /^https:\/\/leetcode\.com\/contest\/(weekly|biweekly)-contest-\d+\/ranking\/?$/;
+    const contest_ranking_page_regex = /^https:\/\/leetcode\.com\/contest\/(weekly|biweekly)-contest-\d+\/ranking\/?(\?.*)?$/;
     if (contest_ranking_page_regex.test(url)) return 'contest_ranking';
     return 'other';
 }

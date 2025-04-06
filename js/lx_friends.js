@@ -13,7 +13,8 @@ async function addFriendsIconOnNavbar() {
     svg.setAttribute('class', 'h-[20px] w-[20px] group-hover:text-text-primary dark:group-hover:text-dark-text-primary text-text-secondary dark:text-dark-text-secondary');
     svg.setAttribute('fill', 'currentColor');
 
-    let nua_root = navbar_user_avatar;
+    let nua_root = navbar_user_avatar?.parentElement?.parentElement?.parentElement?.parentElement;
+    if (!nua_root) return;
 
     nua_root.parentElement.insertBefore(a, nua_root);
 }

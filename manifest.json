@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Leet Xt - Supercharge your Leetcode practice",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "description": "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
     "icons": {
         "128": "assets/icons/logo_128.png",

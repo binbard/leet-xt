@@ -13,10 +13,10 @@ async function addFriendsIconOnNavbar() {
     svg.setAttribute('class', 'h-[20px] w-[20px] group-hover:text-text-primary dark:group-hover:text-dark-text-primary text-text-secondary dark:text-dark-text-secondary');
     svg.setAttribute('fill', 'currentColor');
 
-    let nua_root = navbar_user_avatar?.parentElement?.parentElement?.parentElement?.parentElement;
+    let nua_root = navbar_user_avatar?.parentElement;
     if (!nua_root) return;
 
-    nua_root.parentElement.insertBefore(a, nua_root);
+    nua_root.insertBefore(a, navbar_user_avatar);
 }
 
 async function handleFriendsPage() {
@@ -227,12 +227,12 @@ async function makeFriendsPage() {
     function sortTable(header, selector) {
         let asc = true;
         let fx_header_svg = header.parentElement.querySelector('svg');
-    
+
         // Check if it's already in ascending order
         if (fx_header_svg.classList.contains('lx-up')) {
             asc = false;
         }
-    
+
         // Toggle sorting order (ascending or descending)
         if (asc) {  // Currently in descending order
             resetSortingIcons();
@@ -248,36 +248,36 @@ async function makeFriendsPage() {
             fx_header_svg.classList.add('lx-down');
         }
         fx_header_svg.setAttribute('viewBox', '0 0 14 14');
-    
+
         let table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector("#friends-rowgroup");
         switching = true;
-    
+
         // Continue sorting while necessary
         while (switching) {
             switching = false;
             rows = table.querySelectorAll(".lx-frow");
-    
+
             // Loop through all rows to determine whether to switch them
             for (i = 0; i < rows.length - 1; i++) {
                 shouldSwitch = false;
                 x = rows[i].querySelector(selector);
                 y = rows[i + 1].querySelector(selector);
-    
+
                 let xval = x.innerHTML.trim();
                 let yval = y.innerHTML.trim();
-    
+
                 // Handle sorting for name (alphabetical sorting)
                 if (selector === '.lx-fname') {
                     // Compare names in a case-insensitive manner
                     xval = xval.toLowerCase();
                     yval = yval.toLowerCase();
                 }
-    
+
                 // Handle special cases for values like "-" or percentages
                 if (xval === "-") xval = "0";  // Treat "-" as "0"
                 if (yval === "-") yval = "0";
-    
+
                 // Check if the values are numeric or percentages (e.g., 0.01%)
                 if (xval.includes('%')) {
                     xval = parseFloat(xval.replace('%', '')) / 100;
@@ -285,7 +285,7 @@ async function makeFriendsPage() {
                 if (yval.includes('%')) {
                     yval = parseFloat(yval.replace('%', '')) / 100;
                 }
-    
+
                 // Try to parse as numbers if possible
                 if (!isNaN(xval)) {
                     xval = parseFloat(xval);
@@ -293,7 +293,7 @@ async function makeFriendsPage() {
                 if (!isNaN(yval)) {
                     yval = parseFloat(yval);
                 }
-    
+
                 // Determine if the rows should switch based on the sorting order
                 if (asc) {
                     if (xval > yval) {
@@ -307,14 +307,14 @@ async function makeFriendsPage() {
                     }
                 }
             }
-    
+
             // If rows should switch, perform the switch and continue checking
             if (shouldSwitch) {
                 rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                 switching = true;
             }
         }
-    }      
+    }
 
     huser.parentElement.addEventListener("click", function () {
         sortTable(this, '.lx-fname');

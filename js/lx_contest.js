@@ -47,7 +47,7 @@ function addContestFriendIcon() {
 
 async function addContestFriendIconAction() {
     if (vContestTitleMutObserver) vContestTitleMutObserver.disconnect();
-    let contest_header = document.querySelectorAll('[href^="/contest"]')[1];      // on ranking page
+    let contest_header = document.querySelectorAll('[href^="/contest"]')[2];      // on ranking page
     if (!contest_header) return;
     if (document.querySelector('#lx-people-mode')) return;
 

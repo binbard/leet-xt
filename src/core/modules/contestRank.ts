@@ -49,7 +49,7 @@ export class ContestRank implements IModule {
                 pagination_nav.style.display = "flex";
             }
         } catch (e: any) {
-            console.warn(ContestRank.name, '\n', e);
+            Manager.Logger.warn(ContestRank.name, e);
         }
     }
 
@@ -131,13 +131,13 @@ export class ContestRank implements IModule {
                 }
 
             } catch (e: any) {
-                console.warn(ContestRank.name, e);
+                Manager.Logger.warn(ContestRank.name, e);
                 throw e;
             }
         }
 
         catch (e: any) {
-            console.error(ContestRank.name, '\n', e);
+            Manager.Logger.error(ContestRank.name, e);
         }
     }
 
@@ -154,7 +154,7 @@ export class ContestRank implements IModule {
 
             return rowClone;
         } catch (e: any) {
-            console.warn(ContestRank.name, '\n', e);
+            Manager.Logger.warn(ContestRank.name, e);
             return null;
         }
     }
@@ -176,7 +176,7 @@ export class ContestRank implements IModule {
             docFind(rowSelector.new_rating, rowClone).innerText = getStringValue(userContestData.new_rating);
             return rowClone;
         } catch (e: any) {
-            console.warn(ContestRank.name, '\n', e);
+            Manager.Logger.warn(ContestRank.name, e);
             return null;
         }
     }
@@ -197,9 +197,9 @@ export class ContestRank implements IModule {
 
             observer?.disconnect();
 
-            console.info("Completed", ContestRank.name);
+            Manager.Logger.log("Completed", ContestRank.name);
         } catch (e: any) {
-            console.error(ContestRank.name, '\n', e);
+            Manager.Logger.error(ContestRank.name, e);
         }
     }
 
@@ -210,7 +210,7 @@ export class ContestRank implements IModule {
             mutObserve(rankingContainer, this.action);
             mutObserve(Selectors.lc.static_dom.next, this.action);
         } catch (e: any) {
-            console.error(ContestRank.name, '\n', e);
+            Manager.Logger.error(ContestRank.name, e);
         }
     }
 

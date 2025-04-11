@@ -3,6 +3,7 @@ import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest, getUrl } from "@/core/utils/helpers";
 import { getNavbarFriendsIcon } from "@/components/navbarFriendsIcon";
 import Selectors from "@/values/selectors";
+import Manager from "../manager";
 
 export class NavbarFriendsButton implements IModule {
 
@@ -14,7 +15,7 @@ export class NavbarFriendsButton implements IModule {
             try {
                 navbar_user_avatar = docFind(Selectors.lc.static_dom.navbar.user_avatar);
             } catch (e) {
-                // console.warn(NavbarFriendsButton.name, 'Navbar user avatar not found', e);
+                // Manager.Logger.warn(NavbarFriendsButton.name, 'Navbar user avatar not found', e);
                 return;
             }
 
@@ -26,9 +27,9 @@ export class NavbarFriendsButton implements IModule {
 
             // observer?.disconnect();
 
-            console.info("Completed", NavbarFriendsButton.name);
+            Manager.Logger.log("Completed", NavbarFriendsButton.name);
         } catch (e: any) {
-            console.warn(NavbarFriendsButton.name, '\n', e);
+            Manager.Logger.warn(NavbarFriendsButton.name, e);
         }
     }
 

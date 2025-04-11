@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             browser.tabs.create({
                 url: browser.runtime.getURL("/import_friends.html")
             }).catch((error: Error) => {
-                console.error("Error opening import page:", error);
+                Manager.Logger.error("Error opening import page:", error);
             });
 
             // openModal("This feature is not yet supported in Firefox.");

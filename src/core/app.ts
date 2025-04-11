@@ -3,7 +3,7 @@ import * as modules from "./modules";
 
 class App {
     constructor() {
-        console.log('LeetXt initialized');
+        Manager.Logger.log(App.name, 'LeetXt initialized');
     }
 
     async applyModules() {
@@ -12,20 +12,20 @@ class App {
         }
 
         const path = window.location.pathname;
-        // console.log(path);
+        // Manager.Logger.log(path);
 
         for (const module of Object.values(modules)) {
             const mod = new module();
 
             if ('blacklist_pages' in mod  && mod.blacklist_pages) {
-                console.log('black check 0', mod.blacklist_pages);              // TODO: Never reaches here #debug
+                Manager.Logger.log('black check 0', mod.blacklist_pages);              // TODO: Never reaches here #debug
                 for (const blacklistString of mod.blacklist_pages!!) {
                     const blacklist = new RegExp(blacklistString);
 
-                    console.log('black check');
+                    Manager.Logger.log(App.name, 'black check');
 
                     if (blacklist.test(path)) {
-                        console.log(`Blacklisted module: ${module.name}`);
+                        Manager.Logger.log(App.name, `Blacklisted module: ${module.name}`);
                         break;
                     }
                 }
@@ -34,10 +34,10 @@ class App {
             for (const regexString of mod.pages) {
                 const regex = new RegExp(regexString);
 
-                // console.log(regex);
+                // Manager.Logger.log(regex);
 
                 if (regex.test(path)) {
-                    console.log(`Applying module: ${module.name}`);
+                    Manager.Logger.log(App.name, `Applying module: ${module.name}`);
 
                     mod.apply();
                     break;

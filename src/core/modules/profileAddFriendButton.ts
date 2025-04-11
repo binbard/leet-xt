@@ -12,7 +12,7 @@ export class ProfileAddFriendButton implements IModule {
 
     async action(_?: MutationRecord[], observer?: MutationObserver): Promise<void> {
         try {
-            const name_box = docFind(Selectors.lc.profile.name_section.name_parent);
+            const name_box = docFind(Selectors.lc.profile.name_section.name_parent, undefined, true);
             if (checkDone(name_box)) return;
 
             const star = document.createElement('div');
@@ -32,10 +32,10 @@ export class ProfileAddFriendButton implements IModule {
             star.addEventListener("click", () => ProfileAddFriendButton.toggleFriend());
             await ProfileAddFriendButton.toggleFriend(true);
 
-            console.info("Completed", ProfileAddFriendButton.name);
+            Manager.Logger.log("Completed", ProfileAddFriendButton.name);
 
         } catch (e: any) {
-            console.warn(ProfileAddFriendButton.name, '\n', e);
+            // Manager.Logger.warn(ProfileAddFriendButton.name, e);
         }
     }
 
@@ -67,12 +67,12 @@ export class ProfileAddFriendButton implements IModule {
                     Manager.Friend.addFriend(username);
                     if (star_path) star_path.style.fill = Config.Colors.FRIEND_STAR;
                 } catch (e: any) {
-                    console.warn(ProfileAddFriendButton.name, '\n', e);
+                    Manager.Logger.warn(ProfileAddFriendButton.name, e);
                 }
             }
 
         } catch (e: any) {
-            console.warn(ProfileAddFriendButton.name, '\n', e);
+            Manager.Logger.warn(ProfileAddFriendButton.name, e);
         }
     }
 

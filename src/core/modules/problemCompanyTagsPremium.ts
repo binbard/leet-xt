@@ -6,6 +6,7 @@ import { mutObserve, docFind, checkDone, makeRequest, getUrl, clearAllChildren }
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
 import { getCompanyTagsModalContentDiv, getCompanyTagsModalATag } from "@/components/companyTagsPremium";
+import Manager from "../manager";
 
 interface IProblemInfo {
     "Rating": number,
@@ -77,7 +78,7 @@ export class ProblemCompanyTagsPremium implements IModule {
             return problemContestInfo;
 
         } catch (e: any) {
-            console.warn(ProblemCompanyTagsPremium.name, '\n', e);
+            Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
             return null;
         }
     }
@@ -128,7 +129,7 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             return this.problemCompanyRowInfo;
         } catch (e: any) {
-            console.warn(ProblemCompanyTagsPremium.name, '\n', e);
+            Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
             return null;
         }
     }
@@ -185,7 +186,7 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             return companyTags;
         } catch (e: any) {
-            console.warn(ProblemCompanyTagsPremium.name, '\n', e);
+            Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
             return null;
         }
     }
@@ -248,7 +249,7 @@ export class ProblemCompanyTagsPremium implements IModule {
                 companyTagsModalBody.innerHTML += '<br><br>';
             });
         } catch (e: any) {
-            console.warn(ProblemCompanyTagsPremium.name, '\n', e);
+            Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
         }
     }
 
@@ -269,10 +270,10 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             // observer?.disconnect();
 
-            console.info("Completed", ProblemCompanyTagsPremium.name);
+            Manager.Logger.log("Completed", ProblemCompanyTagsPremium.name);
 
         } catch (e: any) {
-            console.warn(ProblemCompanyTagsPremium.name, '\n', e);
+            Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
         }
     }
 

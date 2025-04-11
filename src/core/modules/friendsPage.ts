@@ -47,7 +47,7 @@ export class FriendsPage implements IModule {
 
             return friendData;
         } catch (e: any) {
-            console.warn(FriendsPage.name, '\n', e);
+            Manager.Logger.warn(FriendsPage.name, e);
             return null;
         }
     }
@@ -65,7 +65,7 @@ export class FriendsPage implements IModule {
                 fx_header_svg.setAttribute('viewBox', '0 0 24 24');
             }
         } catch (e: any) {
-            console.warn(FriendsPage.name, '\n', e);
+            Manager.Logger.warn(FriendsPage.name, e);
         }
     }
 
@@ -80,7 +80,7 @@ export class FriendsPage implements IModule {
             }
             fx_header_svg.setAttribute('viewBox', '0 0 14 14');
         } catch (e: any) {
-            console.warn(FriendsPage.name, '\n', e);
+            Manager.Logger.warn(FriendsPage.name, e);
         }
     }
 
@@ -217,7 +217,7 @@ export class FriendsPage implements IModule {
                 this.updateSortIndicator(htop, this.currentSortDirection);
             });
         } catch (e: any) {
-            console.warn(FriendsPage.name, '\n', e);
+            Manager.Logger.warn(FriendsPage.name, e);
         }
     }
 
@@ -226,9 +226,9 @@ export class FriendsPage implements IModule {
             this.makeFriendsPage();
             observer?.disconnect();
 
-            console.info("Completed", FriendsPage.name);
+            Manager.Logger.log("Completed", FriendsPage.name);
         } catch (e: any) {
-            console.warn(FriendsPage.name, '\n', e);
+            Manager.Logger.warn(FriendsPage.name, e);
         }
     }
 

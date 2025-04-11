@@ -1,11 +1,23 @@
+import { BuildMode } from "../defines/buildModes";
 import { RequestMethod } from "../defines/requestMethod";
 import { Result } from "../defines/result";
 import Config from "@/values/config";
+import Manager from "../manager";
+
+function getBuildMode(): BuildMode {
+    switch (import.meta.env.MODE) {
+        case 'development': return BuildMode.DEV;
+        case 'production': return BuildMode.PROD;
+        case 'test': return BuildMode.TEST;
+        case 'staging': return BuildMode.STAGE;
+        default: return BuildMode.DEV;
+    }
+}
 
 function mutObserve(element: Element | string | null, callback: MutationCallback): MutationObserver | null {
     const node = typeof element === 'string' ? document.querySelector(element) : element;
     if (!node) {
-        // console.warn('Selector not found', element);
+        // Manager.Logger.warn('Selector not found', element);
         return null;
     }
     const observer = new MutationObserver((mutations, observer) => {
@@ -20,7 +32,7 @@ function getStringValue(val: number | string, defaultValue = Config.Strings.NA):
     return val === -1 ? defaultValue : val.toString();
 }
 
-function docFind(selector: string | object, parentElement?: Element | Document | null): HTMLElement {
+function docFind(selector: string | object, parentElement?: Element | Document | null, supressError = false): HTMLElement {
     if (parentElement === undefined) parentElement = document;
     if (parentElement === null) {
         throw new Error('Parent element is null');
@@ -33,7 +45,7 @@ function docFind(selector: string | object, parentElement?: Element | Document |
         }
     }
     const element = parentElement.querySelector(selector as string);
-    if (!element) {
+    if (!element && !supressError) {
         throw new Error(`Element not found: ${selector}`);
     }
     return element as HTMLElement;
@@ -96,14 +108,25 @@ async function makeRequest(url: string, data?: Object): Promise<any> {
         if (method === RequestMethod.POST) config.body = JSON.stringify(data);
         const response = await doFetch(url, config);
         if (!response.ok) {
-            console.warn(response.statusText);
+            Manager.Logger.warn('makeRequest', response.statusText);
             throw Result.INVALID;
         }
         return await response.json();
     } catch (error: any) {
-        console.error(error);
+        Manager.Logger.error('makeRequest', error);
         throw Result.ERROR;
     }
 }
 
-export { mutObserve, getStringValue, docFind, docFindById, clearAllChildren, parseHTML, checkDone, getUrl, makeRequest };
+export {
+    getBuildMode,
+    mutObserve,
+    getStringValue,
+    docFind,
+    docFindById,
+    clearAllChildren,
+    parseHTML,
+    checkDone,
+    getUrl,
+    makeRequest
+};

@@ -10,6 +10,7 @@ import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest } from "@/core/utils/helpers";
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
+import Manager from "../manager";
 
 interface ProblemData {
   problem_id: string;
@@ -57,8 +58,8 @@ export class ProblemsetCompaniesPremium implements IModule {
       data.values.forEach((row: string[]) => {
         this.companyProblemRanges.set(row[0], [row[1], row[2]]);
       });
-    } catch (error) {
-      console.error("Error fetching company problem ranges:", error);
+    } catch (error: any) {
+      Manager.Logger.error("Error fetching company problem ranges:", error);
     }
   }
 
@@ -79,8 +80,8 @@ export class ProblemsetCompaniesPremium implements IModule {
       data.values.shift();
 
       this.companyProblems[companyName] = data.values;
-    } catch (error) {
-      console.error(`Error fetching problems for ${companyName}:`, error);
+    } catch (error: any) {
+      Manager.Logger.error(`Error fetching problems for ${companyName}:`, error);
     }
   }
 
@@ -114,8 +115,8 @@ export class ProblemsetCompaniesPremium implements IModule {
       const acRate = JSON.parse(res.data.question.stats).acRate;
 
       this.lcProblems[problemSlug] = { status, hasVideoSolution, acRate };
-    } catch (error) {
-      console.error(`Error fetching LeetCode problem data for ${problemSlug}:`, error);
+    } catch (error: any) {
+      Manager.Logger.error(`Error fetching LeetCode problem data for ${problemSlug}:`, error);
     }
   }
 
@@ -553,7 +554,7 @@ export class ProblemsetCompaniesPremium implements IModule {
       this.setupProblemsetCompaniesPremium();
 
     } catch (e: any) {
-      console.warn(ProblemsetCompaniesPremium.name, '\n', e);
+      Manager.Logger.warn(ProblemsetCompaniesPremium.name, e);
     }
   }
 

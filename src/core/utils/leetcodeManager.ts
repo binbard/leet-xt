@@ -1,6 +1,7 @@
 import { makeRequest, getUrl } from './helpers';
 import { Result } from '../defines/result';
 import Config from '@/values/config'
+import Manager from '../manager';
 
 export type IUserDetails = {
     username: string;
@@ -61,7 +62,7 @@ class LeetcodeManager {
         };
 
         try {
-            const result = await makeRequest(LeetcodeManager.API_URL, data);
+            const result = await makeRequest(Config.App.LEETCODE_API_URL, data);
             if (!!result?.data?.matchedUser === false) return null;
 
             const details: IUserDetails = {
@@ -80,7 +81,7 @@ class LeetcodeManager {
             return details;
         }
         catch (e: any) {
-            console.error(LeetcodeManager.name, e);
+            Manager.Logger.error(LeetcodeManager.name, e);
             throw e;
         }
     }
@@ -95,7 +96,7 @@ class LeetcodeManager {
         } `;
 
         try {
-            const response = await fetch(LeetcodeManager.API_URL, {
+            const response = await fetch(Config.App.LEETCODE_API_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -107,7 +108,7 @@ class LeetcodeManager {
             return !!result?.data?.matchedUser;
         }
         catch (e: any) {
-            console.error(LeetcodeManager.name, e);
+            Manager.Logger.error(LeetcodeManager.name, e);
             throw e;
         }
     }
@@ -139,7 +140,7 @@ class LeetcodeManager {
         ]*/
 
         try {
-            const result = await makeRequest(getUrl(Config.App.LCCN_API_URL) + "?username=" + username + "&contest_name=" + contest_name);
+            const result = await makeRequest(getUrl(`${Config.App.LCCN_API_URL}?username=${username}&contest_name=${contest_name}`));
 
             if (!result || !result.length) return null;
             if (result.detail && result.detail.startsWith('contest not found')) throw Result.NO_DATA;
@@ -155,7 +156,7 @@ class LeetcodeManager {
 
         }
         catch (e: any) {
-            console.error(LeetcodeManager.name, e);
+            Manager.Logger.error(LeetcodeManager.name, e);
 
             if (e == Result.TIMEOUT){
                 let user_contest_details: IUserContestDetails = {

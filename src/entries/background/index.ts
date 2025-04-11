@@ -5,13 +5,13 @@ import Manager from '@/core/manager';
 registerBackgroundService();
 
 browser.runtime.onInstalled.addListener(function () {
-    console.log('Extension Installed.');
+    Manager.Logger.log('Extension Installed.');
     storage.setItem('local:activated', true);
 });
 
 browser.runtime.onMessage.addListener(async function (message: any, sender, sendResponse) {
     if (message.action === 'consoleLog') {
-        console.log(message);
+        Manager.Logger.log(message);
         sendResponse({ success: true, message: 'Logged successfully.' });
     } else if (message.action === "isActivated") {
         const activated = storage.getItem('local:activated');
@@ -27,7 +27,7 @@ async function addFriendsFromFileContent(content: string) {
         let regex = /^[a-zA-Z0-9;_]+$/;
         if (!regex.test(decoded_content)) {
             // openModal("Invalid users");
-            console.log("Invalid users");
+            Manager.Logger.log("Invalid users");
             return;
         }
 
@@ -36,7 +36,7 @@ async function addFriendsFromFileContent(content: string) {
         friendList = [...new Set(decoded_content.split(";"))];
         if (friendList.length > Manager.Friend.FRIENDS_LIMIT) {
             // openModal(Manager.Friend.FRIENDS_MESSAGE);
-            console.log(Manager.Friend.FRIENDS_MESSAGE);
+            Manager.Logger.log(Manager.Friend.FRIENDS_MESSAGE);
             return;
         }
 
@@ -56,16 +56,16 @@ async function addFriendsFromFileContent(content: string) {
             const friends = valid_users;
             if (friends.length == 0 && invalid_users.length > 0) {
                 // openModal("No valid users to import.");
-                console.log("No valid users to import.");
+                Manager.Logger.log("No valid users to import.");
                 return;
             }
             await storage.setItem('local:friends', friends);
             if (invalid_users.length > 0) {
                 // openModal(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "));
-                console.log(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "));
+                Manager.Logger.log(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "));
             } else {
                 // openModal(friends.length + ' Friend(s) imported successfully.');
-                console.log(friends.length + ' Friend(s) imported successfully.');
+                Manager.Logger.log(friends.length + ' Friend(s) imported successfully.');
             }
             return;
         });
@@ -74,11 +74,11 @@ async function addFriendsFromFileContent(content: string) {
 
     } catch (e: any) {
         // openModal(`Something went wrong\n${e.message}`);
-        console.log(`Something went wrong\n${e.message}`);
+        Manager.Logger.log(`Something went wrong\n${e.message}`);
         return;
     }
 }
 
 export default defineBackground(() => {
-    console.log('Background Listening', { id: browser.runtime.id });
+    Manager.Logger.log('Background Listening', { id: browser.runtime.id });
 });

@@ -1,0 +1,196 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo{
+    float: left;
+}
+
+.title{
+    display: inline;
+    color: #ff8c00;
+}
+
+.github-a svg{
+    display: inline;
+    position: relative;
+    top: 0.2em;
+    left: 1em;
+    border-radius: 50%;
+}
+
+.github-a svg:hover{
+    color: #ff8c00;
+}
+
+.desc{
+    position: relative;
+    left: 0.5em;
+    color: #cbcbcb;
+}
+
+/* e0e0de */
+
+.github-svg rect{
+    fill: #fea014;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.sidebar {
+    background-color: #444;
+    color: #fff;
+    padding: 0px;
+    overflow-y: auto;
+    width: 0;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.sidebar-toggle-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    z-index: 1;
+    margin: 10px;
+    position: relative;
+    left: -20px;
+    top: -20px;
+}
+
+.sidebar.open {
+    width: 250px;
+}
+
+/**** pc devices ****/
+@media only screen and (min-width: 768px) {
+    .sidebar {
+        width: 250px;
+    }
+    .sidebar-toggle-button {
+        display: none;
+    }
+}
+
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 10px;
+}
+
+.feature-list li:hover {
+    background-color: #555;
+    border-left: 5px solid #ff8c00;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.feature-screenshot {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.feature-description {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.5;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background-color: #ff6600;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.download_webstore{
+    position: absolute;
+    bottom: 10vh;
+    right: 5vw;
+    width: 250px;
+    opacity: 0.4;
+}
+
+.download_webstore.firefox{
+    /* bottom: 20vh;
+    max-width: 150px; */
+    opacity: 0.2;
+}
+
+.download_webstore:hover{
+    opacity: 1;
+}
+
+.download_webstore.firefox:hover{
+    opacity: 0.6;
+}
+
+/**** mobile devices ****/
+@media only screen and (max-width: 768px) {
+    .download_webstore{
+        bottom: 5vh;
+        right: 5vw;
+        width: 150px;
+    }
+    .content{
+        padding-bottom: 20vw;
+    }
+}

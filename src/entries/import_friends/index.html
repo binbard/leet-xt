@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Import Friends</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 40px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    .file-input-wrapper {
+      margin: 20px 0;
+    }
+    #import-button {
+      background-color: #0060df;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #import-button:hover {
+      background-color: #0050b9;
+    }
+    #import-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #e6ffed;
+      border: 1px solid #34d058;
+    }
+    .error {
+      background-color: #ffeef0;
+      border: 1px solid #d73a49;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Import Friends</h1>
+    <p>Select a .lx file containing your friends list.</p>
+    
+    <div class="file-input-wrapper">
+      <input type="file" id="file-input" accept=".lx,.txt">
+    </div>
+    
+    <button id="import-button">Import Friends</button>
+    
+    <div id="result" style="display: none;"></div>
+  </div>
+
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="manifest.type" content="browser_action" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <h3 id="lx-title">Title</h3>
+    <p id="lx-desc">Description</p>
+    <div id="activateExt">
+        <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 7V12M8 8.99951C7.37209 9.83526 7 10.8742 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 10.8742 16.6279 9.83526 16 8.99951M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
+    <button class="lx-btn" id="exportFriends">Export Friends</button>
+    
+    <button class="lx-btn" id="importFriends">Import Friends</button>
+    <input type="file" id="usersFileInput" accept=".lx,.txt" style="display: none;">
+
+    <button class="lx-btn" id="clearFriends">Clear All Friends</button>
+
+    <a href="https://chrome.google.com/webstore/detail/leet-xt/dlahgjgaomjgkknpcbkhjpapcflphgle/reviews" target="_blank">
+        <button class="lx-btn" id="writeReview">Write us a Review</button>
+    </a>
+
+    <a href="https://github.com/binbard/leet-xt/issues" target="_blank">
+        <button class="lx-btn" id="reportBug">Report a Bug</button>
+    </a>
+
+    <a href="https://leet-xt.js.org" target="_blank">
+        <button class="lx-btn" id="exploreFeatures">See All Features</button>
+    </a>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+</body>
+
+</html>

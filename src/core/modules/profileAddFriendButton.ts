@@ -82,5 +82,5 @@ export class ProfileAddFriendButton implements IModule {
 
     pages = [PageType.PROFILE];
 
-    blacklist_pages?: [PageType.FRIENDS];
+    blacklist_pages = [PageType.FRIENDS];
 }

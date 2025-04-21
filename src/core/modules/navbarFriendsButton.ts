@@ -13,9 +13,9 @@ export class NavbarFriendsButton implements IModule {
             let navbar_user_avatar;
 
             try {
-                navbar_user_avatar = docFind(Selectors.lc.static_dom.navbar.user_avatar);
-            } catch (e) {
-                // Manager.Logger.warn(NavbarFriendsButton.name, 'Navbar user avatar not found', e);
+                navbar_user_avatar = docFind(Selectors.lc.navbar.root.icon_container.user_avatar);
+            } catch (e: any) {
+                Manager.Logger.warn(NavbarFriendsButton.name, e);
                 return;
             }
 
@@ -23,7 +23,10 @@ export class NavbarFriendsButton implements IModule {
 
             const navbarFriendIcon = getNavbarFriendsIcon(PageType.Friends);
 
-            navbar_user_avatar?.parentElement?.insertBefore(navbarFriendIcon, navbar_user_avatar);
+            const iconContainer = docFind(Selectors.lc.navbar.root.icon_container);
+            const profileIconContainer = docFind(Selectors.lc.navbar.root.icon_container.profile_icon_container);
+
+            iconContainer?.insertBefore(navbarFriendIcon, profileIconContainer);
 
             // observer?.disconnect();
 

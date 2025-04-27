@@ -3,6 +3,7 @@ import { RequestMethod } from "../defines/requestMethod";
 import { Result } from "../defines/result";
 import Config from "@/values/config";
 import Manager from "../manager";
+import { ResponseType } from "../defines/responseType";
 
 function getBuildMode(): BuildMode {
     switch (import.meta.env.MODE) {
@@ -95,7 +96,7 @@ async function doFetch(url: string, config: RequestInit, timeout = Config.App.DE
     }
 }
 
-async function makeRequest(url: string, data?: Object): Promise<any> {
+async function makeRequest(url: string, data?: Object, responseType?: ResponseType): Promise<any> {
     const method = data ? RequestMethod.POST : RequestMethod.GET;
     data = data || {};
     try {
@@ -111,7 +112,16 @@ async function makeRequest(url: string, data?: Object): Promise<any> {
             Manager.Logger.warn('makeRequest', response.statusText);
             throw Result.INVALID;
         }
-        return await response.json();
+        switch (responseType) {
+            case ResponseType.BLOB:
+                return await response.blob();
+            case ResponseType.TEXT:
+                return await response.text();
+            case ResponseType.JSON:
+                return await response.json();
+            default:
+                return await response.json();
+        }
     } catch (error: any) {
         Manager.Logger.error('makeRequest', error);
         throw Result.ERROR;

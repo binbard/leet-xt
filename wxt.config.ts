@@ -12,7 +12,9 @@ export default defineConfig({
   modulesDir: "wxt-modules", // default: "modules"
 
   manifest: {
+    short_name: "Leet Xt",
     name: "Leet Xt - Supercharge your Leetcode practice",
+    key: "kejjelmakdpkadolplgbccoohjcpadca",
     description: "Supercharge your LeetCode practice - Add to Friends, Premium Features, per Contest Friends Rating, and more!",
     icons: {
       "16": "icons/icon-16.png",

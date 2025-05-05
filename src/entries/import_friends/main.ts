@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function (): void {
           showResult("No valid users to import.", 'error');
           return;
         }
-        await storage.setItem('local:friends', friends);
+        await Manager.Storage.set('friends', friends);
         if (invalid_users.length > 0) {
           showResult(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "), 'success');
         } else {

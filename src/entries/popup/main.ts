@@ -20,11 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const usersFileInput = docFind("#usersFileInput") as HTMLInputElement;
     const clearFriendsButton = docFind("#clearFriends") as HTMLButtonElement;
 
-    const manifest = browser.runtime.getManifest();
-
-    appTitle.textContent = "Leet Xt";
-    appTitle.appendChild(document.createTextNode(` ${appEmojis[iEmoji]} v${manifest.version}`));
-    appDescription.textContent = manifest.description || '';
+    appTitle.textContent = Manager.Meta.getAppName();
+    appTitle.appendChild(document.createTextNode(` ${appEmojis[iEmoji]} v${Manager.Meta.getAppVersionString()}`));
+    appDescription.textContent = Manager.Meta.getAppDescription();
 
     (async () => {
         if (await Manager.Meta.getActivated()) {
@@ -149,7 +147,7 @@ async function addFriendsFromFileContent(content: string) {
                 openModal("No valid users to import.");
                 return;
             }
-            await storage.setItem('local:friends', friends);
+            await Manager.Storage.set('friends', friends);
             if (invalid_users.length > 0) {
                 openModal(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "));
             } else {

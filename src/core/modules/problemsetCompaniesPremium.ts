@@ -435,8 +435,8 @@ export class ProblemsetCompaniesPremium implements IModule {
    */
   setupSidebarCompanies(): void {
     const selectedColor = "#fcbf62";
-    const companyElements = document.querySelectorAll('.swiper-slide a.mb-4.mr-3');
-    const tableBody = document.querySelector('[role="table"].border-spacing-0 [role="rowgroup"]');
+    const companyElements = document.querySelectorAll('div.swiper-slide.-mr-3.flex.flex-wrap.swiper-no-swiping-content.fx-sidebar-comp-done.swiper-slide-active a');
+    const tableBody = document.querySelector('div.mt-4.flex.flex-col.items-center.gap-4');
 
     if (!tableBody) return;
 

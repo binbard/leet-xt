@@ -1,21 +1,13 @@
+import Manager from "../manager";
+
 class FriendManager {
 
     static FRIENDS_LIMIT = 50;
-    static FRIENDS_LOCATION: `local:${string}` = 'local:friends';
-    static FRIENDS_LOCATION_OLD: `local:${string}` = 'local:myfriends';
+    static FRIENDS_LOC: 'friends';
     static FRIENDS_MESSAGE = `FRIEND_LIMIT_EXCEEDED: You can only add upto ${this.FRIENDS_LIMIT} friends, ensuring an inclusive and sustainable experience for everyone!`;
-    
-    static async getFriendList(): Promise<string[]> {
-        let friendList: string[] = await storage.getItem(FriendManager.FRIENDS_LOCATION, { fallback: [] });
-        
-        // Migrate
-        const friendListOld: string[] = await storage.getItem(FriendManager.FRIENDS_LOCATION_OLD, { fallback: [] });
-        if( friendListOld.length > 0 ) {
-            friendList = [...new Set([...friendList, ...friendListOld])];
-            await storage.setItem(FriendManager.FRIENDS_LOCATION, friendList);
-            await storage.removeItem(FriendManager.FRIENDS_LOCATION_OLD);
-        }
 
+    static async getFriendList(): Promise<string[]> {
+        let friendList: string[] = await Manager.Storage.get(FriendManager.FRIENDS_LOC, []);
         return friendList;
     }
 
@@ -44,10 +36,10 @@ class FriendManager {
         if (friendList.length >= this.FRIENDS_LIMIT) {
             throw new Error(this.FRIENDS_MESSAGE);
         }
-        
+
         friendList.push(username);
 
-        await storage.setItem(FriendManager.FRIENDS_LOCATION, friendList);
+        await Manager.Storage.set(FriendManager.FRIENDS_LOC, friendList);
     }
 
     static async removeFriend(username: string): Promise<void> {
@@ -60,11 +52,11 @@ class FriendManager {
         const index = friendList.indexOf(username);
         friendList.splice(index, 1);
 
-        await storage.setItem(FriendManager.FRIENDS_LOCATION, friendList);
+        await Manager.Storage.set(FriendManager.FRIENDS_LOC, friendList);
     }
 
     static async clearAllFriends() {
-        await storage.removeItem(FriendManager.FRIENDS_LOCATION);
+        await Manager.Storage.remove(FriendManager.FRIENDS_LOC);
     }
 }
 

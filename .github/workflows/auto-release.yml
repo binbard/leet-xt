@@ -1,0 +1,124 @@
+name: Auto Release Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+# Add permissions block to grant necessary access
+permissions:
+  contents: write # This grants write access to repository contents including releases
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if version changed
+        id: check_version
+        run: |
+          # Get the previous commit hash
+          PREV_COMMIT=$(git rev-parse HEAD^)
+          
+          # Check if package.json existed in the previous commit
+          if git ls-tree $PREV_COMMIT --name-only | grep -q "package.json"; then
+            # Get previous version
+            PREV_VERSION=$(git show $PREV_COMMIT:package.json | node -p "JSON.parse(require('fs').readFileSync(0)).version")
+            
+            # Compare versions
+            if [ "$PREV_VERSION" != "${{ steps.current_version.outputs.version }}" ]; then
+              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "Version changed from $PREV_VERSION to ${{ steps.current_version.outputs.version }}"
+            else
+              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "Version unchanged: ${{ steps.current_version.outputs.version }}"
+            fi
+          else
+            # If package.json didn't exist before, consider it a new version
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "New package.json detected with version ${{ steps.current_version.outputs.version }}"
+          fi
+
+      - name: Get commit message
+        id: commit_message
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Check if release exists
+        id: check_release
+        if: ${{ steps.check_version.outputs.changed == 'false' }}
+        run: |
+          # Using gh API directly to avoid parsing issues
+          if gh api repos/${{ github.repository }}/releases/tags/v${{ steps.current_version.outputs.version }} --silent 2>/dev/null; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create new release
+        if: ${{ steps.check_version.outputs.changed == 'true' }}
+        run: |
+          # Get the last 1 commit with short hashes
+          CHANGELOG=$(git log -1 --pretty=format:"- %h %s" --reverse)
+          
+          # Create release with changelog
+          gh release create v${{ steps.current_version.outputs.version }} \
+            --title "${{ steps.current_version.outputs.version }}" \
+            --notes "## Published version $CHANGELOG _($(date +%Y-%m-%d))_" \
+            --target ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update existing release
+        if: ${{ steps.check_version.outputs.changed == 'false' && steps.check_release.outputs.exists == 'true' }}
+        run: |
+          # Get current release notes
+          CURRENT_NOTES=$(gh release view v${{ steps.current_version.outputs.version }} --json body -q .body)
+          
+          # Get latest commit info (short hash and message)
+          LATEST_COMMIT=$(git log -1 --pretty=format:"- %h %s")
+          
+          # Append new commit message with short hash
+          NEW_NOTES="${CURRENT_NOTES}
+
+          ${LATEST_COMMIT} _($(date +%Y-%m-%d))_"
+          
+          # Update release notes
+          gh release edit v${{ steps.current_version.outputs.version }} --notes "${NEW_NOTES}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release for unchanged version with no existing release
+        if: ${{ steps.check_version.outputs.changed == 'false' && steps.check_release.outputs.exists == 'false' }}
+        run: |
+          # Get the last 1 commits with short hashes
+          CHANGELOG=$(git log -1 --pretty=format:"- %h %s" --reverse)
+          
+          # Create release with changelog
+          gh release create v${{ steps.current_version.outputs.version }} \
+            --title "${{ steps.current_version.outputs.version }}" \
+            --notes "## Published version $CHANGELOG _($(date +%Y-%m-%d))_" \
+            --target ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

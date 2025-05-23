@@ -248,7 +248,7 @@ export class ProblemsetCompaniesPremium implements IModule {
   async createProblemsTable(companyName: string | null, duration: string, sortBy = 'problem_id', order = 0): Promise<void> {
     if (!companyName) return;
 
-    const tableBody = document.querySelector('[role="table"].border-spacing-0 [role="rowgroup"]');
+    const tableBody = document.querySelector('.w-full.flex-1');
     if (!tableBody) return;
 
     // Normalize duration
@@ -261,6 +261,7 @@ export class ProblemsetCompaniesPremium implements IModule {
     if (!problems) return;
 
     tableBody.innerHTML = "";
+    tableBody.classList.add('flex', 'flex-col', 'gap-2');
 
     // Apply sorting
     if (order !== 0) {
@@ -448,16 +449,16 @@ export class ProblemsetCompaniesPremium implements IModule {
       element.setAttribute('company-name', companyName);
 
       element.addEventListener('click', () => {
-        if (this.currentCompany) {
-          const currentCompanyEl = document.querySelector(`a[company-name="${this.currentCompany}"] span`) as HTMLElement;
-          if (currentCompanyEl) currentCompanyEl.style.background = "";
-        } else {
-          this.originalTableBody = tableBody.innerHTML;
-        }
+        // Remove background color from all company spans
+        companyElements.forEach((el) => {
+          const span = el.querySelector('span') as HTMLElement;
+          if (span) span.style.background = "";
+        });
 
         const freqElement = document.querySelector('.fx-freq-li[name="All time"]') as HTMLElement;
         if (freqElement) freqElement.style.background = "";
 
+        // Toggle selection
         if (this.currentCompany === companyName) {
           // Deselect current company
           this.currentCompany = null;
@@ -470,8 +471,14 @@ export class ProblemsetCompaniesPremium implements IModule {
         } else {
           // Select new company
           this.currentCompany = companyName;
+          console.log("Selected company:", this.currentCompany);
+
           const spanElement = element.querySelector('span');
           if (spanElement) spanElement.style.background = selectedColor;
+
+          if (!this.originalTableBody) {
+            this.originalTableBody = tableBody.innerHTML;
+          }
 
           this.currentPage = 1;
           this.createProblemsTable(companyName, 'All time');
@@ -482,6 +489,7 @@ export class ProblemsetCompaniesPremium implements IModule {
       element.removeAttribute('href');
     });
   }
+
 
   /**
    * Sets up the company tags premium functionality for the problemset page

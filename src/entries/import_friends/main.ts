@@ -1,4 +1,5 @@
 import Manager from "@/core/manager";
+import { FriendManager } from "@/core/utils/friendManager";
 import { docFind } from "@/core/utils/helpers";
 
 document.addEventListener('DOMContentLoaded', function (): void {
@@ -46,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function (): void {
   async function addFriendsFromFileContent(content: string) {
     try {
       let decoded_content = atob(content);
-      let regex = /^[a-zA-Z0-9;_]+$/;
+      let regex = /^[\w.;\-]+$/;
       if (!regex.test(decoded_content)) {
-        showResult("Invalid users", 'error');
+        showResult("Invalid users " + decoded_content, 'error');
         return;
       }
   
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function (): void {
           showResult("No valid users to import.", 'error');
           return;
         }
-        await Manager.Storage.set('friends', friends);
+        await Manager.Storage.set(FriendManager.FRIENDS_LOC, friends);
         if (invalid_users.length > 0) {
           showResult(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "), 'success');
         } else {

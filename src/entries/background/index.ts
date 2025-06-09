@@ -48,7 +48,7 @@ browser.runtime.onMessage.addListener(async function (message: any, sender, send
 async function addFriendsFromFileContent(content: string) {
     try {
         let decoded_content = atob(content);
-        let regex = /^[a-zA-Z0-9;_]+$/;
+        let regex = /^[\\w;.\-]+$/;
         if (!regex.test(decoded_content)) {
             // openModal("Invalid users");
             Manager.Logger.log('BG', "Invalid users");

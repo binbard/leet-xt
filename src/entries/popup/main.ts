@@ -2,6 +2,7 @@ import Manager from '@/core/manager';
 import { getBackgroundService } from '@/entries/background/service';
 import { docFind } from '@/core/utils/helpers';
 import { BrowserType } from '@/core/defines/browserType';
+import { FriendManager } from '@/core/utils/friendManager';
 
 const bg = getBackgroundService();
 
@@ -115,7 +116,7 @@ function closeModal() {
 async function addFriendsFromFileContent(content: string) {
     try {
         let decoded_content = atob(content);
-        let regex = /^[a-zA-Z0-9;_]+$/;
+        let regex = /^[\w.;\-]+$/;
         if (!regex.test(decoded_content)) {
             openModal("Invalid users");
             return;
@@ -147,7 +148,7 @@ async function addFriendsFromFileContent(content: string) {
                 openModal("No valid users to import.");
                 return;
             }
-            await Manager.Storage.set('friends', friends);
+            await Manager.Storage.set(FriendManager.FRIENDS_LOC, friends);
             if (invalid_users.length > 0) {
                 openModal(friends.length + ' Friend(s) imported successfully. Invalid users: ' + invalid_users.join(" "));
             } else {

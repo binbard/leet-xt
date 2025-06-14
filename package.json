@@ -1,7 +1,7 @@
 {
   "name": "leet-xt",
   "description": "Extend your Leetcode",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "@webext-core/proxy-service": "^1.2.1"
-  }
+  },
+  "trustedDependencies": [
+    "spawn-sync"
+  ]
 }

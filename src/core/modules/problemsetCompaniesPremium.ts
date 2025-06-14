@@ -7,7 +7,7 @@ import PS_NOTAC_SVG from "@/values/svg/ps_notac.svg?raw"
 
 import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
-import { mutObserve, docFind, checkDone, makeRequest } from "@/core/utils/helpers";
+import { mutObserve, docFind, checkDone, makeRequest, parseHTML } from "@/core/utils/helpers";
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
 import Manager from "../manager";
@@ -248,8 +248,10 @@ export class ProblemsetCompaniesPremium implements IModule {
   async createProblemsTable(companyName: string | null, duration: string, sortBy = 'problem_id', order = 0): Promise<void> {
     if (!companyName) return;
 
-    const tableBody = document.querySelector('[role="table"].border-spacing-0 [role="rowgroup"]');
+    const tableBody = document.querySelector('div.items-center div.w-full.flex-1')
     if (!tableBody) return;
+
+    this.addFrequencyChangeButton();
 
     // Normalize duration
     duration = duration.toLowerCase() === 'all time' ? 'All time' : duration;
@@ -328,8 +330,8 @@ export class ProblemsetCompaniesPremium implements IModule {
    * Manages pagination for the problems table
    */
   managePagination(): void {
-    const paginationParent = document.querySelector('nav[role="navigation"]')?.parentElement;
-    if (!paginationParent) return;
+    const navParent = document.querySelector('div.fx-navbar-parent');
+    if (!navParent) return;
 
     const currentCompany = this.currentCompany;
     if (!currentCompany) return;
@@ -341,11 +343,11 @@ export class ProblemsetCompaniesPremium implements IModule {
 
     const nav = document.createElement('nav');
     nav.setAttribute('role', 'navigation');
-    nav.setAttribute('class', 'mb-6 md:mb-0 flex flex-wrap items-center space-x-2');
+    nav.setAttribute('class', 'mb-6 md:mb-0 flex flex-wrap items-center space-x-2 mb-4');
     nav.style.maxWidth = "100%";
 
     const selectedBtnClass = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none pointer-events-none bg-paper dark:bg-dark-gray-5 text-label-1 dark:text-dark-label-1 shadow-level1 dark:shadow-dark-level1';
-    const btnClass = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2';
+    const btnClass = 'flex items-center justify-center px-3 h-8 rounded select-none focus:outline-none bg-fill-3 dark:bg-dark-fill-3 text-label-2 dark:text-dark-label-2 hover:bg-fill-2 dark:hover:bg-dark-fill-2 m-2';
 
     const changePage = (e: Event) => {
       const target = e.target as HTMLElement;
@@ -365,7 +367,7 @@ export class ProblemsetCompaniesPremium implements IModule {
       document.querySelector(`#lx-pagenav-btn-${this.currentPage}`)?.setAttribute('class', selectedBtnClass);
 
       window.scrollTo({
-        top: 680,
+        top: 380,
         behavior: "smooth"
       });
     };
@@ -382,8 +384,8 @@ export class ProblemsetCompaniesPremium implements IModule {
       nav.appendChild(btn);
     }
 
-    paginationParent.innerHTML = "";
-    paginationParent.appendChild(nav);
+    navParent.innerHTML = "";
+    navParent.appendChild(nav);
 
     // Mark current page as selected
     document.querySelector(`#lx-pagenav-btn-${this.currentPage}`)?.setAttribute('class', selectedBtnClass);
@@ -428,6 +430,15 @@ export class ProblemsetCompaniesPremium implements IModule {
         await this.createProblemsTable(this.currentCompany, this.currentFrequency, 'problem_difficulty', 0);
       });
     }
+
+    // Create Nav parent
+    const tableParent = document.querySelector('div.mt-4.flex.flex-col.items-center.gap-4');
+    if (!tableParent) return;
+    if (checkDone(tableParent)) return;
+
+    const div = document.createElement('div');
+    div.className = "fx-navbar-parent";
+    tableParent.appendChild(div);
   }
 
   /**
@@ -435,8 +446,8 @@ export class ProblemsetCompaniesPremium implements IModule {
    */
   setupSidebarCompanies(): void {
     const selectedColor = "#fcbf62";
-    const companyElements = document.querySelectorAll('div.swiper-slide.-mr-3.flex.flex-wrap.swiper-no-swiping-content.fx-sidebar-comp-done.swiper-slide-active a');
-    const tableBody = document.querySelector('div.mt-4.flex.flex-col.items-center.gap-4');
+    const companyElements = document.querySelectorAll('a.mb-4.mr-3');
+    const tableBody = document.querySelector('div.items-center div.w-full.flex-1');
 
     if (!tableBody) return;
 
@@ -483,23 +494,12 @@ export class ProblemsetCompaniesPremium implements IModule {
     });
   }
 
-  /**
-   * Sets up the company tags premium functionality for the problemset page
-   */
-  async setupProblemsetCompaniesPremium(): Promise<void> {
-    const sidebarComp = document.querySelector('.swiper-slide a.mb-4.mr-3');
-    if (!sidebarComp || document.querySelector("div.fx-sidebar-comp-done")) return;
+  addFrequencyChangeButton() {
+    const sortFilterMenuParent = document.querySelector('div.flex.w-full.justify-between div.flex.gap-2');
+    if (!sortFilterMenuParent || checkDone(sortFilterMenuParent)) return;
 
-    // Mark as done to prevent duplicate setup
-    sidebarComp.parentElement?.classList.add("fx-sidebar-comp-done");
-
-    // Fetch company problem data
-    await this.fetchCompanyProblemRanges();
-
-    // Set up frequency column
-    const frequencyCol = document.querySelector('[role="columnheader"]:nth-of-type(6)');
-    if (frequencyCol) {
-      frequencyCol.innerHTML = PS_FREQUENCY_COLUMN_HTML;
+    if (sortFilterMenuParent) {
+      sortFilterMenuParent.appendChild(parseHTML(PS_FREQUENCY_COLUMN_HTML));
 
       const freqButton = document.querySelector("#fx-freq-button");
       const freqMenu = document.querySelector("#fx-freq-menu");
@@ -543,6 +543,20 @@ export class ProblemsetCompaniesPremium implements IModule {
         });
       }
     }
+  }
+
+  /**
+   * Sets up the company tags premium functionality for the problemset page
+   */
+  async setupProblemsetCompaniesPremium(): Promise<void> {
+    const sidebarComp = document.querySelector('.swiper-slide a.mb-4.mr-3');
+    if (!sidebarComp || document.querySelector("div.fx-sidebar-comp-done")) return;
+
+    // Mark as done to prevent duplicate setup
+    sidebarComp.parentElement?.classList.add("fx-sidebar-comp-done");
+
+    // Fetch company problem data
+    await this.fetchCompanyProblemRanges();
 
     this.setupSidebarCompanies();
 

@@ -13,6 +13,8 @@ import { IUserContestDetails } from "../utils/leetcodeManager";
 import Manager from "@/core/manager";
 import Selectors from "@/values/selectors";
 
+const USERS_PER_PAGE = 25; // 25 users per page on contest ranking page
+
 export class ContestRank implements IModule {
 
     static async toggleFriendMode() {
@@ -167,7 +169,7 @@ export class ContestRank implements IModule {
             if (!rowClone) return null;
 
             docFind(rowSelector.rank, rowClone).innerHTML = userContestData.rank !== -1 ?
-                `<a href=/contest/${contestName}/ranking/${Math.floor(userContestData.rank / 25) + 1}/>${userContestData.rank}</a>` : userContestData.rank.toString();
+                `<a href=/contest/${contestName}/ranking/${Math.floor((userContestData.rank + USERS_PER_PAGE - 1) / USERS_PER_PAGE)}/>${userContestData.rank}</a > ` : userContestData.rank.toString();
             docFind(rowSelector.name, rowClone).innerHTML =
                 `<a href=/u/${userContestData.username}/>${userContestData.username}</a>`;
             docFind(rowSelector.score, rowClone).innerText = getStringValue(userContestData.score);

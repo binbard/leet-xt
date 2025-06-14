@@ -167,7 +167,7 @@ export class ContestRank implements IModule {
             if (!rowClone) return null;
 
             docFind(rowSelector.rank, rowClone).innerHTML = userContestData.rank !== -1 ?
-                `<a href=/contest/${contestName}/ranking/${Math.floor(userContestData.rank / 25) + 1}/>${userContestData.rank}</a>` : userContestData.rank.toString();
+                `<a href=/contest/${contestName}/ranking/${Math.ceil(userContestData.rank / 25)}/>${userContestData.rank}</a>` : userContestData.rank.toString();
             docFind(rowSelector.name, rowClone).innerHTML =
                 `<a href=/u/${userContestData.username}/>${userContestData.username}</a>`;
             docFind(rowSelector.score, rowClone).innerText = getStringValue(userContestData.score);

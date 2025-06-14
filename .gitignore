@@ -11,7 +11,6 @@ node_modules
 .output
 stats.html
 stats-*.json
-.wxt
 web-ext.config.ts
 _
 *.lock
@@ -27,3 +26,10 @@ dist/
 *.njsproj
 *.sln
 *.sw?
+
+# WXT files
+.wxt/*
+!.wxt/
+!.wxt/chrome-data/
+.wxt/chrome-data/*
+!.wxt/chrome-data/.gitkeep

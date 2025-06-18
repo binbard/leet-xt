@@ -15,6 +15,9 @@ export type IUserDetails = {
     hard: number;
     top: string;
 }
+function slugifyContestTitle(title: string): string {
+    return title.toLowerCase().replace(/\s+/g, '-');
+}
 
 export interface IFriendData extends IUserDetails {
     displayName: string;
@@ -36,25 +39,25 @@ class LeetcodeManager {
 
     static async getUserDetails(username: string): Promise<IUserDetails | null> {
         const data = {
-            query: `query userCombinedInfo($username: String!) { 
-                    matchedUser(username: $username) { 
-                        profile { 
-                            userAvatar 
-                            realName 
-                        } 
-                    } 
-                    userContestRanking(username: $username) { 
-                        attendedContestsCount 
-                        rating 
-                        topPercentage 
-                    } 
-                    matchedUser(username: $username) { 
-                        submitStatsGlobal { 
-                            acSubmissionNum { 
-                                count 
-                            } 
-                        } 
-                    } 
+            query: `query userCombinedInfo($username: String!) {
+                    matchedUser(username: $username) {
+                        profile {
+                            userAvatar
+                            realName
+                        }
+                    }
+                    userContestRanking(username: $username) {
+                        attendedContestsCount
+                        rating
+                        topPercentage
+                    }
+                    matchedUser(username: $username) {
+                        submitStatsGlobal {
+                            acSubmissionNum {
+                                count
+                            }
+                        }
+                    }
                 }`,
             variables: {
                 username: username
@@ -116,49 +119,75 @@ class LeetcodeManager {
     static async getUserContestDetails(username: string): Promise<IUserContestDetails | null> {
         const contest_name = window.location.pathname.split("/")[2];
 
-        /* SAMPLE RESULT DATA
-                [
-            {
-                "_id": "64f406d063900e4acc4931a2",
-                "contest_name": "weekly-contest-361",
-                "contest_id": 899,
-                "username": "usephysics",
-                "user_slug": "usephysics",
-                "country_code": "IN",
-                "country_name": "India",
-                "rank": 4342,
-                "score": 18,
-                "finish_time": "2023-09-03T03:03:19",
-                "data_region": "US",
-                "insert_time": "2023-09-03T04:08:37.929000",
-                "attendedContestsCount": 48,
-                "old_rating": 1578.3541615854353,
-                "new_rating": 3309.879095204823,
-                "delta_rating": 31.52493361938756,
-                "predict_time": "2023-09-03T04:13:51.395000"
-            }
-        ]*/
+        /**
+         * SAMPLE RESULT DATA
+         * Example response structure:
+         *
+         * data: {
+         *   userContestRankingHistory: [
+         *     {
+         *       attended: true,
+         *       contest: {
+         *         title: "Weekly Contest 132"
+         *       },
+         *       problemsSolved: 3,
+         *       ranking: 1024,
+         *       rating: 1620,
+         *       trendDirection: "UP"
+         *     },
+         *     {
+         *       attended: false,
+         *       contest: {
+         *         title: "Weekly Contest 2"
+         *       },
+         *       problemsSolved: 0,
+         *       ranking: 0,
+         *       rating: 1500,
+         *       trendDirection: "NONE"
+         *     },
+         *     ...
+         *   ]
+         * }
+         */
+        const data = {
+            "query": "query userContestRankingInfo($username: String!) { userContestRankingHistory(username: $username) { attended trendDirection problemsSolved rating ranking contest { title } } }",
+            "variables": {
+                "username": username
+            },
+            "operationName": "userContestRankingInfo"
+        }
 
         try {
-            const result = await makeRequest(getUrl(`${Config.App.LCCN_API_URL}?username=${username}&contest_name=${contest_name}`));
-
-            if (!result || !result.length) return null;
-            if (result.detail && result.detail.startsWith('contest not found')) throw Result.NO_DATA;
+            const abc = await makeRequest(Config.App.LEETCODE_API_URL, data);
+            console.log(abc);
+            let prev = null;
+            let curr = null;
+            let found = false;
+            for (let i = 0; i < abc.data.userContestRankingHistory.length; i++) {
+                if (abc.data.userContestRankingHistory[i].attended) {
+                    prev = curr;
+                    curr = abc.data.userContestRankingHistory[i];
+                    if (slugifyContestTitle(abc.data.userContestRankingHistory[i].contest.title.toLowerCase()) === contest_name) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found || !curr) return null;
 
             let user_contest_details = {
-                rank: result[0] ? result[0].rank : -1,
-                score: result[0] ? result[0].score : -1,
-                old_rating: result[0] ? Math.round(result[0].old_rating) : -1,
-                delta_rating: result[0] ? Math.round(result[0].delta_rating) : -1,
-                new_rating: result[0] ? Math.round(result[0].new_rating) : -1,
+                rank: curr.ranking !== undefined ? curr.ranking : -1,
+                score: curr.problemsSolved !== undefined ? curr.problemsSolved : -1,
+                old_rating: prev && prev.rating !== undefined ? Math.round(prev.rating) : -1,
+                delta_rating: prev && prev.rating !== undefined && curr.rating !== undefined ? Math.round(curr.rating - prev.rating) : -1,
+                new_rating: curr.rating !== undefined ? Math.round(curr.rating) : -1,
             }
             return user_contest_details;
-
         }
         catch (e: any) {
             Manager.Logger.error(LeetcodeManager.name, e);
 
-            if (e == Result.TIMEOUT){
+            if (e == Result.TIMEOUT) {
                 let user_contest_details: IUserContestDetails = {
                     rank: -1,
                     score: -1,
@@ -168,7 +197,7 @@ class LeetcodeManager {
                 }
                 return user_contest_details;
             }
-            
+
             throw Result.ERROR;
         }
     }

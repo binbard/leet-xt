@@ -61,6 +61,14 @@ function clearAllChildren(element: Element) {
     element.innerHTML = '';
 }
 
+function slugify(str: string): string {
+    return str
+        .toLowerCase()                   
+        .trim()                         
+        .replace(/[\s\W-]+/g, '-')       // Replace spaces and non-word chars with hyphen
+        .replace(/^-+|-+$/g, '');        // Remove leading/trailing hyphens
+}
+
 function parseHTML(htmlText: string): HTMLElement {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
@@ -106,10 +114,10 @@ async function makeRequest(url: string, data?: Object, responseType?: ResponseTy
                 'Content-Type': 'application/json'
             }
         }
-        if (method === RequestMethod.POST) config.body = JSON.stringify(data);
+        if (method === RequestMethod.POST) config.body = typeof data === 'string' ? data : JSON.stringify(data);
         const response = await doFetch(url, config);
         if (!response.ok) {
-            Manager.Logger.warn('makeRequest', response.statusText);
+            Manager.Logger.warn('makeRequest', response);
             throw Result.INVALID;
         }
         switch (responseType) {
@@ -123,7 +131,7 @@ async function makeRequest(url: string, data?: Object, responseType?: ResponseTy
                 return await response.json();
         }
     } catch (error: any) {
-        Manager.Logger.error('makeRequest', error);
+        Manager.Logger.error('makeRequest', error.stack);
         throw Result.ERROR;
     }
 }
@@ -135,6 +143,7 @@ export {
     docFind,
     docFindById,
     clearAllChildren,
+    slugify,
     parseHTML,
     checkDone,
     getUrl,

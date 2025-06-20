@@ -1,4 +1,4 @@
-import { makeRequest, getUrl } from './helpers';
+import { makeRequest, getUrl, slugify } from './helpers';
 import { Result } from '../defines/result';
 import Config from '@/values/config'
 import Manager from '../manager';
@@ -96,15 +96,8 @@ class LeetcodeManager {
         } `;
 
         try {
-            const response = await fetch(Config.App.LEETCODE_API_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: data,
-            });
+            const result = await makeRequest(Config.App.LEETCODE_API_URL, data);
 
-            const result = await response.json();
             return !!result?.data?.matchedUser;
         }
         catch (e: any) {
@@ -113,53 +106,130 @@ class LeetcodeManager {
         }
     }
 
-    static async getUserContestDetails(username: string): Promise<IUserContestDetails | null> {
-        const contest_name = window.location.pathname.split("/")[2];
-
-        /* SAMPLE RESULT DATA
-                [
-            {
-                "_id": "64f406d063900e4acc4931a2",
-                "contest_name": "weekly-contest-361",
-                "contest_id": 899,
-                "username": "usephysics",
-                "user_slug": "usephysics",
-                "country_code": "IN",
-                "country_name": "India",
-                "rank": 4342,
-                "score": 18,
-                "finish_time": "2023-09-03T03:03:19",
-                "data_region": "US",
-                "insert_time": "2023-09-03T04:08:37.929000",
-                "attendedContestsCount": 48,
-                "old_rating": 1578.3541615854353,
-                "new_rating": 3309.879095204823,
-                "delta_rating": 31.52493361938756,
-                "predict_time": "2023-09-03T04:13:51.395000"
-            }
-        ]*/
+    static async isContestDataAvailable(contestName: string): Promise<boolean> {
+        const data = `{
+            "query": "query userContestRankingInfo($username: String!) { userContestRankingHistory(username: $username) { contest { title } } } ",
+            "variables": {
+                "username": "friends"
+            },
+            "operationName": "userContestRankingInfo"
+        } `;
 
         try {
-            const result = await makeRequest(getUrl(`${Config.App.LCCN_API_URL}?username=${username}&contest_name=${contest_name}`));
+            const result = await makeRequest(Config.App.LEETCODE_API_URL, data);
 
-            if (!result || !result.length) return null;
-            if (result.detail && result.detail.startsWith('contest not found')) throw Result.NO_DATA;
+            const userContestRankingHistory = result?.data?.userContestRankingHistory;
+            if (!userContestRankingHistory) return false;
 
-            let user_contest_details = {
-                rank: result[0] ? result[0].rank : -1,
-                score: result[0] ? result[0].score : -1,
-                old_rating: result[0] ? Math.round(result[0].old_rating) : -1,
-                delta_rating: result[0] ? Math.round(result[0].delta_rating) : -1,
-                new_rating: result[0] ? Math.round(result[0].new_rating) : -1,
+            return userContestRankingHistory.reverse().some((contest: any) => {
+                return slugify(contest.contest.title) === contestName;
+            });
+        }
+        catch (e: any) {
+            Manager.Logger.error(LeetcodeManager.name, e);
+            throw e;
+        }
+    }
+
+    static async getUserContestDetails(username: string, contestName: string, useOfficialData = false): Promise<IUserContestDetails | null> {
+
+        try {
+            if (useOfficialData) {                      // Use Leetcode
+
+                /* LEETCODE SAMPLE RESULT DATA
+                [   
+                    {
+                        "attended": false,
+                        "trendDirection": "NONE",
+                        "problemsSolved": 0,
+                        "rating": 1428.443,
+                        "ranking": 0,
+                        "contest": {
+                            "title": "Weekly Contest 454"
+                        }
+                    }
+                ]*/
+
+                const data = `{
+                    "query": "query userContestRankingInfo($username: String!) { userContestRankingHistory(username: $username) { attended trendDirection problemsSolved rating ranking contest { title } } } ",
+                    "variables": {
+                        "username": "${username}"
+                    },
+                    "operationName": "userContestRankingInfo"
+                }`;
+
+                const result = await makeRequest(Config.App.LEETCODE_API_URL, data);
+
+                const userContestRankingHistory = result?.data?.userContestRankingHistory;
+                if (!userContestRankingHistory) return null;
+
+                const contestIndex = userContestRankingHistory.findIndex((contest: any) => {
+                    return slugify(contest.contest.title) === contestName;
+                });
+
+                if( contestIndex === -1) return null;
+
+                const contest = userContestRankingHistory[contestIndex];
+                const prevContestRating = contestIndex ? userContestRankingHistory[contestIndex - 1].rating : Config.App.LEETCODE_DEFAULT_RATING;
+
+                const userContestDetails: IUserContestDetails = {
+                    rank: contest.ranking,
+                    score: contest.problemsSolved,
+                    old_rating: Math.round(prevContestRating),
+                    new_rating: Math.round(contest.rating),
+                    delta_rating: Math.round(contest.rating - prevContestRating),
+                }
+
+                return userContestDetails;
             }
-            return user_contest_details;
 
+            else {                                      // Use LCCN
+
+                /* LCCN SAMPLE RESULT DATA
+                [   
+                    {
+                        "_id": "64f406d063900e4acc4931a2",
+                        "contest_name": "weekly-contest-361",
+                        "contest_id": 899,
+                        "username": "usephysics",
+                        "user_slug": "usephysics",
+                        "country_code": "IN",
+                        "country_name": "India",
+                        "rank": 4342,
+                        "score": 18,
+                        "finish_time": "2023-09-03T03:03:19",
+                        "data_region": "US",
+                        "insert_time": "2023-09-03T04:08:37.929000",
+                        "attendedContestsCount": 48,
+                        "old_rating": 1578.3541615854353,
+                        "new_rating": 3309.879095204823,
+                        "delta_rating": 31.52493361938756,
+                        "predict_time": "2023-09-03T04:13:51.395000"
+                    }
+                ]*/
+
+                const result = await makeRequest(getUrl(`${Config.App.LCCN_API_URL}?username=${username}&contest_name=${contestName}`));
+
+                if (!result || !result.length) return null;
+                if (result.detail && result.detail.startsWith('contest not found')) throw Result.NO_DATA;
+
+                const contest = result[0];
+
+                const userContestDetails = {
+                    rank: contest.rank,
+                    score: contest.score,
+                    old_rating: Math.round(contest.old_rating),
+                    delta_rating: Math.round(contest.delta_rating),
+                    new_rating: Math.round(contest.new_rating),
+                }
+                return userContestDetails;
+            }
         }
         catch (e: any) {
             Manager.Logger.error(LeetcodeManager.name, e);
 
-            if (e == Result.TIMEOUT){
-                let user_contest_details: IUserContestDetails = {
+            if (e == Result.TIMEOUT) {
+                const user_contest_details: IUserContestDetails = {
                     rank: -1,
                     score: -1,
                     old_rating: -1,
@@ -168,7 +238,7 @@ class LeetcodeManager {
                 }
                 return user_contest_details;
             }
-            
+
             throw Result.ERROR;
         }
     }

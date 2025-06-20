@@ -27,3 +27,5 @@ export const DEFAULT_NETWORK_TIMEOUT = 25_000;
 export const DEFAULT_INTERVAL_TIMEOUT = 5_000;
 
 export const MAX_FRIENDS = 50;
+
+export const LEETCODE_DEFAULT_RATING = 1500;

@@ -69,11 +69,13 @@ export class ContestRank implements IModule {
             let contestNotFound = false;
             let errorLoadingData = false;
 
+            const useOfficialData = await Manager.Leetcode.isContestDataAvailable(contestName);
+
             let promises = friendList.map(async (friend) => {
                 if (contestNotFound) return;
 
                 try {
-                    let userContestDetails = await Manager.Leetcode.getUserContestDetails(friend);
+                    const userContestDetails = await Manager.Leetcode.getUserContestDetails(friend, contestName, useOfficialData);
                     if (userContestDetails === null) return;
 
                     userContestDetails.username = friend;

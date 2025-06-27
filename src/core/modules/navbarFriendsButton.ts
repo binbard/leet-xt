@@ -16,7 +16,11 @@ export class NavbarFriendsButton implements IModule {
 
             const navbarFriendIcon = getNavbarFriendsIcon(PageType.Friends);
 
-            const profileIconContainer = docFind(Selectors.lc.navbar.root.icon_container.profile_icon_container);
+            const profileIconContainer = docFind(Selectors.lc.navbar.root.icon_container.profile_icon_container, undefined, true);
+            if (!profileIconContainer) {
+                Manager.Logger.log(NavbarFriendsButton.name, "Not logged in");
+                return;
+            }
 
             iconContainer?.insertBefore(navbarFriendIcon, profileIconContainer);
 

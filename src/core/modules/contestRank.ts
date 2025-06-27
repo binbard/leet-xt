@@ -185,11 +185,12 @@ export class ContestRank implements IModule {
 
     async action(_?: MutationRecord[], observer?: MutationObserver): Promise<void> {
         try {
-            let contestHeader = document.querySelectorAll('[href^="/contest"]')[2];      // on ranking page
+            const contestName = window.location.pathname.split("/")[2];
+            const contestHeader = document.querySelector(`[href="/contest/${contestName}"]`);      // on ranking page
             if (!contestHeader) return;
             if (checkDone(contestHeader)) return;
 
-            let div = document.createElement('div');
+            const div = document.createElement('div');
             div.id = "lx-people-mode";
 
             div.style = "cursor: pointer; margin-left: 10px; padding-top: 2px;display:inline;";

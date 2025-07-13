@@ -57,9 +57,10 @@ async function getPremiumProblemDescriptionContent(): Promise<HTMLElement> {
 
         const lxProblemCompanies = docFindById("lx-problem-companies", pdContent) as HTMLElement;
         const headlessuiPortalRoot = parseHTML(HEADLESSUI_PORTAL_ROOT);
+        const mod = new ProblemCompanyTagsPremium();
         lxProblemCompanies.onclick = () => {
             document.body.appendChild(headlessuiPortalRoot);
-            ProblemCompanyTagsPremium.showCompanyTags();
+            mod.showCompanyTags();
         };
 
         const lxCompaniesCloseButton = docFindById("lx-companies-close-button", headlessuiPortalRoot) as HTMLElement;

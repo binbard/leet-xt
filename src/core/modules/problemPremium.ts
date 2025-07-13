@@ -21,7 +21,7 @@ export class ProblemPremium implements IModule {
             const subUnlockOverlayDiv = qdContent.nextElementSibling as HTMLElement;
             qdParent.removeChild(subUnlockOverlayDiv);
 
-            const pdContentParent = qdContent.querySelector("div.flexlayout__tab div.flex.h-full.w-full");
+            const pdContentParent = qdContent.querySelector(Selectors.lc.problem.problem.pd_content_parent) as HTMLElement;
             const pdContent = await getPremiumProblemDescriptionContent();
 
             while (pdContentParent?.firstChild) {

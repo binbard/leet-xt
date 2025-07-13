@@ -10,5 +10,6 @@ export default {
     },
     problem: {
         qd_content: "#qd-content",
+        pd_content_parent: "div.flexlayout__tab div.flex.h-full.w-full",
     }
 }

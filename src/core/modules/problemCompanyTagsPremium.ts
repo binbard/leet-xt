@@ -42,8 +42,8 @@ export class ProblemCompanyTagsPremium implements IModule {
     private static problemCompanyRowInfo?: IProblemCompanyRowInfo;
     private static problemCompanyTags?: ICompanyTags;
 
-    static async getProblemContestInfo(): Promise<IProblemInfo | null> {
-        if (this.problemContestInfo) return this.problemContestInfo;
+    async getProblemContestInfo(): Promise<IProblemInfo | null> {
+        if (ProblemCompanyTagsPremium.problemContestInfo) return ProblemCompanyTagsPremium.problemContestInfo;
 
         try {
             const url = Config.App.ZEROTRAC_RATING_URL;
@@ -74,7 +74,7 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             if (!problemContestInfo) return null;
 
-            this.problemContestInfo = problemContestInfo;
+            ProblemCompanyTagsPremium.problemContestInfo = problemContestInfo;
 
             return problemContestInfo;
 
@@ -84,8 +84,8 @@ export class ProblemCompanyTagsPremium implements IModule {
         }
     }
 
-    static async getCompanyTagsRowInfo(problemSlug: string): Promise<IProblemCompanyRowInfo | null> {
-        if (this.problemCompanyRowInfo) return this.problemCompanyRowInfo;
+    async getCompanyTagsRowInfo(problemSlug: string): Promise<IProblemCompanyRowInfo | null> {
+        if (ProblemCompanyTagsPremium.problemCompanyRowInfo) return ProblemCompanyTagsPremium.problemCompanyRowInfo;
 
         try {
             const url = Config.App.GSHEETS_COMPANY_TAGS_URL;
@@ -123,20 +123,20 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             if (!problemCompanyRowData) return null;
 
-            this.problemCompanyRowInfo = {
+            ProblemCompanyTagsPremium.problemCompanyRowInfo = {
                 StartRow: parseInt(problemCompanyRowData[1]),
                 EndRow: parseInt(problemCompanyRowData[2])
             };
 
-            return this.problemCompanyRowInfo;
+            return ProblemCompanyTagsPremium.problemCompanyRowInfo;
         } catch (e: any) {
             Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
             return null;
         }
     }
 
-    static async getCompanyTags(): Promise<ICompanyTags | null> {
-        if (this.problemCompanyTags) return this.problemCompanyTags;
+    async getCompanyTags(): Promise<ICompanyTags | null> {
+        if (ProblemCompanyTagsPremium.problemCompanyTags) return ProblemCompanyTagsPremium.problemCompanyTags;
 
         try {
             let problemSlug = window.location.pathname.split("/")[2];
@@ -147,7 +147,7 @@ export class ProblemCompanyTagsPremium implements IModule {
             const rowEnd = companyTagsRowInfo.EndRow;
 
             const url = `${Config.App.GSHEETS_COMPANY_DATA_URL}!${rowStart}:${rowEnd}?key=${Config.App.GSHEETS_COMPANY_DATA_KEY}`;
-            const data = await makeRequest(getUrl(url));
+            const data = await makeRequest(url);
             if (!data.values || !data.values[0]) return null;
 
             /*************** SAMPLE DATA ***************
@@ -183,7 +183,7 @@ export class ProblemCompanyTagsPremium implements IModule {
                 });
             });
 
-            this.problemCompanyTags = companyTags;
+            ProblemCompanyTagsPremium.problemCompanyTags = companyTags;
 
             return companyTags;
         } catch (e: any) {
@@ -192,7 +192,7 @@ export class ProblemCompanyTagsPremium implements IModule {
         }
     }
 
-    static async showCompanyTags() {
+    async showCompanyTags() {
         try {
             const companyTagsModalBody = docFind(Selectors.lc.problem.companies_button.modal_body);
             
@@ -259,15 +259,15 @@ export class ProblemCompanyTagsPremium implements IModule {
             const btnCompanies = docFind(Selectors.lc.problem.companies_button);
             if (checkDone(btnCompanies)) return;
 
-            const showCompanyTags = ProblemCompanyTagsPremium.showCompanyTags.bind(this);
+            const showCompanyTags = this.showCompanyTags.bind(this);
 
             btnCompanies.addEventListener('click', async function () {
                 const interval = setInterval(showCompanyTags, 20);                  // Fix for dynamic layout
                 setTimeout(() => clearInterval(interval), 100);
             });
 
-            await ProblemCompanyTagsPremium.getProblemContestInfo();
-            await ProblemCompanyTagsPremium.getCompanyTags();
+            await this.getProblemContestInfo();
+            await this.getCompanyTags();
 
             // observer?.disconnect();
 
@@ -284,6 +284,6 @@ export class ProblemCompanyTagsPremium implements IModule {
         mutObserve(Selectors.lc.static_dom.next, action);
     }
 
-    pages = [PageType.PROFILE];
+    pages = [PageType.PROBLEM];
 
 }

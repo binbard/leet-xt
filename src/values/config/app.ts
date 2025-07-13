@@ -4,6 +4,10 @@ export const PROXY_URL = "https://wandb-berm-1c80.public-antagonist-58.workers.d
 
 export const LCCN_API_URL = "https://lccn.lbao.site/api/v1/contest-records/user";
 
+export const LEETCA_BASE_URL = "https://leetcode.ca/all"
+
+export const NUM_LEETCA_EXTRA_ELEMENTS = 8;
+
 export const LEETCARD_BASE_URL = "https://leetcard.jacoblin.cool"
 
 export const ZEROTRAC_RATING_URL = "https://zerotrac.github.io/leetcode_problem_rating/data.json";

@@ -2,9 +2,10 @@ import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest, getUrl } from "@/core/utils/helpers";
 import { getNavbarFriendsIcon } from "@/components/navbarFriendsIcon";
+import { ResponseType } from "../defines/responseType";
+
 import Selectors from "@/values/selectors";
 import Manager from "../manager";
-import { ResponseType } from "../defines/responseType";
 
 export class NavbarFriendsButton implements IModule {
 

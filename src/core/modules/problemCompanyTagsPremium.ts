@@ -3,9 +3,10 @@ import COMPANY_TAG_HTML from "@/values/html/company_tag.html?raw"
 import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest, getUrl, clearAllChildren } from "@/core/utils/helpers";
+import { getCompanyTagsModalContentDiv, getCompanyTagsModalATag } from "@/components/companyTagsPremium";
+
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
-import { getCompanyTagsModalContentDiv, getCompanyTagsModalATag } from "@/components/companyTagsPremium";
 import Manager from "../manager";
 
 interface IProblemInfo {
@@ -37,12 +38,12 @@ interface ICompanyTags {
 }
 
 export class ProblemCompanyTagsPremium implements IModule {
-    private problemContestInfo?: IProblemInfo;
-    private problemCompanyRowInfo?: IProblemCompanyRowInfo;
-    private problemCompanyTags?: ICompanyTags;
+    private static problemContestInfo?: IProblemInfo;
+    private static problemCompanyRowInfo?: IProblemCompanyRowInfo;
+    private static problemCompanyTags?: ICompanyTags;
 
     async getProblemContestInfo(): Promise<IProblemInfo | null> {
-        if (this.problemContestInfo) return this.problemContestInfo;
+        if (ProblemCompanyTagsPremium.problemContestInfo) return ProblemCompanyTagsPremium.problemContestInfo;
 
         try {
             const url = Config.App.ZEROTRAC_RATING_URL;
@@ -73,7 +74,7 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             if (!problemContestInfo) return null;
 
-            this.problemContestInfo = problemContestInfo;
+            ProblemCompanyTagsPremium.problemContestInfo = problemContestInfo;
 
             return problemContestInfo;
 
@@ -84,7 +85,7 @@ export class ProblemCompanyTagsPremium implements IModule {
     }
 
     async getCompanyTagsRowInfo(problemSlug: string): Promise<IProblemCompanyRowInfo | null> {
-        if (this.problemCompanyRowInfo) return this.problemCompanyRowInfo;
+        if (ProblemCompanyTagsPremium.problemCompanyRowInfo) return ProblemCompanyTagsPremium.problemCompanyRowInfo;
 
         try {
             const url = Config.App.GSHEETS_COMPANY_TAGS_URL;
@@ -122,12 +123,12 @@ export class ProblemCompanyTagsPremium implements IModule {
 
             if (!problemCompanyRowData) return null;
 
-            this.problemCompanyRowInfo = {
+            ProblemCompanyTagsPremium.problemCompanyRowInfo = {
                 StartRow: parseInt(problemCompanyRowData[1]),
                 EndRow: parseInt(problemCompanyRowData[2])
             };
 
-            return this.problemCompanyRowInfo;
+            return ProblemCompanyTagsPremium.problemCompanyRowInfo;
         } catch (e: any) {
             Manager.Logger.warn(ProblemCompanyTagsPremium.name, e);
             return null;
@@ -135,7 +136,7 @@ export class ProblemCompanyTagsPremium implements IModule {
     }
 
     async getCompanyTags(): Promise<ICompanyTags | null> {
-        if (this.problemCompanyTags) return this.problemCompanyTags;
+        if (ProblemCompanyTagsPremium.problemCompanyTags) return ProblemCompanyTagsPremium.problemCompanyTags;
 
         try {
             let problemSlug = window.location.pathname.split("/")[2];
@@ -146,7 +147,7 @@ export class ProblemCompanyTagsPremium implements IModule {
             const rowEnd = companyTagsRowInfo.EndRow;
 
             const url = `${Config.App.GSHEETS_COMPANY_DATA_URL}!${rowStart}:${rowEnd}?key=${Config.App.GSHEETS_COMPANY_DATA_KEY}`;
-            const data = await makeRequest(getUrl(url));
+            const data = await makeRequest(url);
             if (!data.values || !data.values[0]) return null;
 
             /*************** SAMPLE DATA ***************
@@ -182,7 +183,7 @@ export class ProblemCompanyTagsPremium implements IModule {
                 });
             });
 
-            this.problemCompanyTags = companyTags;
+            ProblemCompanyTagsPremium.problemCompanyTags = companyTags;
 
             return companyTags;
         } catch (e: any) {

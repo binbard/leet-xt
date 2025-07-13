@@ -69,10 +69,15 @@ function slugify(str: string): string {
         .replace(/^-+|-+$/g, '');        // Remove leading/trailing hyphens
 }
 
-function parseHTML(htmlText: string): HTMLElement {
+function parseHTML(htmlText: string, full: boolean = false): HTMLElement {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlText, 'text/html');
     return doc.body.firstChild as HTMLElement;
+}
+
+function parseDocument(htmlText: string): Document {
+    const parser = new DOMParser();
+    return parser.parseFromString(htmlText, 'text/html');
 }
 
 function checkDone(element: Element): boolean {
@@ -145,6 +150,7 @@ export {
     clearAllChildren,
     slugify,
     parseHTML,
+    parseDocument,
     checkDone,
     getUrl,
     makeRequest

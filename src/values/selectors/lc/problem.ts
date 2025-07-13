@@ -7,5 +7,8 @@ export default {
             tag_num: "#lx-tag-num",
             tag_name: "#lx-tagname",
         }
+    },
+    problem: {
+        qd_content: "#qd-content",
     }
 }

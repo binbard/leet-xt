@@ -1,0 +1,473 @@
+{
+    "props": {
+        "pageProps": {
+            "isRobotVisit": false,
+            "isMobile": false,
+            "dehydratedState": {
+                "mutations": [],
+                "queries": [
+                    {
+                        "state": {
+                            "data": {
+                                "userStatus": {
+                                    "userId": 5612454,
+                                    "isSignedIn": true,
+                                    "isMockUser": false,
+                                    "isPremium": false,
+                                    "isVerified": true,
+                                    "username": "binbard",
+                                    "realName": "x86",
+                                    "avatar": "https://assets.leetcode.com/users/avatars/avatar_1679596022.png",
+                                    "isAdmin": false,
+                                    "isSuperuser": false,
+                                    "permissions": [],
+                                    "isTranslator": false,
+                                    "activeSessionId": 18891867,
+                                    "checkedInToday": true,
+                                    "completedFeatureGuides": [
+                                        "QUESTION_DETAIL_TOUR",
+                                        "NEW_QD_DETAIL_TOUR",
+                                        "NEW_IDE_DYNAMIC_LAYOUT_V2"
+                                    ],
+                                    "notificationStatus": {
+                                        "lastModified": 1740593650,
+                                        "numUnread": 20
+                                    }
+                                }
+                            },
+                            "dataUpdateCount": 1,
+                            "dataUpdatedAt": 1752393290426,
+                            "error": null,
+                            "errorUpdateCount": 0,
+                            "errorUpdatedAt": 0,
+                            "fetchFailureCount": 0,
+                            "fetchFailureReason": null,
+                            "fetchMeta": null,
+                            "isInvalidated": false,
+                            "status": "success",
+                            "fetchStatus": "idle"
+                        },
+                        "queryKey": [
+                            "globalData",
+                            {}
+                        ],
+                        "queryHash": "[\"globalData\",{}]"
+                    },
+                    {
+                        "state": {
+                            "data": {
+                                "languageList": [
+                                    {
+                                        "id": 0,
+                                        "name": "cpp"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "name": "java"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "python"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "name": "python3"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "mysql"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "name": "mssql"
+                                    },
+                                    {
+                                        "id": 15,
+                                        "name": "oraclesql"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "name": "c"
+                                    },
+                                    {
+                                        "id": 5,
+                                        "name": "csharp"
+                                    },
+                                    {
+                                        "id": 6,
+                                        "name": "javascript"
+                                    },
+                                    {
+                                        "id": 20,
+                                        "name": "typescript"
+                                    },
+                                    {
+                                        "id": 8,
+                                        "name": "bash"
+                                    },
+                                    {
+                                        "id": 19,
+                                        "name": "php"
+                                    },
+                                    {
+                                        "id": 9,
+                                        "name": "swift"
+                                    },
+                                    {
+                                        "id": 13,
+                                        "name": "kotlin"
+                                    },
+                                    {
+                                        "id": 24,
+                                        "name": "dart"
+                                    },
+                                    {
+                                        "id": 10,
+                                        "name": "golang"
+                                    },
+                                    {
+                                        "id": 7,
+                                        "name": "ruby"
+                                    },
+                                    {
+                                        "id": 12,
+                                        "name": "scala"
+                                    },
+                                    {
+                                        "id": 18,
+                                        "name": "rust"
+                                    },
+                                    {
+                                        "id": 21,
+                                        "name": "racket"
+                                    },
+                                    {
+                                        "id": 22,
+                                        "name": "erlang"
+                                    },
+                                    {
+                                        "id": 23,
+                                        "name": "elixir"
+                                    },
+                                    {
+                                        "id": 25,
+                                        "name": "pythondata"
+                                    },
+                                    {
+                                        "id": 28,
+                                        "name": "postgresql"
+                                    }
+                                ],
+                                "submittableLanguageList": [
+                                    {
+                                        "id": 0,
+                                        "name": "cpp",
+                                        "verboseName": "C++"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "name": "java",
+                                        "verboseName": "Java"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "python",
+                                        "verboseName": "Python"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "name": "python3",
+                                        "verboseName": "Python3"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "mysql",
+                                        "verboseName": "MySQL"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "name": "mssql",
+                                        "verboseName": "MS SQL Server"
+                                    },
+                                    {
+                                        "id": 15,
+                                        "name": "oraclesql",
+                                        "verboseName": "Oracle"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "name": "c",
+                                        "verboseName": "C"
+                                    },
+                                    {
+                                        "id": 5,
+                                        "name": "csharp",
+                                        "verboseName": "C#"
+                                    },
+                                    {
+                                        "id": 6,
+                                        "name": "javascript",
+                                        "verboseName": "JavaScript"
+                                    },
+                                    {
+                                        "id": 20,
+                                        "name": "typescript",
+                                        "verboseName": "TypeScript"
+                                    },
+                                    {
+                                        "id": 8,
+                                        "name": "bash",
+                                        "verboseName": "Bash"
+                                    },
+                                    {
+                                        "id": 19,
+                                        "name": "php",
+                                        "verboseName": "PHP"
+                                    },
+                                    {
+                                        "id": 9,
+                                        "name": "swift",
+                                        "verboseName": "Swift"
+                                    },
+                                    {
+                                        "id": 13,
+                                        "name": "kotlin",
+                                        "verboseName": "Kotlin"
+                                    },
+                                    {
+                                        "id": 24,
+                                        "name": "dart",
+                                        "verboseName": "Dart"
+                                    },
+                                    {
+                                        "id": 10,
+                                        "name": "golang",
+                                        "verboseName": "Go"
+                                    },
+                                    {
+                                        "id": 7,
+                                        "name": "ruby",
+                                        "verboseName": "Ruby"
+                                    },
+                                    {
+                                        "id": 12,
+                                        "name": "scala",
+                                        "verboseName": "Scala"
+                                    },
+                                    {
+                                        "id": 18,
+                                        "name": "rust",
+                                        "verboseName": "Rust"
+                                    },
+                                    {
+                                        "id": 21,
+                                        "name": "racket",
+                                        "verboseName": "Racket"
+                                    },
+                                    {
+                                        "id": 22,
+                                        "name": "erlang",
+                                        "verboseName": "Erlang"
+                                    },
+                                    {
+                                        "id": 23,
+                                        "name": "elixir",
+                                        "verboseName": "Elixir"
+                                    },
+                                    {
+                                        "id": 25,
+                                        "name": "pythondata",
+                                        "verboseName": "Pandas"
+                                    },
+                                    {
+                                        "id": 26,
+                                        "name": "react",
+                                        "verboseName": "React"
+                                    },
+                                    {
+                                        "id": 27,
+                                        "name": "vanillajs",
+                                        "verboseName": "Vanilla JS"
+                                    },
+                                    {
+                                        "id": 28,
+                                        "name": "postgresql",
+                                        "verboseName": "PostgreSQL"
+                                    },
+                                    {
+                                        "id": 29,
+                                        "name": "cangjie",
+                                        "verboseName": "Cangjie"
+                                    }
+                                ],
+                                "statusList": [
+                                    {
+                                        "id": 10,
+                                        "name": "Accepted"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "name": "Wrong Answer"
+                                    },
+                                    {
+                                        "id": 12,
+                                        "name": "Memory Limit Exceeded"
+                                    },
+                                    {
+                                        "id": 13,
+                                        "name": "Output Limit Exceeded"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "name": "Time Limit Exceeded"
+                                    },
+                                    {
+                                        "id": 15,
+                                        "name": "Runtime Error"
+                                    },
+                                    {
+                                        "id": 16,
+                                        "name": "Internal Error"
+                                    },
+                                    {
+                                        "id": 20,
+                                        "name": "Compile Error"
+                                    },
+                                    {
+                                        "id": 30,
+                                        "name": "Timeout"
+                                    }
+                                ],
+                                "questionDiscussionTopic": {
+                                    "id": 2485893,
+                                    "commentCount": 23,
+                                    "topLevelCommentCount": 20
+                                },
+                                "ugcArticleOfficialSolutionArticle": null,
+                                "question": {
+                                    "title": "Binary Tree Upside Down",
+                                    "titleSlug": "binary-tree-upside-down",
+                                    "questionId": "156",
+                                    "questionFrontendId": "156",
+                                    "questionTitle": "Binary Tree Upside Down",
+                                    "translatedTitle": null,
+                                    "content": null,
+                                    "translatedContent": null,
+                                    "categoryTitle": "Algorithms",
+                                    "difficulty": "Medium",
+                                    "stats": "{\"totalAccepted\": \"112.9K\", \"totalSubmission\": \"174.8K\", \"totalAcceptedRaw\": 112852, \"totalSubmissionRaw\": 174811, \"acRate\": \"64.6%\"}",
+                                    "companyTagStatsV2": null,
+                                    "topicTags": [
+                                        {
+                                            "name": "Tree",
+                                            "slug": "tree",
+                                            "translatedName": null
+                                        },
+                                        {
+                                            "name": "Depth-First Search",
+                                            "slug": "depth-first-search",
+                                            "translatedName": null
+                                        },
+                                        {
+                                            "name": "Binary Tree",
+                                            "slug": "binary-tree",
+                                            "translatedName": null
+                                        }
+                                    ],
+                                    "similarQuestionList": [
+                                        {
+                                            "difficulty": "Easy",
+                                            "titleSlug": "reverse-linked-list",
+                                            "title": "Reverse Linked List",
+                                            "translatedTitle": null,
+                                            "isPaidOnly": false
+                                        }
+                                    ],
+                                    "mysqlSchemas": [],
+                                    "dataSchemas": [],
+                                    "frontendPreviews": null,
+                                    "likes": 290,
+                                    "dislikes": 381,
+                                    "isPaidOnly": true,
+                                    "status": null,
+                                    "canSeeQuestion": false,
+                                    "enableTestMode": false,
+                                    "metaData": "{\n  \"name\": \"upsideDownBinaryTree\",\n  \"params\": [\n    {\n      \"name\": \"root\",\n      \"type\": \"TreeNode\",\n      \"dealloc\": false\n    }\n  ],\n  \"return\": {\n    \"type\": \"TreeNode\",\n    \"dealloc\": true\n  },\n  \"manual\": false\n}",
+                                    "enableRunCode": true,
+                                    "enableSubmit": true,
+                                    "enableDebugger": true,
+                                    "envInfo": "{\"cpp\": [\"C++\", \"\u003cp\u003eCompiled with \u003ccode\u003e clang 19 \u003c/code\u003e using the latest C++ 23 standard, and \u003ccode\u003elibstdc++\u003c/code\u003e provided by GCC 14.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eYour code is compiled with level two optimization (\u003ccode\u003e-O2\u003c/code\u003e). \u003ca href=\\\"https://github.com/google/sanitizers/wiki/AddressSanitizer\\\" target=\\\"_blank\\\"\u003eAddressSanitizer\u003c/a\u003e is also enabled to help detect out-of-bounds and use-after-free bugs.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eMost standard library headers are already included automatically for your convenience.\u003c/p\u003e\"], \"java\": [\"Java\", \"\u003cp\u003e\u003ccode\u003eOpenJDK 21\u003c/code\u003e. Using compile arguments: \u003ccode\u003e--enable-preview --release 21\u003c/code\u003e\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eMost standard library headers are already included automatically for your convenience.\u003c/p\u003e\\r\\n\u003cp\u003eIncludes \u003ccode\u003ePair\u003c/code\u003e class from https://docs.oracle.com/javase/8/javafx/api/javafx/util/Pair.html.\u003c/p\u003e\"], \"python\": [\"Python\", \"\u003cp\u003e\u003ccode\u003ePython 2.7.18\u003c/code\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eMost libraries are already imported automatically for your convenience, such as \u003ca href=\\\"https://docs.python.org/2/library/array.html\\\" target=\\\"_blank\\\"\u003earray\u003c/a\u003e, \u003ca href=\\\"https://docs.python.org/2/library/bisect.html\\\" target=\\\"_blank\\\"\u003ebisect\u003c/a\u003e, \u003ca href=\\\"https://docs.python.org/2/library/collections.html\\\" target=\\\"_blank\\\"\u003ecollections\u003c/a\u003e. If you need more libraries, you can import it yourself.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eFor Map/TreeMap data structure, you may use \u003ca href=\\\"http://www.grantjenks.com/docs/sortedcontainers/\\\" target=\\\"_blank\\\"\u003esortedcontainers\u003c/a\u003e library.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eNote that Python 2.7 \u003ca href=\\\"https://www.python.org/dev/peps/pep-0373/\\\" target=\\\"_blank\\\"\u003eis not maintained anymore\u003c/a\u003e. For the latest Python, please choose Python3 instead.\u003c/p\u003e\"], \"c\": [\"C\", \"\u003cp\u003eCompiled with \u003ccode\u003egcc 14\u003c/code\u003e using the gnu11 standard.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eYour code is compiled with level one optimization (\u003ccode\u003e-O2\u003c/code\u003e). \u003ca href=\\\"https://github.com/google/sanitizers/wiki/AddressSanitizer\\\" target=\\\"_blank\\\"\u003eAddressSanitizer\u003c/a\u003e is also enabled to help detect out-of-bounds and use-after-free bugs.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eMost standard library headers are already included automatically for your convenience.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eFor hash table operations, you may use \u003ca href=\\\"https://troydhanson.github.io/uthash/\\\" target=\\\"_blank\\\"\u003euthash\u003c/a\u003e. \\\"uthash.h\\\" is included by default. Below are some examples:\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003e\u003cb\u003e1. Adding an item to a hash.\u003c/b\u003e\\r\\n\u003cpre\u003e\\r\\nstruct hash_entry {\\r\\n    int id;            /* we'll use this field as the key */\\r\\n    char name[10];\\r\\n    UT_hash_handle hh; /* makes this structure hashable */\\r\\n};\\r\\n\\r\\nstruct hash_entry *users = NULL;\\r\\n\\r\\nvoid add_user(struct hash_entry *s) {\\r\\n    HASH_ADD_INT(users, id, s);\\r\\n}\\r\\n\u003c/pre\u003e\\r\\n\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003e\u003cb\u003e2. Looking up an item in a hash:\u003c/b\u003e\\r\\n\u003cpre\u003e\\r\\nstruct hash_entry *find_user(int user_id) {\\r\\n    struct hash_entry *s;\\r\\n    HASH_FIND_INT(users, \u0026user_id, s);\\r\\n    return s;\\r\\n}\\r\\n\u003c/pre\u003e\\r\\n\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003e\u003cb\u003e3. Deleting an item in a hash:\u003c/b\u003e\\r\\n\u003cpre\u003e\\r\\nvoid delete_user(struct hash_entry *user) {\\r\\n    HASH_DEL(users, user);  \\r\\n}\\r\\n\u003c/pre\u003e\\r\\n\u003c/p\u003e\"], \"csharp\": [\"C#\", \"\u003cp\u003e\u003ca href=\\\"https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13\\\" target=\\\"_blank\\\"\u003eC# 13\u003c/a\u003e with .NET 9 runtime\u003c/p\u003e\"], \"javascript\": [\"JavaScript\", \"\u003cp\u003e\u003ccode\u003eNode.js 22.14.0\u003c/code\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eYour code is run with \u003ccode\u003e--harmony\u003c/code\u003e flag, enabling \u003ca href=\\\"http://node.green/\\\" target=\\\"_blank\\\"\u003enew ES6 features\u003c/a\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003e\u003ca href=\\\"https://lodash.com\\\" target=\\\"_blank\\\"\u003elodash.js\u003c/a\u003e library is included by default.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eFor Priority Queue / Queue data structures, you may use 6.3.2 version of \u003ca href=\\\"https://github.com/datastructures-js/priority-queue/tree/c044606839de82cdc796326a130d4090c0b01504\\\" target=\\\"_blank\\\"\u003edatastructures-js/priority-queue\u003c/a\u003e and 4.2.3 version of \u003ca href=\\\"https://github.com/datastructures-js/queue/tree/v4.2.3\\\" target=\\\"_blank\\\"\u003edatastructures-js/queue\u003c/a\u003e and 1.0.4 version of \u003ca href=\\\"https://github.com/datastructures-js/deque/tree/v1.0.4\\\" target=\\\"_blank\\\"\u003edatastructures-js/deque\u003c/a\u003e.\u003c/p\u003e\"], \"ruby\": [\"Ruby\", \"\u003cp\u003e\u003ccode\u003eRuby 3.2\u003c/code\u003e\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eSome common data structure implementations are provided in the Algorithms module: https://www.rubydoc.info/github/kanwei/algorithms/Algorithms\u003c/p\u003e\"], \"swift\": [\"Swift\", \"\u003cp\u003e\u003ccode\u003eSwift 6.0\u003c/code\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eYou may use the following packages:\u003cbr/\u003e\\r\\n\u003ca href=\\\"https://github.com/apple/swift-algorithms/tree/1.2.0\\\" target=\\\"_blank\\\"\u003eswift-algorithms 1.2.0\u003c/a\u003e\u003cbr/\u003e\\r\\n\u003ca href=\\\"https://github.com/apple/swift-collections/tree/1.1.4\\\" target=\\\"_blank\\\"\u003eswift-collections 1.1.4\u003c/a\u003e\u003cbr/\u003e\\r\\n\u003ca href=\\\"https://github.com/apple/swift-numerics/tree/1.0.2\\\" target=\\\"_blank\\\"\u003eswift-numerics 1.0.2\u003c/a\u003e\u003c/p\u003e\"], \"golang\": [\"Go\", \"\u003cp\u003e\u003ccode\u003eGo 1.23\u003c/code\u003e\u003c/p\u003e\\r\\n\u003cp\u003eSupport \u003ca href=\\\"https://pkg.go.dev/github.com/emirpasic/gods@v1.18.1\\\" target=\\\"_blank\\\"\u003ehttps://pkg.go.dev/github.com/emirpasic/gods@v1.18.1\u003c/a\u003e and \u003ca href=\\\"https://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha\\\" target=\\\"_blank\\\"\u003ehttps://pkg.go.dev/github.com/emirpasic/gods/v2@v2.0.0-alpha\u003c/a\u003e library.\u003c/p\u003e\"], \"python3\": [\"Python3\", \"\u003cp\u003e\u003ccode\u003ePython 3.11\u003c/code\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eMost libraries are already imported automatically for your convenience, such as \u003ca href=\\\"https://docs.python.org/3/library/array.html\\\" target=\\\"_blank\\\"\u003earray\u003c/a\u003e, \u003ca href=\\\"https://docs.python.org/3/library/bisect.html\\\" target=\\\"_blank\\\"\u003ebisect\u003c/a\u003e, \u003ca href=\\\"https://docs.python.org/3/library/collections.html\\\" target=\\\"_blank\\\"\u003ecollections\u003c/a\u003e. If you need more libraries, you can import it yourself.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eFor Map/TreeMap data structure, you may use \u003ca href=\\\"http://www.grantjenks.com/docs/sortedcontainers/\\\" target=\\\"_blank\\\"\u003esortedcontainers\u003c/a\u003e library.\u003c/p\u003e\"], \"scala\": [\"Scala\", \"\u003cp\u003e\u003ccode\u003eScala 3.3.1\u003c/code\u003e.\u003c/p\u003e\"], \"kotlin\": [\"Kotlin\", \"\u003cp\u003e\u003ccode\u003eKotlin 2.1.10\u003c/code\u003e.\u003c/p\u003e\"], \"rust\": [\"Rust\", \"\u003cp\u003e\u003ccode\u003eRust 1.85.0, using edition 2021.\u003c/code\u003e. Your code will be compiled with \u003ccode\u003eopt-level\u003c/code\u003e 2.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eSupports \u003ca href=\\\"https://crates.io/crates/rand\\\" target=\\\"_blank\\\"\u003erand v0.8\u003c/a\u003e and \u003ca href=\\\"https://crates.io/crates/regex\\\" target=\\\"_blank\\\"\u003eregex\\u00a0v1\u003c/a\u003e and \u003ca href=\\\"https://crates.io/crates/itertools\\\" target=\\\"_blank\\\"\u003eitertools\\u00a0v0.14\u003c/a\u003e from crates.io\u003c/p\u003e\"], \"php\": [\"PHP\", \"\u003cp\u003e\u003ccode\u003ePHP 8.2\u003c/code\u003e.\u003c/p\u003e\\r\\n\u003cp\u003eWith bcmath module\u003c/p\u003e\"], \"typescript\": [\"Typescript\", \"\u003cp\u003e\u003ccode\u003eTypeScript 5.7.3, Node.js 22.14.0\u003c/code\u003e.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eCompile Options: \u003ccode\u003e--alwaysStrict --strictBindCallApply --strictFunctionTypes --target ES2024\u003c/code\u003e\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003e\u003ca href=\\\"https://lodash.com\\\" target=\\\"_blank\\\"\u003elodash.js\u003c/a\u003e library is included by default.\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eFor Priority Queue / Queue data structures, you may use 6.3.2 version of \u003ca href=\\\"https://github.com/datastructures-js/priority-queue/tree/c044606839de82cdc796326a130d4090c0b01504\\\" target=\\\"_blank\\\"\u003edatastructures-js/priority-queue\u003c/a\u003e and 4.2.3 version of \u003ca href=\\\"https://github.com/datastructures-js/queue/tree/v4.2.3\\\" target=\\\"_blank\\\"\u003edatastructures-js/queue\u003c/a\u003e and 1.0.4 version of \u003ca href=\\\"https://github.com/datastructures-js/deque/tree/v1.0.4\\\" target=\\\"_blank\\\"\u003edatastructures-js/deque\u003c/a\u003e.\u003c/p\u003e\"], \"racket\": [\"Racket\", \"\u003cp\u003e\u003ca href=\\\"https://docs.racket-lang.org/guide/performance.html#%28tech._c%29\\\" target=\\\"_blank\\\"\u003eRacket CS\u003c/a\u003e v8.15\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eUsing \u003ccode\u003e#lang racket\u003c/code\u003e\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eRequired \u003ccode\u003edata/gvector data/queue data/order data/heap\u003c/code\u003e automatically for your convenience\u003c/p\u003e\"], \"erlang\": [\"Erlang\", \"Erlang/OTP 26\"], \"elixir\": [\"Elixir\", \"Elixir 1.17 with Erlang/OTP 26\"], \"dart\": [\"Dart\", \"\u003cp\u003eDart 3.2. You may use package \u003ca href=\\\"https://pub.dev/packages/collection/versions/1.18.0\\\" target=\\\"_blank\\\"\u003ecollection\u003c/a\u003e\u003c/p\u003e\\r\\n\\r\\n\u003cp\u003eYour code will be run directly without compiling\u003c/p\u003e\"]}",
+                                    "isLiked": null,
+                                    "nextChallenges": [
+                                        {
+                                            "difficulty": "Easy",
+                                            "title": "Merge Two Binary Trees",
+                                            "titleSlug": "merge-two-binary-trees",
+                                            "questionFrontendId": "617"
+                                        },
+                                        {
+                                            "difficulty": "Medium",
+                                            "title": "Binary Tree Longest Consecutive Sequence",
+                                            "titleSlug": "binary-tree-longest-consecutive-sequence",
+                                            "questionFrontendId": "298"
+                                        },
+                                        {
+                                            "difficulty": "Hard",
+                                            "title": "Shortest Path in a Weighted Tree",
+                                            "titleSlug": "shortest-path-in-a-weighted-tree",
+                                            "questionFrontendId": "3515"
+                                        }
+                                    ],
+                                    "libraryUrl": null,
+                                    "adminUrl": null,
+                                    "hints": [],
+                                    "codeSnippets": null,
+                                    "exampleTestcaseList": [
+                                        "[1,2,3,4,5]",
+                                        "[]",
+                                        "[1]"
+                                    ],
+                                    "hasFrontendPreview": false
+                                }
+                            },
+                            "dataUpdateCount": 1,
+                            "dataUpdatedAt": 1752393290579,
+                            "error": null,
+                            "errorUpdateCount": 0,
+                            "errorUpdatedAt": 0,
+                            "fetchFailureCount": 0,
+                            "fetchFailureReason": null,
+                            "fetchMeta": null,
+                            "isInvalidated": false,
+                            "status": "success",
+                            "fetchStatus": "idle"
+                        },
+                        "queryKey": [
+                            "questionDetail",
+                            {
+                                "titleSlug": "binary-tree-upside-down"
+                            }
+                        ],
+                        "queryHash": "[\"questionDetail\",{\"titleSlug\":\"binary-tree-upside-down\"}]"
+                    }
+                ]
+            },
+            "isFocusMode": false
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+        "__N_SSP": true
+    },
+    "page": "/problems/[slug]/[[...tab]]",
+    "query": {
+        "slug": "binary-tree-upside-down",
+        "tab": [
+            "description"
+        ]
+    },
+    "buildId": "bcVw__8754LcbyLk8EmZc",
+    "isFallback": false,
+    "isExperimentalCompile": false,
+    "gssp": true,
+    "appGip": true,
+    "scriptLoader": []
+}

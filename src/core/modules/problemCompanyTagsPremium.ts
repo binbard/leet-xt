@@ -3,9 +3,10 @@ import COMPANY_TAG_HTML from "@/values/html/company_tag.html?raw"
 import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest, getUrl, clearAllChildren } from "@/core/utils/helpers";
+import { getCompanyTagsModalContentDiv, getCompanyTagsModalATag } from "@/components/companyTagsPremium";
+
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
-import { getCompanyTagsModalContentDiv, getCompanyTagsModalATag } from "@/components/companyTagsPremium";
 import Manager from "../manager";
 
 interface IProblemInfo {
@@ -37,11 +38,11 @@ interface ICompanyTags {
 }
 
 export class ProblemCompanyTagsPremium implements IModule {
-    private problemContestInfo?: IProblemInfo;
-    private problemCompanyRowInfo?: IProblemCompanyRowInfo;
-    private problemCompanyTags?: ICompanyTags;
+    private static problemContestInfo?: IProblemInfo;
+    private static problemCompanyRowInfo?: IProblemCompanyRowInfo;
+    private static problemCompanyTags?: ICompanyTags;
 
-    async getProblemContestInfo(): Promise<IProblemInfo | null> {
+    static async getProblemContestInfo(): Promise<IProblemInfo | null> {
         if (this.problemContestInfo) return this.problemContestInfo;
 
         try {
@@ -83,7 +84,7 @@ export class ProblemCompanyTagsPremium implements IModule {
         }
     }
 
-    async getCompanyTagsRowInfo(problemSlug: string): Promise<IProblemCompanyRowInfo | null> {
+    static async getCompanyTagsRowInfo(problemSlug: string): Promise<IProblemCompanyRowInfo | null> {
         if (this.problemCompanyRowInfo) return this.problemCompanyRowInfo;
 
         try {
@@ -134,7 +135,7 @@ export class ProblemCompanyTagsPremium implements IModule {
         }
     }
 
-    async getCompanyTags(): Promise<ICompanyTags | null> {
+    static async getCompanyTags(): Promise<ICompanyTags | null> {
         if (this.problemCompanyTags) return this.problemCompanyTags;
 
         try {
@@ -191,7 +192,7 @@ export class ProblemCompanyTagsPremium implements IModule {
         }
     }
 
-    async showCompanyTags() {
+    static async showCompanyTags() {
         try {
             const companyTagsModalBody = docFind(Selectors.lc.problem.companies_button.modal_body);
             
@@ -258,15 +259,15 @@ export class ProblemCompanyTagsPremium implements IModule {
             const btnCompanies = docFind(Selectors.lc.problem.companies_button);
             if (checkDone(btnCompanies)) return;
 
-            const showCompanyTags = this.showCompanyTags.bind(this);
+            const showCompanyTags = ProblemCompanyTagsPremium.showCompanyTags.bind(this);
 
             btnCompanies.addEventListener('click', async function () {
                 const interval = setInterval(showCompanyTags, 20);                  // Fix for dynamic layout
                 setTimeout(() => clearInterval(interval), 100);
             });
 
-            await this.getProblemContestInfo();
-            await this.getCompanyTags();
+            await ProblemCompanyTagsPremium.getProblemContestInfo();
+            await ProblemCompanyTagsPremium.getCompanyTags();
 
             // observer?.disconnect();
 
@@ -283,6 +284,6 @@ export class ProblemCompanyTagsPremium implements IModule {
         mutObserve(Selectors.lc.static_dom.next, action);
     }
 
-    pages = [PageType.PROBLEM];
+    pages = [PageType.PROFILE];
 
 }

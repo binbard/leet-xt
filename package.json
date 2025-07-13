@@ -1,7 +1,7 @@
 {
   "name": "leet-xt",
   "description": "Extend your Leetcode",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "scripts": {
     "dev": "wxt",

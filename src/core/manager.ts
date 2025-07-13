@@ -1,4 +1,5 @@
 import { FriendManager } from "./utils/friendManager";
+import { InfoManager } from "./utils/infoManager";
 import { LeetcodeManager } from "./utils/leetcodeManager";
 import { LogManager } from "./utils/logManager";
 import { MetaManager } from "./utils/metaManager";
@@ -11,6 +12,7 @@ class Manager {
 
     static Meta = MetaManager
     static Friend = FriendManager
+    static Info = InfoManager
     static Leetcode = LeetcodeManager
     static Logger = LogManager
     static Storage = StorageManager

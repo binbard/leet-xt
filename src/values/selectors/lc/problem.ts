@@ -7,5 +7,9 @@ export default {
             tag_num: "#lx-tag-num",
             tag_name: "#lx-tagname",
         }
+    },
+    problem: {
+        qd_content: "#qd-content",
+        pd_content_parent: "div.flexlayout__tab div.flex.h-full.w-full",
     }
 }

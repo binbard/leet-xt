@@ -8,6 +8,7 @@ import PS_NOTAC_SVG from "@/values/svg/ps_notac.svg?raw"
 import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
 import { mutObserve, docFind, checkDone, makeRequest, parseHTML } from "@/core/utils/helpers";
+
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
 import Manager from "../manager";

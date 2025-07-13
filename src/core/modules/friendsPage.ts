@@ -6,13 +6,13 @@ import FRIEND_DOWN_ARROW from "@/values/svg/friend_down_arrow.svg?raw"
 
 import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
+import { SortType } from "@/core/defines/sortType";
+import { IFriendData } from "../utils/leetcodeManager"
+import { getFriendsTableRow } from "@/components/friendsTable";
 import { clearAllChildren, docFind, parseHTML } from "@/core/utils/helpers";
 
 import Manager from "@/core/manager";
 import Config from "@/values/config"
-import { IFriendData } from "../utils/leetcodeManager"
-import { SortType } from "@/core/defines/sortType";
-import { getFriendsTableRow } from "@/components/friendsTable";
 import Selectors from "@/values/selectors"
 
 type SortField = 'username' | 'rating' | 'problems_solved' | 'top';

@@ -256,7 +256,8 @@ export class ProblemCompanyTagsPremium implements IModule {
 
     async action(_?: MutationRecord[], observer?: MutationObserver): Promise<void> {
         try {
-            const btnCompanies = docFind(Selectors.lc.problem.companies_button);
+            const btnCompanies = docFind(Selectors.lc.problem.companies_button, undefined, true) as HTMLDivElement;
+            if (!btnCompanies) return;
             if (checkDone(btnCompanies)) return;
 
             const showCompanyTags = this.showCompanyTags.bind(this);

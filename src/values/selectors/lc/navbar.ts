@@ -1,10 +1,10 @@
 export default {
     root: {
-        self: '#leetcode-navbar',
+        self: 'nav.z-nav-1',
         icon_container: {
-            self: '#leetcode-navbar > div.display-none.m-auto.w-full.items-center.justify-center.px-6 > div > div',
+            self: 'nav.z-nav-1 div.relative.flex.items-center.justify-end.gap-2',
             user_avatar: '#navbar_user_avatar',
-            profile_icon_container: '#leetcode-navbar > div.display-none.m-auto.w-full.items-center.justify-center.px-6 > div > div > div:nth-child(3)',
+            profile_icon_container: 'nav.z-nav-1 div.relative.flex.items-center.justify-end.gap-2 > div.relative',
         },
     },
 }

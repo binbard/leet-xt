@@ -5,7 +5,6 @@ import { docFind, docFindById, getUrl, makeRequest, parseDocument, parseHTML } f
 import { InfoManager } from "@/core/utils/infoManager";
 import { ResponseType } from "@/core/defines/responseType";
 import { ProblemCompanyTagsPremium } from "@/core/modules";
-import { LEETCA_BASE_URL } from "@/values/config/app";
 import Config from "@/values/config";
 
 import Manager from "@/core/manager";
@@ -16,27 +15,33 @@ async function getPremiumProblemDescriptionContent(): Promise<HTMLElement> {
 
     try {
         const questionData = InfoManager.getQuestionData();
-        const questionId = questionData?.questionId;
+        const questionId = questionData?.questionFrontendId;
         const questionTitle = questionData?.questionTitle;
         const questionDifficulty = questionData?.difficulty;
         const stats = JSON.parse(questionData?.stats);
         const totalAccepted = stats?.totalAccepted;
         const totalSubmission = stats?.totalSubmission;
         const acRate = stats?.acRate;
-        
-        const url = getUrl(`${LEETCA_BASE_URL}/${questionId}.html`);
+
+        const url = getUrl(`${Config.App.LEETCODE_DOOCS_BASE_URL}/${questionId}`);
         const response = await makeRequest(url, undefined, ResponseType.TEXT);
         const doc = parseDocument(response);
 
-        const newDescriptionContent = docFind("body div.markdown-body", doc) as HTMLElement;
-
-        for(let i = 0; i < Config.App.NUM_LEETCA_EXTRA_ELEMENTS; i++) {
-            const lastChild = newDescriptionContent.lastElementChild;
-            if (!lastChild) break;
-            newDescriptionContent.removeChild(lastChild);
+        const startElement = doc.getElementById("description")
+        if (!startElement) {
+            Manager.Logger.error("getPremiumProblemDescriptionContent", "Start element not found in the document");
+            return pdContent;
         }
 
-        descriptionContent.innerHTML = newDescriptionContent.innerHTML;
+        let extractedHtml = '';
+        let currentElement = startElement.nextElementSibling as HTMLElement;
+
+        while (currentElement && currentElement.id !== 'solutions') {
+            extractedHtml += currentElement.outerHTML + '\n';
+            currentElement = currentElement.nextElementSibling as HTMLElement;
+        }
+
+        descriptionContent.innerHTML = extractedHtml;
 
         const lxProblemTitle = docFindById("lx-problem-title", pdContent) as HTMLElement;
         lxProblemTitle.textContent = `${questionId}. ${questionTitle}`;

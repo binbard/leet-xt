@@ -27,12 +27,22 @@ export class ContestHighlighter implements IModule {
                 "div.flex.w-\\[94px\\].flex-none.flex-col > div"
             );
 
+            let offset = 25;
+
+            const you = rows[27].querySelector<HTMLDivElement>("a div.truncate")?.textContent?.trim();
+            if(you==="You") offset=offset+1;
+
             rows.forEach((row, i) => {
                 const displayNameDiv = row.querySelector<HTMLDivElement>("a div.truncate");
                 const displayName = displayNameDiv?.textContent?.trim();
                 if (!displayName) return;
 
-                const rankDiv = rankDivs[i - 26]; // adjust index as before
+                const isBiweekly = window.location.href.includes("biweekly");
+                const boxBorderColor = isBiweekly ? "#aff0ff" : "#f5d76e"; // blue for biweekly, gold for weekly
+                const boxLowerColor = isBiweekly ? "#281a4b" : "#492c1b"; // dark blue vs deep brown
+                const boxUpperColor = isBiweekly ? "#181c24" : "#211c1a"; // medium blue vs medium brown
+                
+                const rankDiv = rankDivs[i - offset]; // adjust index as needed
                 if (!rankDiv) return;
 
                 const isFriend = this.friends.some(
@@ -40,40 +50,84 @@ export class ContestHighlighter implements IModule {
                 );
 
                 if (isFriend) {
-                    const startColor = "#ccb95f"; // yellow
-                    const endColor = "#4e311d";   // dark brown
+                    // const startColor = "#f5d76e"; // gold
+                    // const endColor = "#4e311d";   // deep brown
 
-                    // Row gradient background
-                    const rowGradient = "linear-gradient(to bottom, #27211c 0%, #4e311d 100%)";
-                    row.style.background = rowGradient;
-                    row.style.borderRadius = "8px";
-                    row.style.transition = "all 0.4s ease";
+
+
+                    // === Row Styling ===
+                    row.style.position = "relative";
+                    row.style.overflow = "hidden";
                     row.style.color = "#fff";
-                    row.style.position = "relative"; // needed if we use pseudo-element
+                    row.style.transition = "all 0.4s ease";
+                    row.style.background = `linear-gradient(180deg, ${boxUpperColor} 0%, ${boxLowerColor} 100%)`;
+                    row.style.borderLeft = "none";
 
-                    // Remove boxShadow
-                    // row.style.boxShadow = "0 4px 10px rgba(0,0,0,0.25)"; // optional drop shadow
 
-                    // Apply gradient border using border-image
-                    row.style.border = "3px solid"; // border width
-                    row.style.borderImage = `linear-gradient(to bottom right, ${startColor}, ${endColor}) 1`;
+                    // Top gradient border
+                    if (!row.querySelector(".top-border")) {
+                        const topBorder = document.createElement("div");
+                        topBorder.className = "top-border";
+                        topBorder.style.position = "absolute";
+                        topBorder.style.top = "0";
+                        topBorder.style.left = "0";
+                        topBorder.style.right = "0";
+                        topBorder.style.height = "1px";
+                        topBorder.style.background = `linear-gradient(to right, ${boxBorderColor} 0%, ${boxLowerColor} 70%)`;
+                        row.appendChild(topBorder);
+                    }
 
-                    // Rank div styles
-                    rankDiv.style.background = rowGradient;
-                    rankDiv.style.borderTopLeftRadius = "6px";
-                    rankDiv.style.borderBottomLeftRadius = "6px";
-                    rankDiv.style.padding = "2px 6px";
+                    // Bottom gradient border
+                    if (!row.querySelector(".bottom-border")) {
+                        const bottomBorder = document.createElement("div");
+                        bottomBorder.className = "bottom-border";
+                        bottomBorder.style.position = "absolute";
+                        bottomBorder.style.bottom = "0";
+                        bottomBorder.style.left = "0";
+                        bottomBorder.style.right = "0";
+                        bottomBorder.style.height = "1px";
+                        bottomBorder.style.background = `linear-gradient(to right, ${boxLowerColor}, ${boxBorderColor})`;
+                        row.appendChild(bottomBorder);
+                    }
+
+                    // Right gradient border
+                    if (!row.querySelector(".right-border")) {
+                        const rightBorder = document.createElement("div");
+                        rightBorder.className = "right-border";
+                        rightBorder.style.position = "absolute";
+                        rightBorder.style.top = "0";
+                        rightBorder.style.bottom = "0";
+                        rightBorder.style.right = "0";
+                        rightBorder.style.width = "1px"; // thickness of the right border
+                        rightBorder.style.background = `linear-gradient(to top, ${boxBorderColor}, ${boxLowerColor})`;
+                        row.appendChild(rightBorder);
+                    }
+
+                    // === Rank Div Styling ===
+                    rankDiv.style.position = "relative";
+                    rankDiv.style.background = `linear-gradient(180deg, ${boxUpperColor} 0%, ${boxLowerColor} 100%)`;
+                    rankDiv.style.padding = "2px 8px";
                     rankDiv.style.color = "#fff";
                     rankDiv.style.fontWeight = "600";
-                    rankDiv.style.textShadow = "0 0 6px rgba(0,0,0,0.4)";
-                    rankDiv.style.transition = "all 0.3s ease";
+                    // rankDiv.style.textShadow = "0 0 6px rgba(0,0,0,0.4)"
+                    rankDiv.style.borderRadius = "0";
+                    rankDiv.style.borderRight = "none";
+                    rankDiv.style.borderTop = `1px solid ${boxBorderColor}`;
+                    
+                    if(!rankDiv.querySelector(".rank-right-border")) {
+                        const leftBorder = document.createElement("div");
+                        leftBorder.className = "left-border";
+                        leftBorder.style.position = "absolute";
+                        leftBorder.style.top = "0";
+                        leftBorder.style.bottom = "0";
+                        leftBorder.style.left = "0";
+                        leftBorder.style.width = "1px"; // thickness of the left border
+                        leftBorder.style.background = `linear-gradient(to bottom, ${boxBorderColor}, ${boxLowerColor})`;
+                        rankDiv.appendChild(leftBorder);
 
-                    // Optional: gradient border on rankDiv too
-                    rankDiv.style.border = "2px solid";
-                    rankDiv.style.borderImage = `linear-gradient(to bottom right, ${startColor}, ${endColor}) 1`;
+                    }
+                    
                 }
-
-
             });
         } catch (e: any) {
             Manager.Logger.warn(this.constructor.name, e);

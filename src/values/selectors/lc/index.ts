@@ -1,4 +1,5 @@
 import contest from './contest';
+import contestRankTableOriginal from './contestRankTableOriginal';
 import friend from './friend';
 import navbar from './navbar';
 import problem from './problem';
@@ -12,4 +13,5 @@ export default {
     problem,
     profile,
     static_dom,
+    contestRankTableOriginal
 }

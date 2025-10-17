@@ -3,7 +3,8 @@ import { PageType } from "@/core/defines/pageType";
 import Manager from "../manager";
 import { FriendManager } from "../utils/friendManager";
 import { IFriendData } from "@/core/utils/leetcodeManager";
-import { weekly, biweekly } from "@/core/defines/colorsForContestRankHighlighter";
+import Selectors from "@/values/selectors";
+import Config from "@/values/config";
 
 
 export class contestRankingPageFriendsHighlighter implements IModule {
@@ -26,11 +27,11 @@ export class contestRankingPageFriendsHighlighter implements IModule {
             const friendSet = new Set(this.friends.map(f => f.displayName.toLowerCase()));
 
             const rows = document.querySelectorAll<HTMLDivElement>(
-                "div.even\\:bg-fill-quaternary.flex.h-\\[50px\\]"
+                Selectors.lc.contestRankTableOriginal.contest_ranking.row
             );
 
             const rankDivs = document.querySelectorAll<HTMLDivElement>(
-                "div.flex.w-\\[94px\\].flex-none.flex-col > div"
+                Selectors.lc.contestRankTableOriginal.contest_ranking.rank_div
             );
 
             let offset = 25;
@@ -47,7 +48,7 @@ export class contestRankingPageFriendsHighlighter implements IModule {
 
                 const isBiweekly = window.location.href.includes("biweekly");
                 
-                const colors = isBiweekly ? biweekly : weekly;
+                const colors = isBiweekly ? Config.colorsForContestRankHighlighter.biweekly : Config.colorsForContestRankHighlighter.weekly;
                 const boxBorderColor = colors.boxBorderColor;
                 const boxLowerColor = colors.boxLowerColor;
                 const boxUpperColor = colors.boxUpperColor;

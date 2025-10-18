@@ -2,14 +2,12 @@ import { IModule } from "@/core/interfaces/module";
 import { PageType } from "@/core/defines/pageType";
 import Manager from "../manager";
 import { FriendManager } from "../utils/friendManager";
-import { IFriendData } from "@/core/utils/leetcodeManager";
 import Selectors from "@/values/selectors";
 import Config from "@/values/config";
 
-
 export class contestRankingPageFriendsHighlighter implements IModule {
     pages = [PageType.CONTEST];
-    private friends: IFriendData[] = [];
+    private friendUsernames: Set<string> = new Set();
 
     apply(): void {
         const observer = new MutationObserver(() => this.action());
@@ -19,12 +17,11 @@ export class contestRankingPageFriendsHighlighter implements IModule {
 
     async action() {
         try {
-            // Fetch friend list
-            this.friends = await FriendManager.getFullFriendList();
-            if (!this.friends.length) return;
+            // Fetch friend usernames
+            const friends = await FriendManager.getFriendList();
+            if (!friends.length) return;
 
-            // Create a Set for O(1) lookup
-            const friendSet = new Set(this.friends.map(f => f.displayName.toLowerCase()));
+            this.friendUsernames = new Set(friends.map(username => username.toLowerCase()));
 
             const rows = document.querySelectorAll<HTMLDivElement>(
                 Selectors.lc.contestRankTableOriginal.contest_ranking.row
@@ -35,27 +32,27 @@ export class contestRankingPageFriendsHighlighter implements IModule {
             );
 
             let offset = 25;
-            const you = rows[27].querySelector<HTMLDivElement>("a div.truncate")?.textContent?.trim();
-            if (you === "You") offset = offset + 1;
+            const you = rows[27]?.querySelector<HTMLDivElement>(Selectors.lc.contestRankTableOriginal.contest_ranking.username_div)?.textContent?.trim();
+            if (you === "You") offset += 1;
 
             rows.forEach((row, i) => {
-                const displayNameDiv = row.querySelector<HTMLDivElement>("a div.truncate");
-                const displayName = displayNameDiv?.textContent?.trim();
-                if (!displayName) return;
+                const anchor = row.querySelector<HTMLAnchorElement>(Selectors.lc.contestRankTableOriginal.contest_ranking.anchor_with_username);
+                if (!anchor) return;
 
-                const isFriend = friendSet.has(displayName.toLowerCase());
-                if (!isFriend) return;
+                const match = anchor.href.match(Selectors.lc.contestRankTableOriginal.contest_ranking.username_href_regex);
+                if (!match) return;
+
+                const username = match[1].toLowerCase();
+                if (!this.friendUsernames.has(username)) return;
 
                 const isBiweekly = window.location.href.includes("biweekly");
-                
-                const colors = isBiweekly ? Config.colorsForContestRankHighlighter.biweekly : Config.colorsForContestRankHighlighter.weekly;
-                const boxBorderColor = colors.boxBorderColor;
-                const boxLowerColor = colors.boxLowerColor;
-                const boxUpperColor = colors.boxUpperColor;
-                const boxBorderEndingColor = colors.boxBorderEndingColor;
+                const colors = isBiweekly
+                    ? Config.colorsForContestRankHighlighter.biweekly
+                    : Config.colorsForContestRankHighlighter.weekly;
 
+                const { boxBorderColor, boxLowerColor, boxUpperColor, boxBorderEndingColor } = colors;
 
-                const rankDiv = rankDivs[i - offset]; // adjust index as needed
+                const rankDiv = rankDivs[i - offset]; // Adjust index based on 'You'
                 if (!rankDiv) return;
 
                 // Gradient definitions

@@ -1,6 +1,4 @@
 import Manager from "../manager";
-import { IFriendData, IUserDetails } from "@/core/utils/leetcodeManager";
-import { LeetcodeManager } from "@/core/utils/leetcodeManager";
 
 class FriendManager {
 
@@ -60,40 +58,6 @@ class FriendManager {
     static async clearAllFriends() {
         await Manager.Storage.remove(FriendManager.FRIENDS_LOC);
     }
-
- static async getFullFriendList(): Promise<IFriendData[]> {
-        const usernames: string[] = await Manager.Storage.get(FriendManager.FRIENDS_LOC, []);
-
-        // Fetch details for all friends
-        const friendData: IFriendData[] = await Promise.all(
-            usernames.map(async username => {
-                const details = await LeetcodeManager.getUserDetails(username);
-                if (details) {
-                    return {
-                        ...details,
-                        displayName: details.name || username
-                    } as IFriendData;
-                }
-                // fallback if API fails
-                return {
-                    username,
-                    avatar: "",
-                    name: username,
-                    rating: 0,
-                    contests: "",
-                    problems_solved: 0,
-                    easy: 0,
-                    medium: 0,
-                    hard: 0,
-                    top: "",
-                    displayName: username
-                } as IFriendData;
-            })
-        );
-
-        return friendData;
-    }
 }
-
 
 export { FriendManager };

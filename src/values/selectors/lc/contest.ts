@@ -6,7 +6,14 @@ export default {
             self: ".mx-auto.w-full",
             table_container: {
                 self: ".relative.flex.w-full.justify-center",
-                original_table: ".relative.flex.w-full.flex-col",
+                original_table: {
+                    self: ".relative.flex.w-full.flex-col",
+                    row: "div.even\\:bg-fill-quaternary.flex.h-\\[50px\\]",
+                    rank_div: "div.flex.w-\\[94px\\].flex-none.flex-col > div",
+                    username_div: "a div.truncate",
+                    anchor_with_username: "a[href^='/u/']",
+                    username_href_regex: "\/u\/([^\/]+)\/",
+                },
                 friend_table: {
                     self: "#lx-contest-friend-table",
                     body: {

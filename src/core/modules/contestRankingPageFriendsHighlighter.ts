@@ -9,6 +9,39 @@ export class contestRankingPageFriendsHighlighter implements IModule {
     pages = [PageType.CONTEST];
     private friendUsernames: Set<string> = new Set();
 
+    private clearHighlights() {
+        const rows = document.querySelectorAll<HTMLDivElement>(
+            Selectors.lc.contest.ranking.container.table_container.original_table.row
+        );
+
+        const rankDivs = document.querySelectorAll<HTMLDivElement>(
+            Selectors.lc.contest.ranking.container.table_container.original_table.rank_div
+        );
+
+        rows.forEach(row => {
+            row.style.background = "";
+            row.style.border = "";
+            row.style.borderLeft = "";
+            row.style.borderTopRightRadius = "";
+            row.style.borderBottomRightRadius = "";
+            row.style.transition = "";
+            row.style.position = "";
+            row.style.zIndex = "";
+        });
+
+        rankDivs.forEach(rankDiv => {
+            rankDiv.style.background = "";
+            rankDiv.style.border = "";
+            rankDiv.style.borderRight = "";
+            rankDiv.style.borderTopLeftRadius = "";
+            rankDiv.style.borderBottomLeftRadius = "";
+            rankDiv.style.transition = "";
+            rankDiv.style.position = "";
+            rankDiv.style.zIndex = "";
+        });
+    }
+
+
     apply(): void {
         const observer = new MutationObserver(() => this.action());
         observer.observe(document.body, { childList: true, subtree: true });
@@ -17,6 +50,7 @@ export class contestRankingPageFriendsHighlighter implements IModule {
 
     async action() {
         try {
+            this.clearHighlights();
             const friends = await FriendManager.getFriendList();
             if (!friends.length) return;
 

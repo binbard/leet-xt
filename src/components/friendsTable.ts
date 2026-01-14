@@ -11,6 +11,11 @@ function getFriendsTableRow(friendData: IFriendData): HTMLDivElement {
     div.innerHTML = FRIEND_ROW_HTML;
     const row = docFind('div', div) as HTMLDivElement;
 
+    if (Manager.Leetcode.isDarkTheme()) {
+        row.classList.add('dark');
+    }
+
+
     const favatar = docFind(Selectors.lc.friend.table.row_group.row.avatar, row) as HTMLImageElement;
     const fname = docFind(Selectors.lc.friend.table.row_group.row.name, row) as HTMLAnchorElement;
 
@@ -28,8 +33,8 @@ function getFriendsTableRow(friendData: IFriendData): HTMLDivElement {
         let theme;
 
         if (Manager.Leetcode.isDarkTheme()) {
-            theme = 'nord';
-            hoverCard.style.border = "none";
+            theme = 'dark';
+            hoverCard.style.border = "0px solid #000000";
         } else {
             theme = 'light';
             hoverCard.style.border = "1px solid #E5E7EB";
